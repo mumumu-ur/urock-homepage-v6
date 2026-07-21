@@ -1,0 +1,31 @@
+/* App CSS entry.
+ * Imports the vendored (unmodified) UROCK Design System globals, then re-points
+ * Tailwind's @source scanning to this app's directories and bridges the DS font
+ * tokens to Next.js optimized fonts. No DS token/class is redefined here. */
+@import "../packages/ui/src/styles/globals.css";
+
+@source "../app";
+@source "../components";
+@source "../packages/ui/src";
+
+/* Bridge DS font tokens to next/font families.
+ * Declared outside @layer so it wins over DS's @layer base :root without !important. */
+:root {
+  --font-pretendard: var(--font-pretendard-next), "Pretendard", system-ui, sans-serif;
+  --font-spoqa: var(--font-spoqa-next), "SpoqaHanSans", system-ui, sans-serif;
+}
+
+/* App-scoped helpers for the marketing site (not DS tokens). */
+.font-mono-jb {
+  font-family: var(--font-mono), ui-monospace, "JetBrains Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

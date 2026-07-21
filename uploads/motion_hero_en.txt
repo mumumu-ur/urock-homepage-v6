@@ -1,0 +1,275 @@
+[motion] hero_en
+
+Create the main top-level Hero section for the UROCK brand website.
+
+This Hero must not look like a generic outer-space concept.
+
+The user is seated inside a massive spacecraft that functions as an AI digital forensics laboratory or digital forensics command center.
+
+Beyond the enormous observation window, the user is looking into the Data Universe.
+
+This is not an ordinary spacecraft.
+
+It is an AI digital forensics spacecraft designed to search, analyze, and interpret digital evidence.
+
+The overall atmosphere must communicate the following values:
+
+	•	Trust
+	•	Advanced technology
+	•	Exploration
+	•	Discovery
+	•	Protection
+	•	Enterprise security
+	•	Global technology leadership
+	•	On-device AI
+
+Avoid gaming aesthetics and excessive cyberpunk neon styling.
+
+Maintain the refined and premium visual quality expected from a global enterprise technology website.
+
+⸻
+
+[WORLD-BUILDING AND STORY]
+
+The interior of the spacecraft is a digital forensics analysis laboratory.
+
+Various AI analysis devices and digital forensics interfaces are positioned throughout the space.
+
+The user is looking through a large observation window into the Data Universe.
+
+The outer-space environment should include:
+
+	•	Stars
+	•	Nebulae
+	•	Galaxies
+	•	Planets
+	•	Digital data fragments
+	•	Evidence fragments
+	•	Holographic analysis objects
+	•	Data signal particles
+
+The outer-space environment represents the vast world of digital evidence.
+
+The spacecraft represents UROCK’s technology, which discovers truth within that world.
+
+⸻
+
+[HERO MOTION CONCEPT]
+
+Combine and implement the following motion techniques:
+
+	•	3D Parallax Hero Animation
+	•	Perspective Layer Animation
+	•	Scroll-Driven Camera Movement
+	•	Layered Depth Animation
+
+The overall motion behavior should be similar to the Hero section of the following reference:
+
+https://www.parablevc.com/
+
+Use the reference only for motion behavior, depth, and cinematic interaction.
+
+Do not copy its layout, typography, branding, or visual identity.
+
+⸻
+
+[LAYER STRUCTURE]
+
+	1.	FOREGROUND LAYER
+
+This is the layer closest to the camera.
+
+Include the following elements:
+
+	•	AI digital forensics analysis equipment
+	•	Holographic analysis panels
+	•	Transparent HUD interfaces
+	•	Evidence tracking UI
+	•	Data scanning interfaces
+	•	Glass reflection effects
+	•	Floating analysis panels
+	•	Light particles
+
+This layer should respond most strongly to mouse movement.
+
+⸻
+
+	1.	MIDGROUND LAYER
+
+This is the middle-depth layer.
+
+Include the following elements:
+
+	•	Spacecraft cockpit structures
+	•	A massive observation window frame
+	•	Digital forensics monitoring equipment
+	•	Digital dashboards
+	•	Transparent interfaces
+	•	Analysis panels
+
+This layer should move at a moderate speed.
+
+⸻
+
+	1.	BACKGROUND LAYER
+
+This is the farthest layer.
+
+Include the following elements:
+
+	•	Stars
+	•	Galaxies
+	•	Nebulae
+	•	Planets
+	•	Data fragments
+	•	Evidence fragments
+	•	Digital particles
+	•	Subtle light effects
+
+This layer should move slowly.
+
+⸻
+
+[SCROLL INTERACTION]
+
+As the user scrolls down, create the sensation that the camera is slowly moving forward.
+
+The movement sequence should follow this order:
+
+Spacecraft frame
+↓
+Digital forensics analysis equipment
+↓
+Holographic analysis interface
+↓
+Observation window
+↓
+Outer space
+↓
+Data Universe
+
+The motion should feel cinematic, as though the camera is moving through the interior of the spacecraft and traveling toward the Data Universe beyond the observation window.
+
+Avoid abrupt transitions.
+
+The camera movement must feel smooth, controlled, premium, and spatially coherent.
+
+⸻
+
+[MOUSE INTERACTION]
+
+Apply a subtle 3D parallax effect that creates depth even with small mouse movements.
+
+The Foreground layer should move more noticeably.
+
+The Background layer should respond more slowly.
+
+Avoid exaggerated motion that resembles a game interface.
+
+The interaction should remain refined and professional.
+
+⸻
+
+[LIGHTING]
+
+Use cinematic volumetric lighting.
+
+Primary Light Source:
+
+Bright sky-blue light emitted by the AI digital forensics equipment and holographic interfaces.
+
+Secondary Light Source:
+
+Cool blue light entering from outer space through the observation window.
+
+The lighting should create a premium, trustworthy, and highly advanced atmosphere.
+
+Avoid harsh neon lighting.
+
+Use soft diffusion, subtle reflections, controlled glow, and realistic depth.
+
+⸻
+
+[BRAND COLORS]
+
+Background Color:
+
+Primary-02
+#201D30
+
+This color should occupy at least 80% of the Hero section.
+
+Accent Color:
+
+Primary-01
+#7EA2FF
+
+Use this color for:
+
+	•	CTA buttons
+	•	Scanning effects
+	•	HUD highlights
+	•	Active states
+	•	Interaction feedback
+	•	Orbit animation
+	•	Data connection lines
+
+Secondary Lighting Color:
+
+A bright sky-blue volumetric light.
+
+Express it as soft and premium lighting rather than a neon effect.
+
+⸻
+
+[DESIGN KEYWORDS]
+
+	•	AI Native Visual Language
+	•	Machine Vision Aesthetic
+	•	Computer Vision Interface
+	•	Scientific Visualization
+	•	Mission Control Dashboard
+	•	Spacecraft Cockpit UI
+	•	Computational Photography
+	•	Enterprise Sci-Fi
+	•	Editorial Data Visualization
+
+Styles to avoid:
+
+	•	Cyberpunk
+	•	Gaming UI
+	•	Excessive neon
+	•	Excessive purple
+	•	Animated or cartoon-like science fiction
+
+⸻
+
+[CORE MESSAGE OF THE HERO]
+
+Discover the truth hidden within the Data Universe.
+
+On-device AI digital forensics technology that operates immediately, even in disconnected network environments.
+
+Within the first three seconds of viewing the Hero, the user must intuitively understand the following:
+
+	•	AI digital forensics
+	•	Enterprise security
+	•	Evidence analysis
+	•	Discovery of truth
+	•	Global technology capability
+
+The visual storytelling, typography, interface elements, and motion must support these messages clearly.
+
+Do not allow decorative effects to overpower the core message.
+
+⸻
+
+[FINAL CONCEPT]
+
+AI Forensic Spacecraft Cockpit
+
+A cockpit inside an AI digital forensics spacecraft navigating through the Data Universe to discover hidden truth.
+
+The user explores the universe of digital evidence from inside the spacecraft.
+
+The final result must feel like a premium enterprise AI digital forensics environment, not a generic space-themed website.

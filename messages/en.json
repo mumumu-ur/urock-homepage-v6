@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "UROCK · AI Digital Forensics",
+    "description": "UROCK is an AI digital forensics company providing on-site forensics, remote PC inspection, smart-device media trace analysis, and verified data erasure.",
+    "siteName": "UROCK"
+  },
+  "nav": {
+    "solutions": "Solutions",
+    "services": "Services",
+    "field": "Field",
+    "trust": "Trust",
+    "global": "Global",
+    "contact": "Contact",
+    "requestScan": "Request Security Scan",
+    "systemOnline": "SYS · ONLINE",
+    "languageLabel": "Language"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "company": "UROCK Inc.",
+    "tagline": "Connecting scattered digital traces to reveal the hidden value of data."
+  },
+  "contact": {
+    "title": "Talk to us",
+    "subtitle": "Tell us about your security risks and goals, and our experts will get back to you.",
+    "name": "Name",
+    "email": "Email",
+    "company": "Company / Organization",
+    "phone": "Phone",
+    "message": "Message",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "success": "Your inquiry has been received. We will contact you shortly.",
+    "error": "Something went wrong. Please try again later.",
+    "required": "This field is required.",
+    "invalidEmail": "Please enter a valid email address.",
+    "tooShort": "Please provide a little more detail.",
+    "privacyNote": "Your information is used only to respond to your inquiry."
+  },
+  "common": {
+    "backToHome": "Back to home",
+    "learnMore": "Learn more",
+    "loading": "Loading...",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you requested does not exist or has moved."
+  }
+}

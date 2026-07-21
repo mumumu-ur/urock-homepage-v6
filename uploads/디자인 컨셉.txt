@@ -1,0 +1,415 @@
+[브랜드] 디자인 컨셉
+
+우주, 데이터 흔적
+
+	⁃	 은하수 사진이나 행성 이미지를 사용하지 않고,  디더링 • 하프톤 • 계산사진학 False Color를 브랜드 컬러로 제한해 ‘데이터 우주’로 재해석합니다. 
+￼
+￼
+ 
+
+ 
+￼
+ 
+￼
+
+
+	•	브랜드 컬러 팔레트
+	•	Dithering / Halftone Pixel Grid
+	•	False Color Visualization
+	•	Generative Noise
+	•	Connection Ring 애니메이션
+	•	Orbit Path
+	•	Constellation Node
+	•	Reality Core
+	•	Gravity Field
+	•	Data Aurora
+	•	Soft Glass 3D 오브젝트
+	•	발견–정리–연결–증명 Journey
+	•	DFAS / GateManager / M-SecuManager 제품군 시각 언어
+	•	반응형 PC·태블릿·모바일 레이아웃
+
+디자인 요소를 각각 직접 비교할 수 있도록 독립 실행형 HTML 컨셉 보드로 제작
+
+────────────────────────────────────
+UROCK DESIGN CONCEPT SYSTEM v1.0
+────────────────────────────────────
+
+[BRAND COLOR]
+
+Brand Main Color
+#628CF5
+- CTA 버튼
+- Hover 상태
+- 주요 강조 컬러
+- Orbit Animation Point
+- 활성 상태 표시
+
+Brand Sub Color
+#201D30
+- 메인 배경 컬러
+- Hero Section
+- Footer
+- 다크 영역
+- 우주 배경
+
+Accent Color
+#7D6CFF
+- Eddy 영역
+- 데이터 연결
+- 분석 영역
+- 보조 강조색
+
+Accent Color 2
+#8CF4FF
+- Orbit Point
+- Glow
+- 데이터 흐름
+- Hover Effect
+
+Neutral
+#FFFFFF
+#F5F8FF
+#DCE5FF
+#AEB9D9
+
+────────────────────────────────────
+
+[BRAND WORLD]
+
+Background Theme
+우주 (Universe)
+
+하지만 일반적인 우주 배경이 아님.
+
+❌ 은하수
+❌ 행성
+❌ 별 사진
+❌ SF 우주
+
+대신
+
+○ 아주 연한 성운
+○ 흐릿한 빛 입자
+○ 작은 별자리 노드
+○ 데이터 궤도
+○ 흐르는 점 오브젝트
+
+"데이터 우주"
+
+라는 느낌으로 표현.
+
+────────────────────────────────────
+
+[MAIN OBJECT SYSTEM]
+
+1.
+Connection Ring
+
+유락 로고 궤도의 확장형 오브젝트
+
+형태
+
+○
+◎
+◉
+
+용도
+
+- Hero 배경
+- 카드 Hover
+- CTA 버튼
+- Section Divider
+- Footer
+- Loading Animation
+
+애니메이션
+
+점 오브젝트가 원형 선을 따라 이동.
+
+────────────────────────────────────
+
+2.
+Orbit Path
+
+형태
+
+●────●
+  ╲
+   ●
+
+의미
+
+- 데이터 이동
+- 시간 흐름
+- 사건 연결
+- 행위 분석
+
+용도
+
+- 타임라인
+- 서비스 프로세스
+- 제품 흐름
+- 사용자 Journey
+
+────────────────────────────────────
+
+3.
+Constellation Node
+
+형태
+
+✦──✦──✦
+
+의미
+
+- 단서
+- 파일
+- 사용자
+- 행위
+- 증거
+
+별자리처럼 연결되어
+하나의 사건을 구성함.
+
+────────────────────────────────────
+
+4.
+Reality Core
+
+형태
+
+◎
+
+의미
+
+흩어진 단서가
+최종적으로 도달하는 진실.
+
+모든 오브젝트는
+결국 Reality Core로 수렴.
+
+────────────────────────────────────
+
+5.
+Gravity Field
+
+형태
+
+↘ ↓ ↙
+→ ◎ ←
+↗ ↑ ↖
+
+의미
+
+진실은 중력을 가진다.
+
+모든 데이터는
+결국 하나의 사실로 모인다.
+
+────────────────────────────────────
+
+6.
+Data Aurora
+
+형태
+
+~~~~~~~
+
+의미
+
+데이터 흐름
+신호
+분석 과정
+
+용도
+
+- Hero Background
+- Section Transition
+- Hover Effect
+
+────────────────────────────────────
+
+[3D OBJECT STYLE]
+
+Soft Glass
+
+특징
+
+- 둥근 모서리
+- 반투명
+- 젤리 재질
+- 은은한 Glow
+- Soft Shadow
+- Frosted Glass
+
+절대 사용 금지
+
+❌ 메탈
+❌ 블랙 네온
+❌ 해커 감성
+❌ Matrix
+❌ 회로기판 패턴
+❌ 초록색 코드비
+
+────────────────────────────────────
+
+[FLOATING OBJECT]
+
+데이터 우주를 떠다니는
+정보 단위들
+
+예시
+
+- 파일
+- 폴더
+- 그래프
+- 로그
+- 인증서
+- 삭제 아이콘
+- 모바일
+- 카메라
+- 타임라인 카드
+
+애니메이션
+
+천천히 부유
+
+3~5초 주기
+
+────────────────────────────────────
+
+[CHARACTER UNIVERSE]
+
+Edge
+경계와 진실
+
+역할
+
+데이터 경계의 수호자
+
+행동
+
+탐색
+발견
+보호
+
+상징 오브젝트
+
+- 확대경
+- 타겟
+- 쉴드
+- 경계선
+- 탐색 노드
+
+────────────────────────────────────
+
+Eddy
+탐험과 가치 완성
+
+역할
+
+데이터 우주의 탐험가
+
+행동
+
+연결
+분석
+설명
+
+상징 오브젝트
+
+- 그래프
+- 카드
+- 네트워크
+- 분석 패널
+- 연결 노드
+
+────────────────────────────────────
+
+[THE JOURNEY]
+
+1 발견
+2 정리
+3 연결
+4 증명
+
+모든 페이지는
+이 흐름을 따른다.
+
+────────────────────────────────────
+
+[BRAND KEYWORD]
+
+Record
+남겨진 기록
+
+Connect
+흩어진 관계를 연결
+
+Verify
+사실을 증명
+
+────────────────────────────────────
+
+[VISUAL LANGUAGE]
+
+Connection Ring
+Soft Glass
+Floating Object
+Orbit Motion
+Constellation Node
+Gravity Field
+Reality Core
+
+────────────────────────────────────
+
+[DESIGN RULE]
+
+유락의 모든 디자인 요소는
+
+단서
+↓
+관계
+↓
+연결
+↓
+진실
+
+이라는 구조를 따라야 한다.
+
+────────────────────────────────────
+
+[BRAND MANIFESTO]
+
+모든 기록에는 이유가 있습니다.
+
+기록은 사라져도
+흔적은 남습니다.
+
+유락은
+그 흔적을 발견하고 연결해
+
+판단할 수 있는 사실로 완성합니다.
+
+RECORD
+CONNECT
+VERIFY
+
+────────────────────────────────────
+
+
+Universe Background
++
+Connection Ring
++
+Constellation Node
++
+Soft Glass
++
+Orbit Motion
++
+Floating Object
++
+Reality Core
+
+현재 보유한 3D 캐릭터, 반투명 오브젝트, 로고 궤도, 우주 세계관과 가장 자연스럽게 연결되면서도  국내 보안 업계에서 흔히 사용하는 방패, 육각형, 회로기판, 해커 UI와는 명확하게 차별화시키기 
