@@ -45,31 +45,35 @@ export const homeEn: HomeContent = {
       { step: "STEP_04", title: "Prove", desc: "Complete it into actionable facts and value.", highlight: true },
     ],
   },
-  scenarios: {
+  solutionFinder: {
     kicker: "// FIELD_SCENARIOS · 02",
-    title: [{ text: "What security risk are you\nfacing right now?" }],
-    desc: "Choose a situation to connect with the relevant solutions and services.",
-    items: [
-      { icon: "person_off", title: "Insider data leakage", desc: "When leavers or key staff are suspected of taking confidential files", href: "#cC-solutions" },
-      { icon: "travel_explore", title: "Remote & overseas audits", desc: "Ongoing inspection of branch, overseas, and remote PCs", href: "#cC-solutions" },
-      { icon: "wifi_off", title: "Air-gapped field investigation", desc: "Evidence collection where external networks are unavailable", href: "#cC-solutions" },
-      { icon: "photo_camera", title: "Continuous media scan", desc: "Prevent capture and leakage by external workers and partners", href: "#cC-solutions" },
-      { icon: "manage_search", title: "User activity tracing", desc: "Investigate file access traces and intrusion paths", href: "#cC-solutions" },
-      { icon: "smartphone", title: "Asset return & disposal", desc: "Secure return and safe wipe of corporate smart devices", href: "#cC-solutions" },
-      { icon: "gavel", title: "Securing legal evidence", desc: "Forensic evidence analysis for litigation and disputes", href: "#cC-services" },
-      { icon: "school", title: "Training experts", desc: "Customized forensic training for security staff", href: "#cC-services" },
-    ],
-  },
-  personas: {
-    kicker: "// ORGANIZATION_PROFILE · 03",
-    title: [{ text: "Find the entry point\nthat fits your organization." }],
-    items: [
-      { icon: "account_balance", iconColor: "var(--brand-blue)", title: "Law enforcement & public audit", desc: "Precise investigation in air-gapped environments, from multi-OS analysis to unallocated-space timelines.", tag: "→ DFAS Pro One", href: "#cC-solutions" },
-      { icon: "gavel", iconColor: "var(--brand-blue)", title: "Enterprise audit & legal", desc: "Automatically classify e-Discovery evidence from vast unstructured data into finished reports.", tag: "→ DFAS Discovery", href: "#cC-solutions" },
-      { icon: "groups", iconColor: "var(--brand-blue)", title: "SMB security", desc: "Even non-experts can quickly triage key risks with natural-language search.", tag: "→ DFAS Go", href: "#cC-solutions" },
-      { icon: "science", iconColor: "#B7A5FF", title: "Labs, manufacturing, secure zones", desc: "Control camera capture without security stickers, blocking leakage from the entrance.", tag: "→ GateManager", href: "#cC-solutions" },
-      { icon: "inventory_2", iconColor: "var(--brand-accent)", title: "Asset & general affairs", desc: "Eliminate legal risk with complete erasure and permanent-deletion evidence on return or disposal.", tag: "→ M-SecuManager", href: "#cC-solutions" },
-      { icon: "support_agent", iconColor: "var(--brand-accent)", title: "When you need expert services", desc: "UROCK experts perform diagnosis, forensic analysis, training, and secure erasure directly.", tag: "→ Expert services", href: "#cC-services", highlight: true },
+    title: [{ text: "Find the Right Solution\nfor Your Organization" }],
+    desc: "Select the problem you need to solve or your area of responsibility, and we'll recommend the most suitable UROCK solution or service.",
+    tabs: [
+      {
+        id: "problem",
+        label: "Problem-Based",
+        items: [
+          { icon: "person_off", title: "Data Leakage Investigation", desc: "Identify traces of file transfers by employees or departing staff.", href: "/en/solutions/dfas" },
+          { icon: "devices", title: "Multiple PC Inspection", desc: "Check the security status of headquarters, branch offices, and remote endpoints.", href: "/en/solutions/dfas/go" },
+          { icon: "wifi_off", title: "Air-Gapped Environment Analysis", desc: "Analyze data in environments with restricted external connectivity.", href: "/en/solutions/dfas/pro-one" },
+          { icon: "photo_camera", title: "Media Inspection", desc: "Check smartphone photo and media activity before entering secure areas.", href: "/en/solutions/gatemanager" },
+          { icon: "smartphone", title: "Mobile Device Data Erasure", desc: "Securely erase corporate smartphones and tablets while recording the results.", href: "/en/solutions/m-secumanager" },
+          { icon: "plagiarism", title: "Digital Evidence Analysis", desc: "Request professional analysis of devices and digital evidence related to an incident.", href: "/en/services/forensic-analysis" },
+        ],
+      },
+      {
+        id: "role",
+        label: "By Responsibility",
+        items: [
+          { icon: "gavel", iconColor: "var(--brand-blue)", title: "Internal Audit & Compliance", desc: "For teams responsible for internal investigations and data leakage reviews.", href: "/en/solutions/dfas/discovery" },
+          { icon: "manage_search", iconColor: "var(--brand-blue)", title: "Information Security", desc: "For teams monitoring endpoint security and user activity risks.", href: "/en/solutions/dfas/go" },
+          { icon: "account_balance", iconColor: "var(--brand-blue)", title: "Investigation & Public Sector", desc: "For organizations performing forensic collection, analysis, and field investigations.", href: "/en/solutions/dfas/pro-one" },
+          { icon: "science", iconColor: "#B7A5FF", title: "R&D & Manufacturing Security", desc: "For teams managing air-gapped environments and restricted production areas.", href: "/en/solutions/gatemanager" },
+          { icon: "inventory_2", iconColor: "var(--brand-accent)", title: "General Affairs & IT Asset Management", desc: "For teams responsible for returning, redistributing, and managing corporate mobile devices.", href: "/en/solutions/m-secumanager" },
+          { icon: "support_agent", iconColor: "var(--brand-accent)", title: "Legal & Professional Services", desc: "For legal professionals and organizations requiring digital evidence analysis.", href: "/en/services/forensic-analysis" },
+        ],
+      },
     ],
   },
   solutions: {
@@ -265,13 +269,18 @@ export const servicesEn: DetailPage[] = [
   },
   {
     slug: "secure-erasure",
-    kicker: "EXPERT SERVICE",
-    name: "Secure erasure",
+    kicker: "M-SECUMANAGER",
+    name: "Secure Erasure Service",
     summary: "Expert permanent-deletion service and official deletion certificate issuance.",
     tabs: [
       { id: "overview", label: "Overview", heading: "Overview", body: ["Our experts perform permanent deletion on asset return or disposal."] },
       { id: "certificate", label: "Certificate", heading: "Certificate", body: ["Official permanent-deletion certificate", "Eliminated legal risk"] },
     ],
+    links: [{ label: "M-SecuManager series overview", href: "/en/solutions/m-secumanager" }],
+    // IA update: removed from the "Consulting" group and relocated as a
+    // nav entry under Solutions > M-SecuManager. URL kept for compatibility;
+    // only hidden from the index listing.
+    unlisted: true,
   },
 ];
 
@@ -319,4 +328,257 @@ export const productsEn: Record<string, DetailPage> = {
     ],
     links: [{ label: "DFAS series overview", href: "/en/solutions/dfas" }],
   },
+  "dfas/edge": {
+    slug: "edge",
+    kicker: "DFAS · EDGE",
+    name: "DFAS Edge",
+    summary: "High-speed collection & indexing hardware for field audits and emergency response.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "Dedicated hardware for ultra-fast collection and indexing in field enforcement and emergency-audit situations.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS series overview", href: "/en/solutions/dfas" }],
+  },
+  "dfas/go": {
+    slug: "go",
+    kicker: "DFAS · GO",
+    name: "DFAS Go",
+    summary: "Triage internal risk signals with natural-language search.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "Even non-experts can quickly triage key risks with natural-language search.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS series overview", href: "/en/solutions/dfas" }],
+  },
+  "dfas/discovery": {
+    slug: "discovery",
+    kicker: "DFAS · DISCOVERY",
+    name: "DFAS Discovery",
+    summary: "Automatic evidence classification and submission-ready report generation.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "Automatically classifies e-Discovery evidence from vast unstructured data into finished reports.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS series overview", href: "/en/solutions/dfas" }],
+  },
+  "dfas/arc": {
+    slug: "arc",
+    kicker: "DFAS · ARC",
+    name: "DFAS Arc",
+    summary: "AI archiving with document classification and confidentiality detection.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "Automatically classifies document security levels and detects confidentiality risk before archiving.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS series overview", href: "/en/solutions/dfas" }],
+  },
+  "m-secumanager/p": {
+    slug: "p",
+    kicker: "M-SECUMANAGER · P",
+    name: "M-SecuManager P",
+    summary: "Portable package optimized for on-site erasure.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "A portable package optimized for permanently erasing smart devices during on-site visits.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "M-SecuManager series overview", href: "/en/solutions/m-secumanager" }],
+  },
+  "m-secumanager/s": {
+    slug: "s",
+    kicker: "M-SECUMANAGER · S",
+    name: "M-SecuManager S",
+    summary: "Remote simultaneous erasure and central monitoring for many mobile devices.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "Erases many mobile devices remotely and simultaneously with central monitoring.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "M-SecuManager series overview", href: "/en/solutions/m-secumanager" }],
+  },
+  "m-secumanager/g": {
+    slug: "g",
+    kicker: "M-SECUMANAGER · G",
+    name: "M-SecuManager G",
+    summary: "Standalone kiosk for self return and permanent-deletion evidence issuance.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "A standalone kiosk where employees can self-return devices for permanent deletion with issued evidence.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "M-SecuManager series overview", href: "/en/solutions/m-secumanager" }],
+  },
+  "gatemanager/pro": {
+    slug: "pro",
+    kicker: "GATEMANAGER · PRO",
+    name: "GateManager Pro",
+    summary: "Central monitoring and forensic logging across many endpoints in real time.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Product overview",
+        body: [
+          "Monitors many endpoints in real time and centrally manages forensic tracking logs.",
+          "Detailed specifications and inquiry content are coming soon.",
+        ],
+      },
+    ],
+    links: [{ label: "GateManager series overview", href: "/en/solutions/gatemanager" }],
+  },
 };
+
+/** About UROCK sub-pages. Content reused from existing homepage copy where
+ * available (trust/global/news); items without an existing source are
+ * marked as placeholders pending real copy. */
+export const aboutEn: DetailPage[] = [
+  {
+    slug: "greeting",
+    kicker: "ABOUT UROCK",
+    name: "Greeting",
+    summary: "A greeting message from UROCK's leadership is coming soon.",
+    tabs: [{ id: "overview", label: "Overview", heading: "Greeting", body: ["Leadership greeting content is coming soon."] }],
+  },
+  {
+    slug: "history",
+    kicker: "ABOUT UROCK",
+    name: "History",
+    summary: "UROCK's company history and milestones are coming soon.",
+    tabs: [{ id: "overview", label: "Overview", heading: "History", body: ["Company history content is coming soon."] }],
+  },
+  {
+    slug: "certifications",
+    kicker: "ABOUT UROCK",
+    name: "Certifications, Patents & Awards",
+    summary: "Information-security and quality certifications, patents held, and awards received.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Certifications, Patents & Awards",
+        body: [
+          "Trust grounded in information-security and quality certification systems.",
+          "Patents held and filed for forensics and data-processing technology.",
+          "A detailed list of certificates, patents and awards is coming soon.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "global",
+    kicker: "ABOUT UROCK",
+    name: "Global Partners",
+    summary: "UROCK's business hubs and global partner network.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "Global Partners",
+        body: [
+          "Headquartered in South Korea, partnering across Saudi Arabia, Oman, India and Taiwan.",
+          "Detailed region-by-region content is coming soon.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "brand",
+    kicker: "ABOUT UROCK",
+    name: "Brand Story",
+    summary: "UROCK's brand story and CI content is coming soon.",
+    tabs: [
+      { id: "overview", label: "Overview", heading: "Brand Story", body: ["Brand story and CI content is coming soon."] },
+    ],
+  },
+  {
+    slug: "news",
+    kicker: "ABOUT UROCK",
+    name: "News",
+    summary: "The latest UROCK news, product updates, and exhibitions.",
+    tabs: [
+      {
+        id: "overview",
+        label: "Overview",
+        heading: "News",
+        body: [
+          "Includes the latest updates such as the DFAS Edge on-device AI forensics development.",
+          "A full news listing page is coming soon.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "location",
+    kicker: "ABOUT UROCK",
+    name: "Location",
+    summary: "Directions to the UROCK headquarters are coming soon.",
+    tabs: [
+      { id: "overview", label: "Overview", heading: "Location", body: ["Directions (address & map) content is coming soon."] },
+    ],
+  },
+];
+
+export const supportEn: DetailPage[] = [
+  {
+    slug: "faq",
+    kicker: "SUPPORT",
+    name: "FAQ",
+    summary: "Frequently asked questions content is coming soon.",
+    tabs: [{ id: "overview", label: "Overview", heading: "FAQ", body: ["FAQ content is coming soon."] }],
+  },
+  {
+    slug: "environment",
+    kicker: "SUPPORT",
+    name: "Supported Environments",
+    summary: "Supported operating systems and specifications per product are coming soon.",
+    tabs: [
+      { id: "overview", label: "Overview", heading: "Supported Environments", body: ["Supported OS and specification content is coming soon."] },
+    ],
+  },
+];

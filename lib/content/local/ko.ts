@@ -45,31 +45,35 @@ export const homeKo: HomeContent = {
       { step: "STEP_04", title: "증명", desc: "판단 가능한 사실과 가치로 완성합니다.", highlight: true },
     ],
   },
-  scenarios: {
+  solutionFinder: {
     kicker: "// FIELD_SCENARIOS · 02",
-    title: [{ text: "지금 어떤 보안 리스크를\n직면하고 계신가요?" }],
-    desc: "상황을 선택하면 관련 솔루션과 서비스로 연결됩니다.",
-    items: [
-      { icon: "person_off", title: "내부정보 유출", desc: "퇴사자·핵심 인력의 기밀 자료 반출 의심 시", href: "#cC-solutions" },
-      { icon: "travel_explore", title: "원격·해외 감사", desc: "지사·해외 사업장·재택 PC의 상시 점검", href: "#cC-solutions" },
-      { icon: "wifi_off", title: "폐쇄망 현장 수사", desc: "외부 네트워크가 불가능한 현장 증거 수집", href: "#cC-solutions" },
-      { icon: "photo_camera", title: "상시 미디어 스캔", desc: "외부 근로자·협력사의 촬영·유출 방지", href: "#cC-solutions" },
-      { icon: "manage_search", title: "사용자 행위 추적", desc: "파일 접근 흔적·시스템 침입 경로 조사", href: "#cC-solutions" },
-      { icon: "smartphone", title: "자산 반납·매각", desc: "업무용 스마트기기 보안 반납·안심 포맷", href: "#cC-solutions" },
-      { icon: "gavel", title: "법적 증거 확보", desc: "소송·기업 분쟁에 필요한 포렌식 증거 분석", href: "#cC-services" },
-      { icon: "school", title: "전문 인력 양성", desc: "보안 담당자 대상 맞춤형 포렌식 교육", href: "#cC-services" },
-    ],
-  },
-  personas: {
-    kicker: "// ORGANIZATION_PROFILE · 03",
-    title: [{ text: "우리 조직에 맞는\n진입점을 찾으세요." }],
-    items: [
-      { icon: "account_balance", iconColor: "var(--brand-blue)", title: "수사기관·공공 감사", desc: "다중 OS 통합 분석과 비할당 영역 타임라인까지, 폐쇄망 환경의 정밀 수사.", tag: "→ DFAS Pro One", href: "#cC-solutions" },
-      { icon: "gavel", iconColor: "var(--brand-blue)", title: "대기업 감사·법무", desc: "방대한 비정형 데이터에서 e-Discovery 증거를 자동 분류하고 보고서로 완성.", tag: "→ DFAS Discovery", href: "#cC-solutions" },
-      { icon: "groups", iconColor: "var(--brand-blue)", title: "중소·중견기업 보안", desc: "포렌식 비전문가도 자연어 검색으로 핵심 리스크를 신속하게 선별 수집.", tag: "→ DFAS Go", href: "#cC-solutions" },
-      { icon: "science", iconColor: "#B7A5FF", title: "연구소·제조·보안구역", desc: "보안 스티커 없이 카메라 촬영을 통제해 출입구부터 기밀 유출을 원천 차단.", tag: "→ GateManager", href: "#cC-solutions" },
-      { icon: "inventory_2", iconColor: "var(--brand-accent)", title: "자산·총무 관리", desc: "자산 반납·불용 처분 시 완전 삭제와 영구 삭제 증적으로 법적 리스크 소멸.", tag: "→ M-SecuManager", href: "#cC-solutions" },
-      { icon: "support_agent", iconColor: "var(--brand-accent)", title: "전문 서비스가 필요한 경우", desc: "보안진단·포렌식 분석·교육·안심삭제를 유락 전문가가 직접 수행.", tag: "→ 전문 서비스", href: "#cC-services", highlight: true },
+    title: [{ text: "조직에 꼭 맞는\n솔루션을 찾아보세요." }],
+    desc: "해결하고 싶은 문제 또는 담당 업무를 선택하면, 가장 적합한 유락 솔루션과 서비스를 추천해 드립니다.",
+    tabs: [
+      {
+        id: "problem",
+        label: "문제 기반",
+        items: [
+          { icon: "person_off", title: "데이터 유출 조사", desc: "퇴사자·재직자의 파일 반출 흔적을 확인합니다.", href: "/ko/solutions/dfas" },
+          { icon: "devices", title: "다중 PC 점검", desc: "본사·지사·원격 근무지 PC의 보안 상태를 점검합니다.", href: "/ko/solutions/dfas/go" },
+          { icon: "wifi_off", title: "폐쇄망 환경 분석", desc: "외부 연결이 제한된 환경에서 데이터를 분석합니다.", href: "/ko/solutions/dfas/pro-one" },
+          { icon: "photo_camera", title: "매체 반입 점검", desc: "보안구역 출입 전 스마트폰 촬영·미디어 활동을 점검합니다.", href: "/ko/solutions/gatemanager" },
+          { icon: "smartphone", title: "모바일 기기 데이터 삭제", desc: "업무용 스마트폰·태블릿을 안전하게 삭제하고 결과를 기록합니다.", href: "/ko/solutions/m-secumanager" },
+          { icon: "plagiarism", title: "디지털 증거 분석", desc: "사고와 관련된 기기·디지털 증거의 전문 분석을 의뢰합니다.", href: "/ko/services/forensic-analysis" },
+        ],
+      },
+      {
+        id: "role",
+        label: "담당 업무별",
+        items: [
+          { icon: "gavel", iconColor: "var(--brand-blue)", title: "내부 감사·준법 담당", desc: "내부 조사와 데이터 유출 검토를 담당하는 팀을 위한 솔루션입니다.", href: "/ko/solutions/dfas/discovery" },
+          { icon: "manage_search", iconColor: "var(--brand-blue)", title: "정보보안 담당", desc: "엔드포인트 보안과 사용자 행위 리스크를 모니터링하는 팀을 위한 솔루션입니다.", href: "/ko/solutions/dfas/go" },
+          { icon: "account_balance", iconColor: "var(--brand-blue)", title: "수사기관·공공 담당", desc: "포렌식 수집·분석과 현장 조사를 수행하는 기관을 위한 솔루션입니다.", href: "/ko/solutions/dfas/pro-one" },
+          { icon: "science", iconColor: "#B7A5FF", title: "연구개발·제조 보안 담당", desc: "폐쇄망 환경과 제한구역을 관리하는 팀을 위한 솔루션입니다.", href: "/ko/solutions/gatemanager" },
+          { icon: "inventory_2", iconColor: "var(--brand-accent)", title: "총무·IT 자산관리 담당", desc: "업무용 모바일 기기의 반납·재배포·관리를 담당하는 팀을 위한 솔루션입니다.", href: "/ko/solutions/m-secumanager" },
+          { icon: "support_agent", iconColor: "var(--brand-accent)", title: "법무·전문 서비스 담당", desc: "법률 전문가와 디지털 증거 분석이 필요한 조직을 위한 솔루션입니다.", href: "/ko/services/forensic-analysis" },
+        ],
+      },
     ],
   },
   solutions: {
@@ -265,13 +269,17 @@ export const servicesKo: DetailPage[] = [
   },
   {
     slug: "secure-erasure",
-    kicker: "EXPERT SERVICE",
-    name: "안심삭제 서비스",
+    kicker: "M-SECUMANAGER",
+    name: "안심 삭제 서비스",
     summary: "전문가 영구 삭제 대행 및 공식 영구 삭제 인증서 발행.",
     tabs: [
       { id: "overview", label: "개요", heading: "서비스 개요", body: ["자산 반납·불용 처분 시 전문가가 영구 삭제를 대행합니다."] },
       { id: "certificate", label: "인증", heading: "인증", body: ["공식 영구 삭제 인증서 발행", "법적 리스크 소멸"] },
     ],
+    links: [{ label: "M-SecuManager 시리즈 개요", href: "/ko/solutions/m-secumanager" }],
+    // IA 개편: '컨설팅' 그룹에서 제외되고 솔루션 > M-SecuManager 하위 항목으로
+    // 이동. URL은 하위 호환을 위해 유지하고, 인덱스 목록에서만 숨김.
+    unlisted: true,
   },
 ];
 
@@ -318,4 +326,257 @@ export const productsKo: Record<string, DetailPage> = {
     ],
     links: [{ label: "DFAS 시리즈 개요", href: "/ko/solutions/dfas" }],
   },
+  "dfas/edge": {
+    slug: "edge",
+    kicker: "DFAS · EDGE",
+    name: "DFAS Edge",
+    summary: "현장 단속·긴급 감사용 초고속 수집·인덱싱 하드웨어입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "현장 단속·긴급 감사 상황에 맞춰 초고속으로 데이터를 수집·인덱싱하는 전용 하드웨어입니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS 시리즈 개요", href: "/ko/solutions/dfas" }],
+  },
+  "dfas/go": {
+    slug: "go",
+    kicker: "DFAS · GO",
+    name: "DFAS Go",
+    summary: "자연어 검색으로 사내 리스크 징후를 선별 수집하는 제품입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "포렌식 비전문가도 자연어 검색으로 핵심 리스크를 신속하게 선별 수집할 수 있습니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS 시리즈 개요", href: "/ko/solutions/dfas" }],
+  },
+  "dfas/discovery": {
+    slug: "discovery",
+    kicker: "DFAS · DISCOVERY",
+    name: "DFAS Discovery",
+    summary: "감사 증거 자동 분류·제출용 보고서를 완성하는 제품입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "방대한 비정형 데이터에서 e-Discovery 증거를 자동 분류하고 보고서로 완성합니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS 시리즈 개요", href: "/ko/solutions/dfas" }],
+  },
+  "dfas/arc": {
+    slug: "arc",
+    kicker: "DFAS · ARC",
+    name: "DFAS Arc",
+    summary: "문서 보안등급 분류·기밀 탐지 AI 아카이빙 제품입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "문서의 보안등급을 자동 분류하고 기밀 유출 소지를 탐지해 아카이빙합니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "DFAS 시리즈 개요", href: "/ko/solutions/dfas" }],
+  },
+  "m-secumanager/p": {
+    slug: "p",
+    kicker: "M-SECUMANAGER · P",
+    name: "M-SecuManager P",
+    summary: "현장 방문 삭제 최적화 포터블 패키지입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "현장을 방문해 스마트기기를 완전 삭제하는 작업에 최적화된 포터블 패키지입니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "M-SecuManager 시리즈 개요", href: "/ko/solutions/m-secumanager" }],
+  },
+  "m-secumanager/s": {
+    slug: "s",
+    kicker: "M-SECUMANAGER · S",
+    name: "M-SecuManager S",
+    summary: "다수 모바일 기기 원격 동시 삭제·중앙 모니터링 제품입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "다수의 모바일 기기를 원격에서 동시에 삭제하고 중앙에서 모니터링합니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "M-SecuManager 시리즈 개요", href: "/ko/solutions/m-secumanager" }],
+  },
+  "m-secumanager/g": {
+    slug: "g",
+    kicker: "M-SECUMANAGER · G",
+    name: "M-SecuManager G",
+    summary: "자율 반납·영구 삭제 증적 발행 독립형 키오스크입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "임직원이 스스로 기기를 반납하면 영구 삭제 후 증적을 발행하는 독립형 키오스크입니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "M-SecuManager 시리즈 개요", href: "/ko/solutions/m-secumanager" }],
+  },
+  "gatemanager/pro": {
+    slug: "pro",
+    kicker: "GATEMANAGER · PRO",
+    name: "GateManager Pro",
+    summary: "다수 단말 실시간 모니터링·추적 포렌식 로그 중앙 관제 제품입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "제품 개요",
+        body: [
+          "다수 단말을 실시간으로 모니터링하고, 추적 포렌식 로그를 중앙에서 관제합니다.",
+          "상세 사양·도입 문의 콘텐츠는 준비 중입니다.",
+        ],
+      },
+    ],
+    links: [{ label: "GateManager 시리즈 개요", href: "/ko/solutions/gatemanager" }],
+  },
 };
+
+/** About UROCK sub-pages. Content reused from existing homepage copy where
+ * available (trust/global/news); items without an existing source are
+ * marked as placeholders pending real copy. */
+export const aboutKo: DetailPage[] = [
+  {
+    slug: "greeting",
+    kicker: "ABOUT UROCK",
+    name: "인사말",
+    summary: "유락 대표 인사말 콘텐츠는 준비 중입니다.",
+    tabs: [{ id: "overview", label: "개요", heading: "인사말", body: ["대표 인사말 콘텐츠는 준비 중입니다."] }],
+  },
+  {
+    slug: "history",
+    kicker: "ABOUT UROCK",
+    name: "연혁",
+    summary: "유락의 주요 연혁 콘텐츠는 준비 중입니다.",
+    tabs: [{ id: "overview", label: "개요", heading: "연혁", body: ["회사 연혁 콘텐츠는 준비 중입니다."] }],
+  },
+  {
+    slug: "certifications",
+    kicker: "ABOUT UROCK",
+    name: "인증·특허·수상",
+    summary: "정보보호·품질 인증 체계, 보유 특허 및 수상 현황입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "인증·특허·수상",
+        body: [
+          "정보보호·품질 인증 체계 기반의 신뢰를 갖추고 있습니다.",
+          "포렌식·데이터 처리 기술 특허를 보유·출원 중입니다.",
+          "주요 수상 및 세부 인증서·특허 목록은 준비 중입니다.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "global",
+    kicker: "ABOUT UROCK",
+    name: "글로벌파트너",
+    summary: "유락의 사업 거점 및 글로벌 파트너 네트워크입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "글로벌파트너",
+        body: [
+          "대한민국 본사를 중심으로 사우디아라비아·오만·인도·대만 등과 협력하고 있습니다.",
+          "지역별 상세 소개는 준비 중입니다.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "brand",
+    kicker: "ABOUT UROCK",
+    name: "브랜드이야기",
+    summary: "유락의 브랜드 스토리와 CI 콘텐츠는 준비 중입니다.",
+    tabs: [
+      { id: "overview", label: "개요", heading: "브랜드이야기", body: ["브랜드 스토리·CI 콘텐츠는 준비 중입니다."] },
+    ],
+  },
+  {
+    slug: "news",
+    kicker: "ABOUT UROCK",
+    name: "유락소식",
+    summary: "유락의 최신 소식·제품 업데이트·전시회 정보입니다.",
+    tabs: [
+      {
+        id: "overview",
+        label: "개요",
+        heading: "유락소식",
+        body: [
+          "DFAS Edge 온디바이스 AI 포렌식 기술 개발 소식 등 최신 소식을 안내합니다.",
+          "전체 소식 목록 페이지는 준비 중입니다.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "location",
+    kicker: "ABOUT UROCK",
+    name: "오시는길",
+    summary: "유락 본사 오시는 길 안내 콘텐츠는 준비 중입니다.",
+    tabs: [
+      { id: "overview", label: "개요", heading: "오시는길", body: ["오시는 길 안내(주소·지도) 콘텐츠는 준비 중입니다."] },
+    ],
+  },
+];
+
+export const supportKo: DetailPage[] = [
+  {
+    slug: "faq",
+    kicker: "SUPPORT",
+    name: "FAQ",
+    summary: "자주 찾는 질문 콘텐츠는 준비 중입니다.",
+    tabs: [{ id: "overview", label: "개요", heading: "자주 찾는 질문", body: ["FAQ 콘텐츠는 준비 중입니다."] }],
+  },
+  {
+    slug: "environment",
+    kicker: "SUPPORT",
+    name: "지원환경(OS) 및 사양",
+    summary: "제품별 지원 운영체제·사양 콘텐츠는 준비 중입니다.",
+    tabs: [
+      { id: "overview", label: "개요", heading: "지원환경 및 사양", body: ["지원 운영체제·사양 콘텐츠는 준비 중입니다."] },
+    ],
+  },
+];

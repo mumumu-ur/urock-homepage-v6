@@ -16,6 +16,8 @@ export interface ContentSource {
     series: string,
     product: string,
   ): Promise<DetailPage | null>;
+  getAbout(locale: Locale, slug: string): Promise<DetailPage | null>;
+  getSupportPage(locale: Locale, slug: string): Promise<DetailPage | null>;
 }
 
 let cached: ContentSource | null = null;

@@ -5,8 +5,7 @@ import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { RevealController } from "@/components/interactive/RevealController";
 import { Hero } from "@/components/sections/Hero";
 import { ProcessPipeline } from "@/components/sections/ProcessPipeline";
-import { FieldScenarios } from "@/components/sections/FieldScenarios";
-import { OrgPersonas } from "@/components/sections/OrgPersonas";
+import { SolutionFinder } from "@/components/sections/SolutionFinder";
 import { SolutionPortfolio } from "@/components/sections/SolutionPortfolio";
 import { ExpertServices } from "@/components/sections/ExpertServices";
 import { TrustSection } from "@/components/sections/TrustSection";
@@ -36,8 +35,7 @@ export default async function HomePage({
       <RevealController />
       <Hero content={home.hero} />
       <ProcessPipeline content={home.process} />
-      <FieldScenarios content={home.scenarios} />
-      <OrgPersonas content={home.personas} />
+      <SolutionFinder content={home.solutionFinder} />
       <SolutionPortfolio content={home.solutions} />
       <ExpertServices content={home.servicesSection} />
       <TrustSection content={home.trust} />

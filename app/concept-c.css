@@ -2,7 +2,18 @@
  * Ported from the original static prototype's <style> block.
  * The brand dark palette (#0F0E17 / teal accent) is NOT part of the DS token set,
  * so it is centralized here as app-scoped brand tokens. No !important is used;
- * responsive overrides rely on source order + media-query specificity. */
+ * responsive overrides rely on source order + media-query specificity.
+ *
+ * Everything below lives in the `concept-c` cascade layer (order fixed in
+ * app/globals.css: concept-c < base < components < utilities), which is
+ * intentionally the lowest-priority layer in the app. These are this
+ * marketing page's own ad-hoc rules, not Claude Design System tokens/rules —
+ * if a DS utility class (text-00, text-05-dark, text-03-high, ...) is
+ * applied to the same element, it must always win, including over broader
+ * selectors here like `.cC a`. Reach for a DS token/utility first; only add
+ * or extend a rule in this layer for styling the DS has no token for (the
+ * brand dark palette itself, bespoke motion/hover treatments, etc). */
+@layer concept-c {
 
 :root {
   --brand-bg: #0f0e17;
@@ -241,6 +252,30 @@
   white-space: nowrap;
 }
 
+/* ============================================================
+ * Header — GNB / Mega menu / Mobile nav
+ * Rebuilt from the Figma "GNB/SNB" frame (node 12002:2805, GNB
+ * 12002:2806, SNB 12002:2831) — a floating glass-morphism pill (GNB)
+ * with a matching floating mega-menu panel (SNB) beneath it, both
+ * `rounded-frame-20` + `backdrop-20` + `shadow-black-04` (all real DS
+ * tokens the Figma frame itself was built from — see completion report
+ * for the full color/token mapping table).
+ * Layout/spacing/typography for this header is implemented as Tailwind
+ * utility classes directly in the component JSX (DesktopNav.tsx,
+ * MobileNav.tsx, HeaderCta.tsx, Header.tsx) rather than bespoke classes
+ * here, since Tailwind arbitrary values let the Figma pixel values be
+ * ported near verbatim. Only the couple of overrides that fight the
+ * shared DS primitives' baked-in light-mode classes (Sheet content,
+ * NavigationMenu Viewport) are handled via inline `style` in those
+ * components, for the same twMerge-can't-see-custom-classes reason
+ * noted in the previous implementation.
+ * Figma's SNB content is an authoring-time example (it always shows
+ * the Solutions mega-panel open under the GNB, regardless of which
+ * pill has the active-state indicator) — the real interactive
+ * behavior (each GNB item opens its own panel) is implemented in
+ * DesktopNav.tsx, not by this stylesheet.
+ * ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .cC-rv,
   .cC-sr {
@@ -263,9 +298,6 @@
   .cC-g4 {
     grid-template-columns: 1fr 1fr;
   }
-  .cC-nav {
-    display: none;
-  }
   .cC-hero-grid {
     grid-template-columns: 1fr;
   }
@@ -286,3 +318,5 @@
     flex-basis: 210px;
   }
 }
+
+} /* end @layer concept-c */

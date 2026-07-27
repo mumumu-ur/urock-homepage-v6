@@ -66,17 +66,17 @@ export interface IconItem {
   highlight?: boolean;
 }
 
-export interface ScenariosContent {
-  kicker: string;
-  title: TextSegment[];
-  desc: string;
+export interface SolutionFinderTab {
+  id: string;
+  label: string;
   items: IconItem[];
 }
 
-export interface PersonasContent {
+export interface SolutionFinderContent {
   kicker: string;
   title: TextSegment[];
-  items: IconItem[];
+  desc: string;
+  tabs: SolutionFinderTab[];
 }
 
 export interface SolutionSlide {
@@ -165,8 +165,7 @@ export interface ContactCtaContent {
 export interface HomeContent {
   hero: HeroContent;
   process: ProcessContent;
-  scenarios: ScenariosContent;
-  personas: PersonasContent;
+  solutionFinder: SolutionFinderContent;
   solutions: SolutionsCarouselContent;
   servicesSection: ServicesSectionContent;
   trust: TrustContent;
@@ -191,4 +190,9 @@ export interface DetailPage {
   tabs: DetailTab[];
   /** Optional related links (e.g. category -> product detail). */
   links?: { label: string; href: string }[];
+  /** True if the page must remain reachable at its existing URL but should be
+   * hidden from its former index listing because the IA relocated its nav
+   * entry elsewhere (e.g. "안심 삭제 서비스" moved from Consulting into the
+   * M-SecuManager solutions group). Does not affect generateStaticParams. */
+  unlisted?: boolean;
 }

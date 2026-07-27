@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { getContentSource } from "@/lib/content/source";
 import { LOCALES, absoluteUrl, languageAlternates } from "@/lib/seo/site";
 
+const ABOUT_SLUGS = ["greeting", "history", "certifications", "global", "brand", "news", "location"];
+const SUPPORT_SLUGS = ["faq", "environment"];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const source = await getContentSource();
   const solutions = await source.getSolutions(LOCALES[0]);
@@ -11,10 +14,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "",
     "solutions",
     "services",
+    "support",
     "contact",
     ...solutions.map((s) => `solutions/${s.slug}`),
     "solutions/dfas/pro-one",
     ...services.map((s) => `services/${s.slug}`),
+    ...ABOUT_SLUGS.map((slug) => `about/${slug}`),
+    ...SUPPORT_SLUGS.map((slug) => `support/${slug}`),
   ];
 
   const entries: MetadataRoute.Sitemap = [];

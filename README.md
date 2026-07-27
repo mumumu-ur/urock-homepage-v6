@@ -1,7 +1,7 @@
-# UROCK Homepage v2
+# UROCK homepage v2.1
 
-UROCK 마케팅 사이트를 **Next.js(App Router) + TypeScript + Tailwind v4**로 이전한 프로젝트입니다.
-기존 정적 프로토타입(`Concept C - Computational.dc.html`)의 디자인·인터랙션을 유지하면서,
+UROCK 마케팅 사이트를 **Next.js(App Router) + TypeScript + Tailwind v4**로 이전한 프로젝트입니다.  
+기존 정적 프로토타입(`Concept C - Computational.dc.html`)의 디자인·인터랙션을 유지하면서,  
 **Claude Design System(UROCK DS)** 을 단일 소스로 사용하고 한/영 다국어·SEO·문의 폼·CMS 대비 콘텐츠 레이어를 갖췄습니다.
 
 ## 요구사항
@@ -24,6 +24,13 @@ npm run build
 npm run start
 ```
 
+타입 검사 / 린트:
+
+```bash
+npm run typecheck
+npm run lint
+```
+
 ## 프로젝트 구조
 
 ```
@@ -32,14 +39,24 @@ app/                     # App Router
   globals.css            # DS globals import + @source/폰트 브리지(앱 스코프)
   concept-c.css          # 마케팅 브랜드 스타일(원본 <style> 포팅, !important 미사용)
   fonts.ts               # next/font (Pretendard/Spoqa/JetBrains Mono)
-  [locale]/              # ko/en 세그먼트 (레이아웃/홈/상세/문의/404)
+  [locale]/              # ko/en 세그먼트
+    page.tsx             # 홈
+    solutions/           # 솔루션 허브·제품 상세
+    services/            # 서비스
+    support/             # 지원
+    about/               # 회사 소개
+    contact/             # 문의
   api/contact/route.ts   # 문의 전송 Route Handler
   sitemap.ts, robots.ts
-components/               # 레이아웃/섹션/인터랙티브/상세/SEO 컴포넌트
+components/
+  layout/                # Header, LanguageSwitcher, nav/*
+  sections/              # 홈·마케팅 섹션 (SolutionFinder 등)
+  interactive/           # ContactForm 등
 i18n/                    # next-intl routing/navigation/request
 lib/
   content/               # 콘텐츠 스키마 + ContentSource(localSource) + ko/en 데이터
   contact/schema.ts      # zod 공유 검증
+  nav/ia.ts              # 네비게이션 IA
   seo/                   # 메타데이터/hreflang/사이트 상수
 messages/                # ko.json, en.json (UI 문자열)
 packages/ui/             # 벤더링된 UROCK Design System (무수정) + cn 유틸
@@ -77,12 +94,12 @@ packages/ui/             # 벤더링된 UROCK Design System (무수정) + cn 유
 
 `.env.example` 참고:
 
-| 변수 | 설명 |
-| --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | canonical/hreflang/sitemap 절대 URL |
-| `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | 문의 메일 전송 |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | CAPTCHA(선택) |
-| `CONTENT_SOURCE` | `local`(기본) 또는 `cms`(향후) |
+| 변수                                                       | 설명                                |
+| ---------------------------------------------------------- | ----------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`                                     | canonical/hreflang/sitemap 절대 URL |
+| `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | 문의 메일 전송                      |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`   | CAPTCHA(선택)                       |
+| `CONTENT_SOURCE`                                           | `local`(기본) 또는 `cms`(향후)      |
 
 ## SEO
 
@@ -98,6 +115,5 @@ packages/ui/             # 벤더링된 UROCK Design System (무수정) + cn 유
 
 ## 레거시(이전 원본)
 
-`Concept C - Computational.dc.html`, `support.js`, `_ds/`, `uploads/` 는 이전 프로토타입 자산입니다.
+`Concept C - Computational.dc.html`, `support.js`, `_ds/`, `uploads/` 는 이전 프로토타입 자산입니다.  
 빌드/타입체크에서 제외되어 있으며(`next.config.ts`/`tsconfig.json`), 검수 후 별도 승인 시 제거 예정입니다.
-```

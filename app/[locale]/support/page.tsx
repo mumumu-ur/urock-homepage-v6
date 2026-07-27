@@ -11,15 +11,15 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const title = locale === "ko" ? "컨설팅 · UROCK" : "Consulting · UROCK";
+  const title = locale === "ko" ? "고객지원 · UROCK" : "Support · UROCK";
   const description =
     locale === "ko"
-      ? "보안진단, 디지털포렌식 분석, 정보보안 교육 컨설팅."
-      : "Security diagnosis, digital forensic analysis, and security-training consulting.";
-  return buildMetadata({ locale, path: "services", title, description });
+      ? "문의하기, 자주 찾는 질문, 지원환경(OS) 및 사양 안내."
+      : "Contact us, FAQ, and supported environments (OS) & specifications.";
+  return buildMetadata({ locale, path: "support", title, description });
 }
 
-export default async function ServicesIndexPage({
+export default async function SupportIndexPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -27,17 +27,18 @@ export default async function ServicesIndexPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const source = await getContentSource();
-  // "안심 삭제 서비스"는 IA 개편으로 솔루션 > M-SecuManager 하위 항목으로
-  // 이동했으므로 unlisted 항목은 이 인덱스에 표시하지 않음(URL 자체는 유지).
-  const items = (await source.getServices(locale as Locale)).filter((item) => !item.unlisted);
+  const items = await source.getSupportPage(locale as Locale, "faq").then(async (faq) => {
+    const environment = await source.getSupportPage(locale as Locale, "environment");
+    return [faq, environment].filter((p): p is NonNullable<typeof p> => p !== null);
+  });
   const t = await getTranslations("common");
 
   return (
     <DetailIndex
-      kicker="// CONSULTING"
-      title={locale === "ko" ? "컨설팅" : "Consulting"}
+      kicker="// SUPPORT"
+      title={locale === "ko" ? "고객지원" : "Support"}
       items={items}
-      basePath={`/${locale}/services`}
+      basePath={`/${locale}/support`}
       moreLabel={t("learnMore")}
     />
   );

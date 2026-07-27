@@ -6,14 +6,18 @@
   },
   "nav": {
     "solutions": "Solutions",
-    "services": "Services",
+    "services": "Consulting",
     "field": "Field",
     "trust": "Trust",
     "global": "Global",
     "contact": "Contact",
     "requestScan": "Request Security Scan",
     "systemOnline": "SYS · ONLINE",
-    "languageLabel": "Language"
+    "languageLabel": "Language",
+    "languageKo": "Korean",
+    "languageEn": "English",
+    "menu": "Menu",
+    "themeToggle": "Toggle theme"
   },
   "footer": {
     "rights": "All rights reserved.",
