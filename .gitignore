@@ -21,6 +21,9 @@ screenshots/
 scraps/
 assets-source/
 
+# Duplicate design-system fonts (the page loads fonts/ instead)
+_ds/**/fonts/
+
 # Local diagnostic scripts
 scripts/hero-shake-diagnostic.spec.js
 
