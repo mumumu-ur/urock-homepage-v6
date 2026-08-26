@@ -1,7 +1,0 @@
-/* UROCK Design System — Blur / Backdrop Filter Tokens */
-
-:root {
-  --backdrop-filter-none: none; /* @kind other */
-  --backdrop-filter-20: blur(1.25rem); /* @kind other */
-  --backdrop-filter-40: blur(2.5rem); /* @kind other */
-}

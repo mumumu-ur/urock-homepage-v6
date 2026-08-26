@@ -24,8 +24,18 @@ assets-source/
 # Duplicate design-system fonts (the page loads fonts/ instead)
 _ds/**/fonts/
 
-# Local diagnostic scripts
+# Unused design-system extras (page only loads _ds_bundle.js + tokens/colors.css)
+_ds/**/assets/
+_ds/**/styles.css
+_ds/**/tokens/blur.css
+_ds/**/tokens/borders.css
+_ds/**/tokens/fonts.css
+_ds/**/tokens/shadows.css
+_ds/**/tokens/typography.css
+
+# Local diagnostic / optimization scripts
 scripts/hero-shake-diagnostic.spec.js
+scripts/optimize-hero-media.js
 
 # Unused / debug hero captures
 assets/hero/hero error-*.mp4
