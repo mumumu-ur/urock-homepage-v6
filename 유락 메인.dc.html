@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="{{ cursorStyle }}" aria-hidden="true">
+  <div style="position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,rgba(98,140,245,.5) 0%,rgba(98,140,245,0) 70%);filter:blur(7px);pointer-events:none;"></div>
+  <svg width="56" height="56" viewBox="0 0 72 72" fill="none" style="position:relative;display:block;">
+    <circle cx="36" cy="36" r="34" fill="rgba(38,35,63,.6)"></circle>
+    <circle cx="36" cy="36" r="29.5" stroke="#7EA2FF" stroke-width="2.6" opacity="0.9"></circle>
+    <path d="M27 45L45 27M45 27H31M45 27V41" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"></path>
+  </svg>
+</div>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<link rel="stylesheet" href="_ds/urock-design-system-v1-4-2d24389b-16f4-4a03-a7c1-61f8d32fd579/tokens/colors.css">
+<script src="_ds/urock-design-system-v1-4-2d24389b-16f4-4a03-a7c1-61f8d32fd579/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<script src="./blur-reveal.js"></script>
+<script src="./scroll-word-reveal.js"></script>
+<script src="./hero-scrollworld.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_svg.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<style>
+.dfas-pager-group:hover .dfas-pause-btn { border-color: var(--pri) !important; background: var(--btint) !important; color: var(--pri2) !important; }
+.qg-tab-off:hover { color: #7DA4FF !important; }
+.dfas-row-off:hover { background-color: #46436B !important; border-color: rgba(147, 176, 248, 0.6) !important; }
+@media (prefers-reduced-motion: reduce) {
+  .geo-ripple { display: none !important; }
+  .geo-dot { animation: none !important; opacity: 1 !important; }
+}
+.news-scroll::-webkit-scrollbar { display: none; }
+.news-scroll { scrollbar-width: none; }
+.news-nav-btn:disabled { opacity:.35 !important; cursor:default !important; pointer-events:none !important; background:rgba(255,255,255,.04) !important; border-color:rgba(255,255,255,.12) !important; color:rgba(255,255,255,.45) !important; }
+.cursor-hover-card, .cursor-hover-card * { cursor: none !important; }
+.cursor-hover-card .cursor-exclude, .cursor-hover-card .cursor-exclude * { cursor: pointer !important; }
+.arrow-cta { transition: color 200ms, transform 200ms, gap 200ms; }
+.cursor-hover-card:hover .arrow-cta, .quick-card:hover .arrow-cta, .arrow-cta:hover { color: #DCE6FF !important; transform: translateX(4px); }
+.cursor-hover-card:hover .arrow-cta-text, .quick-card:hover .arrow-cta-text, .arrow-cta-text:hover { transform: none; gap: 9px !important; }
+.modal-card-chevron { color: var(--sub) !important; font-weight:300; font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; transition: color 200ms ease; }
+.cursor-hover-card:hover .modal-card-chevron { color: #7DA4FF !important; }
+@keyframes skipDownNudge { 0% { transform: rotate(-90deg) translateX(5px); opacity: 0 } 30% { opacity: 1 } 70% { opacity: 1 } 100% { transform: rotate(-90deg) translateX(-5px); opacity: 0 } }
+</style>
+<style>
+@font-face{font-family:"Pretendard";src:url("fonts/Pretendard-Light.otf") format("opentype");font-weight:300;font-display:swap;}
+@font-face{font-family:"Pretendard";src:url("fonts/Pretendard-Regular.otf") format("opentype");font-weight:400;font-display:swap;}
+@font-face{font-family:"Pretendard";src:url("fonts/Pretendard-Medium.otf") format("opentype");font-weight:500;font-display:swap;}
+@font-face{font-family:"Pretendard";src:url("fonts/Pretendard-SemiBold.otf") format("opentype");font-weight:600;font-display:swap;}
+@font-face{font-family:"Pretendard";src:url("fonts/Pretendard-Bold.otf") format("opentype");font-weight:700;font-display:swap;}
+@font-face{font-family:"Pretendard";src:url("fonts/Pretendard-ExtraBold.otf") format("opentype");font-weight:800;font-display:swap;}
+@font-face{font-family:"Pretendard";src:url("fonts/Pretendard-Black.otf") format("opentype");font-weight:900;font-display:swap;}
+@font-face{font-family:"Spoqa";src:url("fonts/SpoqaHanSansNeo-Regular.otf") format("opentype");font-weight:400;font-display:swap;}
+@font-face{font-family:"Spoqa";src:url("fonts/SpoqaHanSansNeo-Medium.otf") format("opentype");font-weight:500;font-display:swap;}
+@font-face{font-family:"Spoqa";src:url("fonts/SpoqaHanSansNeo-Bold.otf") format("opentype");font-weight:700;font-display:swap;}
+:root{--navy:rgb(32,29,48);/* bg-00 (dark) #201D30 */--navy2:#151320;--pri:#628CF5;--pri2:#4978EB;--blue-04:#4663AE;--card:#FFFFFF;--page:#F9F9F9;--ink:#1A1A1A;--sub:#767676;--line:rgba(237,237,237,.3);--tint:#F7F9FE;--btint:#EFF4FE;--dfasact:#B9C8EF;--bd:rgba(233,235,248,.3);}
+.dark{--pri:#7EA2FF;--pri2:#7DA4FF;--card:#201D30;--page:#181622;--ink:#FAFAFA;--sub:#A7ADB5;--line:rgba(237,237,237,.06);--tint:#32304A;--btint:#293B67;--dfasact:#32406E;--bd:rgba(58,70,112,.3);}
+@keyframes dfasSwapA{0%{opacity:0;transform:translateY(10px);filter:blur(3px)}100%{opacity:1;transform:none;filter:blur(0)}}
+@keyframes dfasSwapB{0%{opacity:0;transform:translateY(10px);filter:blur(3px)}100%{opacity:1;transform:none;filter:blur(0)}}
+@keyframes dfasDiscXfade{0%{opacity:1}16%{opacity:1}20%{opacity:0}96%{opacity:0}100%{opacity:1}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Pretendard",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;background:var(--page);transition:background .3s ease,color .3s ease;}
+a{color:inherit;text-decoration:none;}
+a:hover{color:var(--pri2);}
+.num{font-family:"Spoqa",sans-serif;}
+.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;}
+@keyframes floaty{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(0,-26px) scale(1.05);}}
+@keyframes floaty2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(18px,20px) scale(1.08);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes spinr{to{transform:rotate(-360deg);}}
+@keyframes pulse{0%,100%{opacity:.75;transform:scale(1);}50%{opacity:1;transform:scale(1.22);}}
+@keyframes geoRipple{0%{transform:scale(.4);opacity:.6;}70%{opacity:0;}100%{transform:scale(2.6);opacity:0;}}
+@keyframes geoGlow{0%,100%{opacity:.7;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+@keyframes logoScan{0%{transform:translateX(0) rotate(-45deg);}45.45%{transform:translateX(730%) rotate(-45deg);}100%{transform:translateX(730%) rotate(-45deg);}}
+@keyframes dash{to{stroke-dashoffset:-32;}}
+@keyframes riseUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scanX{0%{left:-2%;opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{left:102%;opacity:0;}}
+@keyframes barGrow{from{transform:scaleY(.12);opacity:.35;}to{transform:scaleY(1);opacity:1;}}
+@keyframes fadeSwap{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes accOpen{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+@keyframes ringPulse{0%{transform:scale(.5);opacity:.85;}100%{transform:scale(1.7);opacity:0;}}
+@keyframes conv1{0%{transform:translate(-72px,-44px);opacity:0;}35%{opacity:1;}100%{transform:translate(0,0);opacity:0;}}
+@keyframes conv2{0%{transform:translate(76px,-36px);opacity:0;}35%{opacity:1;}100%{transform:translate(0,0);opacity:0;}}
+@keyframes conv3{0%{transform:translate(-62px,50px);opacity:0;}35%{opacity:1;}100%{transform:translate(0,0);opacity:0;}}
+@keyframes conv4{0%{transform:translate(66px,46px);opacity:0;}35%{opacity:1;}100%{transform:translate(0,0);opacity:0;}}
+@keyframes sectorLight{0%,100%{opacity:.16;}50%{opacity:1;}}
+@keyframes slotIn{from{opacity:0;transform:translateX(26px);}to{opacity:1;transform:translateX(0);}}
+@keyframes typeCursor{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+@keyframes typeWidth{0%{width:0;}100%{width:100%;}}
+@keyframes flagPop{from{opacity:0;transform:translateY(10px) scale(.85);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes vaultSlide{from{opacity:0;transform:translateX(-22px) rotate(-3deg);}to{opacity:1;transform:translateX(0) rotate(0);}}
+@keyframes dRowIn{0%{opacity:0;transform:translateX(-10px);}7%,92%{opacity:1;transform:translateX(0);}100%{opacity:0;transform:translateX(0);}}
+@keyframes dScanY{0%,8%{transform:translateY(0);opacity:0;}12%{opacity:1;}34%{transform:translateY(92px);opacity:1;}40%,100%{transform:translateY(92px);opacity:0;}}
+@keyframes dSel{0%,22%{border-color:rgba(255,255,255,.12);box-shadow:none;background:rgba(255,255,255,.05);}28%,90%{border-color:#7EA2FF;box-shadow:0 0 0 1px rgba(126,162,255,.28);background:rgba(126,162,255,.12);}100%{border-color:rgba(255,255,255,.12);box-shadow:none;background:rgba(255,255,255,.05);}}
+@keyframes dCheck{0%,24%{opacity:0;transform:scale(.4);}29%{opacity:1;transform:scale(1.18);}33%,90%{opacity:1;transform:scale(1);}96%,100%{opacity:0;transform:scale(1);}}
+@keyframes dTrail{0%,38%{left:0;opacity:0;}43%{opacity:1;}58%{opacity:1;}64%{left:100%;opacity:0;}100%{left:100%;opacity:0;}}
+@keyframes dFill{0%,56%{transform:scaleX(0);}72%,92%{transform:scaleX(1);}100%{transform:scaleX(1);}}
+@keyframes dDone{0%,74%{opacity:0;transform:scale(.5);}80%{opacity:1;transform:scale(1.15);}84%,93%{opacity:1;transform:scale(1);}99%,100%{opacity:0;transform:scale(1);}}
+@keyframes aFlyA{0%{left:0;opacity:0;transform:translateY(0) scale(.9);}4%{opacity:1;transform:translateY(0) scale(1);}16%{left:0;}30%{left:50%;}42%{left:100%;opacity:1;transform:translateY(14px) scale(.78);}47%,100%{left:100%;opacity:0;transform:translateY(14px) scale(.72);}}
+@keyframes aFlyB{0%{left:0;opacity:0;transform:translateY(0) scale(.9);}4%{opacity:1;transform:translateY(0) scale(1);}16%{left:0;}30%{left:50%;}42%{left:100%;opacity:1;transform:translateY(62px) scale(.78);}47%,100%{left:100%;opacity:0;transform:translateY(62px) scale(.72);}}
+@keyframes aTag{0%,14%{opacity:0;transform:scale(.5);}18%{opacity:1;transform:scale(1.15);}22%,42%{opacity:1;transform:scale(1);}46%,100%{opacity:0;transform:scale(1);}}
+@keyframes aScanX{0%{left:-2%;opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{left:100%;opacity:0;}}
+@keyframes aSlot{0%,44%{opacity:.18;transform:scaleY(.45);}50%,96%{opacity:1;transform:scaleY(1);}100%{opacity:.18;transform:scaleY(.45);}}
+@keyframes aLock{0%,78%{opacity:.35;transform:scale(1);}84%{opacity:1;transform:scale(1.15);}90%,100%{opacity:1;transform:scale(1);}}
+.theme-toggle:focus-visible{outline:none;box-shadow:0 0 0 2px #93B0F8;}
+</style>
+<script>
+(function(){try{var t=localStorage.getItem('urock-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}})();
+</script>
+<style>.ur-chip-purple{border-radius:7px !important;height:auto !important;padding:4px 10px !important;line-height:normal !important;border-width:0 !important;} .ur-chip-blue{border-radius:6px !important;height:auto !important;padding:4px 10px !important;line-height:normal !important;border-width:0 !important;} image-slot[id^="msecu-img-"]::part(frame){background:transparent !important;} image-slot[id^="msecu-img-"]::part(ring){display:none !important;}</style>
+<style>
+/* ===== Hero ScrollWorld — scoped to <hero-scrollworld>; touches nothing else =====
+   Every dynamic value is a CSS custom property written on <html> by
+   hero-scrollworld.js (see the comment above HeroScrollWorldElement in
+   that file for why: this project's DC template runtime periodically
+   re-syncs the `style` attribute of elements parsed out of the authored
+   .dc.html markup back to their authored baseline, which silently wipes
+   any `el.style.xxx = ...` written imperatively on those nodes. CSS
+   custom properties set on <html> — outside that managed subtree — are
+   not affected and inherit normally to every descendant, so only the
+   *values* referenced by var() below ever change at runtime; the actual
+   opacity/transform/position rules stay fixed in this stylesheet. */
+hero-scrollworld{display:block;position:relative;background:#201D30;height:calc(var(--hsw-total-vh,1358) * 1svh);}
+hero-scrollworld .hsw-stage{position:sticky;top:0;width:100%;height:100vh;height:100svh;overflow:hidden;background:#201D30;}
+hero-scrollworld .hsw-scene,hero-scrollworld .hsw-transition{position:absolute;inset:0;opacity:0;will-change:opacity;z-index:1;}
+hero-scrollworld [data-hsw-scene="1"]{opacity:var(--hsw-scene-1,1);} /* visible pre-hydration */
+hero-scrollworld [data-hsw-scene="2"]{opacity:var(--hsw-scene-2,0);}
+hero-scrollworld [data-hsw-scene="3"]{opacity:var(--hsw-scene-3,0);}
+hero-scrollworld [data-hsw-scene="4"]{opacity:var(--hsw-scene-4,0);}
+hero-scrollworld [data-hsw-scene="5"]{opacity:var(--hsw-scene-5,0);}
+hero-scrollworld [data-hsw-scene="6"]{opacity:var(--hsw-scene-6,0);}
+hero-scrollworld [data-hsw-scene="7"]{opacity:var(--hsw-scene-7,0);}
+hero-scrollworld [data-hsw-transition="1"]{opacity:var(--hsw-trans-1,0);}
+hero-scrollworld [data-hsw-transition="2"]{opacity:var(--hsw-trans-2,0);}
+hero-scrollworld [data-hsw-transition="3"]{opacity:var(--hsw-trans-3,0);}
+hero-scrollworld [data-hsw-transition="4"]{opacity:var(--hsw-trans-4,0);}
+hero-scrollworld [data-hsw-transition="5"]{opacity:var(--hsw-trans-5,0);}
+hero-scrollworld [data-hsw-transition="6"]{opacity:var(--hsw-trans-6,0);}
+hero-scrollworld .hsw-img,hero-scrollworld .hsw-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;background:#151320;}
+hero-scrollworld [data-hsw-scene="1"] .hsw-img{object-position:var(--hsw-pos-1,50% 42%);}
+hero-scrollworld [data-hsw-scene="2"] .hsw-img{object-position:var(--hsw-pos-2,57% 53%);}
+hero-scrollworld [data-hsw-scene="3"] .hsw-img{object-position:var(--hsw-pos-3,50% 50%);}
+hero-scrollworld [data-hsw-scene="4"] .hsw-img{object-position:var(--hsw-pos-4,58% 52%);}
+hero-scrollworld [data-hsw-scene="5"] .hsw-img{object-position:var(--hsw-pos-5,50% 45%);}
+hero-scrollworld [data-hsw-scene="6"] .hsw-img{object-position:var(--hsw-pos-6,50% 55%);}
+hero-scrollworld [data-hsw-scene="7"] .hsw-img{object-position:var(--hsw-pos-7,50% 42%);}
+hero-scrollworld .hsw-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(21,19,32,0) 40%,rgba(21,19,32,.34) 76%,rgba(21,19,32,.64) 100%);}
+hero-scrollworld .hsw-copy{position:absolute;left:50%;bottom:15%;width:min(1240px,100%);padding:0 32px;pointer-events:none;text-align:left;color:#fff;z-index:3;box-sizing:border-box;}
+hero-scrollworld [data-hsw-copy="1"]{opacity:var(--hsw-copy-1,0);transform:translate(-50%,var(--hsw-copy-1-ty,16px));}
+hero-scrollworld [data-hsw-copy="4"]{opacity:var(--hsw-copy-4,0);transform:translate(-50%,var(--hsw-copy-4-ty,16px));}
+hero-scrollworld [data-hsw-copy="7"]{opacity:var(--hsw-copy-7,0);transform:translate(-50%,var(--hsw-copy-7-ty,16px));}
+hero-scrollworld .hsw-copy-text{margin:0;font-size:56px;line-height:1.24;letter-spacing:-2px;font-weight:800;text-shadow:0 2px 28px rgba(10,9,18,.4);}
+hero-scrollworld .hsw-skip{z-index:4;opacity:var(--hsw-skip,1);}
+/* Carousel navigation — right edge of the Hero viewport only, pinned with
+   the rest of the stage. 4 grouped nav items, not one per Scene: the Hero
+   still runs all 7 Scenes internally (see CONFIG.dotGroups in
+   hero-scrollworld.js for the Scene Timeline -> Carousel Navigation Group
+   Mapping); data-hsw-dot="1".."4" here is a group index. Each item's
+   "active" fill is a 0..1 var = the SUMMED dotActive of every Scene in
+   that group, so it morphs smoothly across a Transition between groups and
+   stays fully lit across a Transition that is internal to one group. All 4
+   items are always shown (no sliding window — with only 4 items there is
+   no need to hide any). */
+hero-scrollworld .hsw-dots{position:absolute;top:50%;right:28px;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:16px;z-index:4;}
+hero-scrollworld .hsw-dot{position:relative;width:22px;height:22px;padding:0;margin:0;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:opacity .3s ease;}
+hero-scrollworld .hsw-dot::before{content:'';position:absolute;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);}
+hero-scrollworld .hsw-dot:focus-visible{outline:2px solid #7EA2FF;outline-offset:2px;border-radius:50%;}
+hero-scrollworld .hsw-dot-fill{position:absolute;width:6px;height:6px;border-radius:50%;background:#7EA2FF;box-shadow:0 0 8px rgba(126,162,255,.75);}
+hero-scrollworld [data-hsw-dot="1"] .hsw-dot-fill{opacity:var(--hsw-dot-1,0);transform:scale(calc(.4 + .75 * var(--hsw-dot-1,0)));}
+hero-scrollworld [data-hsw-dot="2"] .hsw-dot-fill{opacity:var(--hsw-dot-2,0);transform:scale(calc(.4 + .75 * var(--hsw-dot-2,0)));}
+hero-scrollworld [data-hsw-dot="3"] .hsw-dot-fill{opacity:var(--hsw-dot-3,0);transform:scale(calc(.4 + .75 * var(--hsw-dot-3,0)));}
+hero-scrollworld [data-hsw-dot="4"] .hsw-dot-fill{opacity:var(--hsw-dot-4,0);transform:scale(calc(.4 + .75 * var(--hsw-dot-4,0)));}
+hero-scrollworld .hsw-reduced{display:none;}
+@media (max-width:1023px){
+  hero-scrollworld .hsw-copy-text{font-size:42px;letter-spacing:-1.2px;}
+  hero-scrollworld .hsw-dots{right:18px;gap:13px;}
+}
+@media (max-width:767px){
+  hero-scrollworld .hsw-copy{bottom:calc(13% + env(safe-area-inset-bottom,0px));padding:0 20px;}
+  hero-scrollworld .hsw-copy-text{font-size:28px;line-height:1.32;letter-spacing:-.6px;}
+  hero-scrollworld .hsw-dots{right:10px;gap:11px;}
+  hero-scrollworld .hsw-dot{width:18px;height:18px;}
+}
+@media (prefers-reduced-motion:reduce){
+  hero-scrollworld{height:auto !important;}
+  hero-scrollworld .hsw-stage,hero-scrollworld .hsw-skip{display:none !important;}
+  hero-scrollworld .hsw-reduced{display:block !important;position:relative;width:100%;min-height:100vh;min-height:100svh;}
+}
+html[data-hsw-mode="reduced"] hero-scrollworld{height:auto !important;}
+html[data-hsw-mode="reduced"] hero-scrollworld .hsw-stage,html[data-hsw-mode="reduced"] hero-scrollworld .hsw-skip{display:none !important;}
+html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block !important;position:relative;width:100%;min-height:100vh;min-height:100svh;}
+</style>
+</helmet>
+
+<div style="width: 100%; overflow-x: clip; position: relative">
+
+<!-- ===== NAV ===== -->
+<header style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 76px; display: flex; align-items: center; justify-content: center; background: {{ navBg }}; backdrop-filter: blur(12px); border-bottom: 1px solid {{ navBorder }}; transition: all .3s ease">
+  <div style="width:100%;max-width:1240px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="#top" style="display:flex;align-items:center;gap:10px;"><span style="position:relative;display:inline-block;height:26px;width:81px;"><img src="assets/UROCK_white.svg" alt="UROCK" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoWhiteOpacity }};transition:opacity .3s;"><img src="assets/UROCK_navy.svg" alt="" aria-hidden="true" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoNavyOpacity }};transition:opacity .3s;"></span></a>
+    <nav style="display:flex;align-items:center;gap:38px;">
+      <a href="#solutions" style="font-size:16px;font-weight:600;color:{{ navText }};transition:color .3s;">솔루션</a>
+      <a href="#consulting" style="font-size:16px;font-weight:600;color:{{ navText }};transition:color .3s;">서비스</a>
+      <a href="#global" style="font-size:16px;font-weight:600;color:{{ navText }};transition:color .3s;">글로벌</a>
+      <a href="#news" style="font-size:16px;font-weight:600;color:{{ navText }};transition:color .3s;">유락소식</a>
+      <a href="#footer" style="font-size:16px;font-weight:600;color:{{ navText }};transition:color .3s;">회사소개</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <button onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;color:{{ navText }};"><span class="ms" style="font-size:18px;">language</span>{{ langLabel }}</button>
+      <a href="#footer" style="display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 22px;border-radius:12px;background:var(--pri);color:#fff;font-size:15px;font-weight:600;">문의하기</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO (ScrollWorld) ===== -->
+<section id="top" style="position:relative;" data-om-label="Hero">
+<hero-scrollworld>
+
+  <div class="hsw-stage" data-hsw-stage>
+
+    <div class="hsw-scene" data-hsw-scene="1"><img class="hsw-img" src="assets/hero/hero-scene-01.webp" alt="" aria-hidden="true" width="1672" height="941"></div>
+    <div class="hsw-scene" data-hsw-scene="2"><img class="hsw-img" data-src="assets/hero/hero-scene-02.webp" alt="" aria-hidden="true" width="1672" height="941"></div>
+    <div class="hsw-scene" data-hsw-scene="3"><img class="hsw-img" data-src="assets/hero/hero-scene-03.webp" alt="" aria-hidden="true" width="1456" height="816"></div>
+    <div class="hsw-scene" data-hsw-scene="4"><img class="hsw-img" data-src="assets/hero/hero-scene-04.webp" alt="" aria-hidden="true" width="1672" height="941"></div>
+    <div class="hsw-scene" data-hsw-scene="5"><img class="hsw-img" data-src="assets/hero/hero-scene-05.webp" alt="" aria-hidden="true" width="1672" height="941"></div>
+    <div class="hsw-scene" data-hsw-scene="6"><img class="hsw-img" data-src="assets/hero/hero-scene-06.webp" alt="" aria-hidden="true" width="1672" height="940"></div>
+    <div class="hsw-scene" data-hsw-scene="7"><img class="hsw-img" data-src="assets/hero/hero-scene-01.webp" alt="" aria-hidden="true" width="1672" height="941"></div>
+
+    <div class="hsw-transition" data-hsw-transition="1"><video class="hsw-video" muted playsinline preload="none" poster="assets/hero/hero-scene-01.webp" data-src="assets/hero/hero-transition-01-02.mp4" aria-hidden="true"></video></div>
+    <div class="hsw-transition" data-hsw-transition="2"><video class="hsw-video" muted playsinline preload="none" poster="assets/hero/hero-scene-02.webp" data-src="assets/hero/hero-transition-02-03.mp4" aria-hidden="true"></video></div>
+    <div class="hsw-transition" data-hsw-transition="3"><video class="hsw-video" muted playsinline preload="none" poster="assets/hero/hero-scene-03.webp" data-src="assets/hero/hero-transition-03-04.mp4" aria-hidden="true"></video></div>
+    <div class="hsw-transition" data-hsw-transition="4"><video class="hsw-video" muted playsinline preload="none" poster="assets/hero/hero-scene-04.webp" data-src="assets/hero/hero-transition-04-05.mp4" aria-hidden="true"></video></div>
+    <div class="hsw-transition" data-hsw-transition="5"><video class="hsw-video" muted playsinline preload="none" poster="assets/hero/hero-scene-05.webp" data-src="assets/hero/hero-transition-05-06.mp4" aria-hidden="true"></video></div>
+    <div class="hsw-transition" data-hsw-transition="6"><video class="hsw-video" muted playsinline preload="none" poster="assets/hero/hero-scene-06.webp" data-src="assets/hero/hero-transition-06-07.mp4" aria-hidden="true"></video></div>
+
+    <div class="hsw-scrim" aria-hidden="true"></div>
+
+    <div class="hsw-copy" data-hsw-copy="1"><h1 class="hsw-copy-text">보이지 않아도,<br>디지털 흔적은 남아 있습니다.</h1></div>
+    <div class="hsw-copy" data-hsw-copy="4"><p class="hsw-copy-text">흩어진 디지털 흔적을 연결해<br>데이터의 숨은 가치를 발견합니다.</p></div>
+    <div class="hsw-copy" data-hsw-copy="7"><p class="hsw-copy-text">현장에서 바로 작동하는 온디바이스 AI<br>유락의 디지털 포렌식을 만나보세요.</p></div>
+
+    <a href="#quickmenu" class="hsw-skip" data-hsw-skip aria-label="다음 섹션으로 이동" style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px;color:rgba(255,255,255,.62);text-decoration:none;cursor:pointer;transform-origin:bottom center;transition:color .2s ease, text-shadow .2s ease, filter .2s ease;border-radius:16px;" style-hover="color:#FAFAFA;text-shadow:0 0 14px rgba(250,250,250,.55);filter:drop-shadow(0 0 10px rgba(250,250,250,.35));">
+      <span style="font-size:14px;font-weight:300;letter-spacing:1.5px;">SKIP</span>
+      <span style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+        <span style="display:block;width:20px;height:11px;position:relative;">
+          <svg width="10.4" height="23.2" viewBox="0 0 14 31" fill="none" style="position:absolute;left:50%;top:50%;margin:-11.6px 0 0 -5.2px;transform:rotate(-90deg);animation:skipDownNudge 1.3s linear infinite;"><defs><linearGradient id="skipArrow1" x1="0.72" y1="15.75" x2="12.72" y2="15.75" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient></defs><path d="M12.7227 0.75L1.51812 13.2474C0.4964 14.387 0.496398 16.113 1.51812 17.2526L12.7227 29.75" stroke="url(#skipArrow1)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+        </span>
+        <span style="display:block;width:20px;height:11px;position:relative;">
+          <svg width="10.4" height="23.2" viewBox="0 0 14 31" fill="none" style="position:absolute;left:50%;top:50%;margin:-11.6px 0 0 -5.2px;transform:rotate(-90deg);animation:skipDownNudge 1.3s linear infinite .28s;"><defs><linearGradient id="skipArrow2" x1="0.72" y1="15.75" x2="12.72" y2="15.75" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient></defs><path d="M12.7227 0.75L1.51812 13.2474C0.4964 14.387 0.496398 16.113 1.51812 17.2526L12.7227 29.75" stroke="url(#skipArrow2)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+        </span>
+      </span>
+    </a>
+
+    <nav class="hsw-dots" data-hsw-dots aria-label="Hero 구간 이동">
+      <button type="button" class="hsw-dot" data-hsw-dot="1" aria-label="1번 장면으로 이동"><span class="hsw-dot-fill" aria-hidden="true"></span></button>
+      <button type="button" class="hsw-dot" data-hsw-dot="2" aria-label="2-3번 장면으로 이동"><span class="hsw-dot-fill" aria-hidden="true"></span></button>
+      <button type="button" class="hsw-dot" data-hsw-dot="3" aria-label="4-5번 장면으로 이동"><span class="hsw-dot-fill" aria-hidden="true"></span></button>
+      <button type="button" class="hsw-dot" data-hsw-dot="4" aria-label="6-7번 장면으로 이동"><span class="hsw-dot-fill" aria-hidden="true"></span></button>
+    </nav>
+
+  </div>
+
+  <!-- Reduced-motion fallback: one static Scene, all 3 confirmed copy blocks,
+       normal document flow, no video, no Blob URLs, no extended scroll track.
+       Mutually exclusive with .hsw-stage (see CSS) — never both exposed. -->
+  <div class="hsw-reduced" data-hsw-reduced>
+    <img src="assets/hero/hero-scene-01.webp" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;">
+    <div class="hsw-scrim" aria-hidden="true"></div>
+    <div style="position:relative;max-width:1240px;margin:0 auto;padding:150px 32px 90px;min-height:100vh;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;gap:34px;color:#fff;">
+      <h1 style="margin:0;font-size:44px;line-height:1.28;letter-spacing:-1.4px;font-weight:800;">보이지 않아도,<br>디지털 흔적은 남아 있습니다.</h1>
+      <p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">흩어진 디지털 흔적을 연결해<br>데이터의 숨은 가치를 발견합니다.</p>
+      <p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">현장에서 바로 작동하는 온디바이스 AI<br>유락의 디지털 포렌식을 만나보세요.</p>
+    </div>
+  </div>
+
+</hero-scrollworld>
+</section>
+
+<!-- ===== QUICK MENU ===== -->
+<section id="quickmenu" style="max-width: 1240px; margin: 0 auto; padding: 96px 32px 30px; padding-bottom: 88px; position: relative; display: flex; flex-direction: column; gap: 38px" data-om-label="Quick">
+  <div data-focus-head-quick="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ qHeadOpacity }};filter:{{ qHeadBlur }};transform:{{ qHeadShift }};">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: .5px">QUICK GUIDE</p>
+      <h2 style="font-size:38px;font-weight:800;letter-spacing:-1.5px;line-height:1.3;">어떤 도움이 필요하신가요?</h2>
+    </div>
+    <p style="font-size:17px;color:var(--sub);">현재 상황이나 담당 업무에 맞춰 최적의 솔루션과 전문서비스를 안내합니다</p>
+  </div>
+  <div style="display:flex;justify-content:center;">
+    <div style="display:inline-flex;padding:4px;border-radius:12px;background:var(--tint);border:1px solid var(--bd);gap:4px;">
+      <sc-if value="{{ situationOn }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ setSituation }}" style="{{ tabSituationStyle }}" style-hover="{{ tabSituationHover }}">상황별로 찾기</button>
+      </sc-if>
+      <sc-if value="{{ situationOff }}" hint-placeholder-val="">
+        <button class="qg-tab-off" onClick="{{ setSituation }}" style="{{ tabSituationStyle }}">상황별로 찾기</button>
+      </sc-if>
+      <sc-if value="{{ roleOn }}" hint-placeholder-val="">
+        <button onClick="{{ setRole }}" style="{{ tabRoleStyle }}" style-hover="{{ tabRoleHover }}">담당 업무로 찾기</button>
+      </sc-if>
+      <sc-if value="{{ roleOff }}" hint-placeholder-val="{{ true }}">
+        <button class="qg-tab-off" onClick="{{ setRole }}" style="{{ tabRoleStyle }}">담당 업무별로 찾기</button>
+      </sc-if>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+    <sc-for list="{{ quickItems }}" as="q" hint-placeholder-count="6">
+      <sc-if value="{{ q.hasImg }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ q.open }}" class="quick-card" style="position:relative;display:block;min-height:216px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#201D30;transition:all .25s ease;box-shadow:0 2px 10px rgba(20,25,45,.03);cursor:pointer;" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
+          <div style="position:absolute;inset:0;">
+            <image-slot id="{{ q.slotId }}" shape="rect" fit="cover" src="{{ q.img }}" placeholder="{{ q.title }} 이미지"></image-slot>
+          </div>
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,.1);pointer-events:none;"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(32,29,48,.15) 0%,rgba(32,29,48,.62) 46%,rgba(32,29,48,.92) 100%);pointer-events:none;"></div>
+          <div style="position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:216px;padding:26px;pointer-events:none;">
+            <h3 style="font-size:19px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;color:#FFFFFF;">{{ q.title }}</h3>
+            <p style="font-size:15px;line-height:1.6;color:rgba(255,255,255,.8);margin-bottom:14px;">{{ q.desc }}</p>
+            <span class="arrow-cta arrow-cta-text" style="display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:#B7CCFF;">{{ q.link }}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ q.noImg }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ q.open }}" class="quick-card" style="position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:216px;box-sizing:border-box;overflow:hidden;padding:26px;border-radius:16px;border:1px solid var(--line);background:var(--card);transition:all .25s ease;box-shadow:0 2px 10px rgba(20,25,45,.03);cursor:pointer;" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
+          <img src="{{ q.iconImg }}" loading="lazy" alt="" style="position:absolute;top:-100px;right:-100px;width:298.8px;height:298.8px;object-fit:contain;opacity:.06;pointer-events:none;">
+          <img src="{{ q.iconImg }}" loading="lazy" alt="" style="position:absolute;top:16px;right:16px;width:73.04px;height:73.04px;object-fit:contain;opacity:1;">
+          <div style="position:relative;display:flex;flex-direction:column;pointer-events:none;">
+            <h3 style="font-size:19px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;">{{ q.title }}</h3>
+            <p style="font-size:15px;line-height:1.6;color:var(--sub);margin-bottom:14px;">{{ q.desc }}</p>
+            <span class="arrow-cta arrow-cta-text" style="display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:#B7CCFF;">{{ q.link }}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+          </div>
+        </div>
+      </sc-if>
+    </sc-for>
+  </div>
+</section>
+
+<!-- ===== SOLUTIONS ===== -->
+
+
+<!-- ===== CONSULTING ===== -->
+
+  
+    
+  
+  <div data-swr-section="1" style="position: relative; left: 50%; width: 100vw; margin-left: -50vw; margin-bottom: 0px; background: #201D30; overflow: hidden" data-om-label="intro">
+    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 62% 88% at 76% 18%, rgba(126,162,255,.17) 0%, rgba(126,162,255,0) 62%), radial-gradient(ellipse 46% 70% at 12% 92%, rgba(168,190,255,.07) 0%, rgba(168,190,255,0) 58%), radial-gradient(ellipse 90% 60% at 50% 118%, rgba(21,19,32,.55) 0%, rgba(21,19,32,0) 70%);"></div>
+    <div style="position:relative;max-width:1240px;margin:0 auto;padding:72px 32px 76px;display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="display:block;width:26px;height:2px;background:var(--pri2);"></span>
+        <p style="font-size:13px;font-weight:700;color:var(--pri2);letter-spacing:2px;"><scroll-word-reveal t0="0" t1="0.22">SOLUTION PORTFOLIO</scroll-word-reveal></p>
+      </div>
+      <h2 style="font-size:36px;font-weight:800;letter-spacing:-1.4px;color:#F5F7FA;"><scroll-word-reveal t0="0.08" t1="0.72" style="font-size: 28px">수집부터 삭제까지, 디지털 포렌식의 전 과정을 위한 솔루션</scroll-word-reveal></h2>
+      <p style="font-size:16px;line-height:1.65;color:#A7ADB5;margin-top:-10px;"><scroll-word-reveal t0="0.42" t1="1">현장 데이터 수집·분석·보고부터 컴플라이언스 관리와 안전한 삭제까지, 업무 단계별로 필요한 전문 솔루션을 제공합니다.</scroll-word-reveal></p>
+    </div>
+  </div>
+  <div data-px-wrap="1" style="box-sizing: border-box; width: 100%; position: relative; isolation: isolate"><section id="solutions" style="position: relative; z-index: 10; max-width: 1240px; margin: 0 auto; padding: 80px 32px 20px; padding-bottom: 110px; padding-top: 56px; display: flex; flex-direction: column; gap: 0px">
+  
+
+  <!-- ── 01 DFAS ── -->
+  <div ref="{{ dfasSectionRef }}" style="padding: 0 0 88px; padding-top: 48px; display: flex; flex-direction: column; gap: 34px" data-om-label="DFAS">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;">
+      <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: 0px">AI 기반 통합 디지털 포렌식 솔루션</p>
+      <h3 style="font-size:30px;font-weight:800;letter-spacing:-1px;">DFAS 제품군</h3>
+      <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; display: none">AI 기반 통합 디지털 포렌식 솔루션</p>
+      <p style="font-size: 15px; color: var(--sub); line-height: 1.6; margin: 0 auto; width: 100%; height: 48px">디지털 증거를 현장에서 즉시 수집·분석·보고하고 컴플라이언스 관리로 연결하는 통합 포렌식 체계를 제공합니다.</p>
+    </div>
+    <div style="display: flex; grid-template-columns: 1.55fr 1fr; gap: 20px; align-items: stretch">
+      <div class="cursor-hover-card" style="display: grid; grid-template-columns: .92fr 1.08fr; gap: 0px; position: relative; box-shadow: 0px 24.63157844543457px 37.89px rgba(22,20,33,0.5); backdrop-filter: blur(37.89px); border-radius: 16px; overflow: hidden; flex: 1; min-width: 0; min-height: 420px; background-color: rgba(173, 161, 255, 0.07); border: 1px solid var(--line); transition: border-color .25s, box-shadow .25s;" style-hover="border-color:#93B0F8;background-color:var(--tint);box-shadow:0 14px 34px rgba(98,140,245,.14)">
+        <div style="padding:34px 30px;display:flex;flex-direction:column;gap:20px;">
+          <div style="{{ dfasFadeStyle }}">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <img src="{{ dfasCur.logo }}" loading="lazy" alt="{{ dfasCur.name }}" style="height:36px;width:auto;display:block;">
+            <sc-if value="{{ dfasCur.badge }}" hint-placeholder-val="{{ true }}"><span style="font-size:11.5px;font-weight:700;color:var(--pri2);background:var(--btint);padding:4px 10px;border-radius:7px;">{{ dfasCur.badge }}</span></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <sc-for list="{{ dfasCur.desc }}" as="d" hint-placeholder-count="2">
+              <p style="font-size:14.5px;line-height:1.7;color:var(--sub);">{{ d }}</p>
+            </sc-for>
+            <sc-if value="{{ dfasCur.hasTags }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px">
+                <sc-for list="{{ dfasCur.tags }}" as="t" hint-placeholder-count="3">
+                  <span style="display:inline-flex;align-items:center;height:27.5px;padding:0 11.2px;border-radius:14.3px;font-size:11.7px;font-weight:600;white-space:nowrap;background:rgba(255,255,255,.06);color:#c7cbda;border:1px solid rgba(255,255,255,.2);">{{ t }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          </div>
+          <sc-if value="{{ dfasHasOS }}" hint-placeholder-val="{{ true }}">
+            
+              
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <sc-for list="{{ osTabs }}" as="o" hint-placeholder-count="2">
+                  <span style="{{ o.style }}"><span class="ms" style="font-size:14px;">{{ o.icon }}</span>{{ o.label }}</span>
+                </sc-for>
+              </div>
+            
+          </sc-if>
+          <div style="margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <span class="cursor-exclude dfas-pager-group" onClick="{{ dfasToggleAuto }}" style="display: inline-flex; align-items: center; gap: 10px; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; cursor: pointer;">
+              <span class="num" style="font-size:14px;font-weight:700;color:var(--sub);">{{ dfasPager }}</span>
+              <button type="button" tabindex="-1" class="dfas-pause-btn" aria-label="{{ dfasAutoLabel }}" title="{{ dfasAutoLabel }}" style="{{ dfasToggleBtnStyle }}" style-active="border-color:var(--pri);background:var(--btint);color:var(--pri2);">
+                <span class="ms" style="font-size:16px;">{{ dfasAutoIcon }}</span>
+              </button>
+            </span>
+            <a href="#footer" class="cursor-hover-card arrow-cta" style="display:inline-flex;align-items:center;gap:5px;padding:8px;font-size:16px;font-weight:600;color:#B7CCFF;cursor:pointer;transition:gap 200ms, color 200ms, transform 200ms;" style-hover="gap:9px;color:#DCE6FF;" aria-label="자세히 보기"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></a>
+          </div>
+        </div>
+        <div style="padding:12px;display:flex;align-items:stretch;">{{ dfasMotion }}</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px; width: 340px">
+        <sc-for list="{{ dfasList }}" as="p" hint-placeholder-count="5">
+          <sc-if value="{{ p.always }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ p.onClick }}" class="{{ p.cls }}" style="{{ p.style }}" style-hover="{{ p.hover }}">
+              <span style="{{ p.tailStyle }}" data-om-label="double">
+                <svg width="14" height="31" viewBox="0 0 14 31" fill="none" style="margin-right: 1px; position: absolute; left: 8px; height: 29px; width: 13px"><defs><linearGradient id="dfasTail" x1="0.72" y1="15.75" x2="12.72" y2="15.75" gradientUnits="userSpaceOnUse"><stop stop-color="var(--pri)"></stop><stop offset="1" stop-color="var(--pri)" stop-opacity="0"></stop></linearGradient></defs><path d="M12.7227 0.75L1.51812 13.2474C0.4964 14.387 0.496398 16.113 1.51812 17.2526L12.7227 29.75" stroke="url(#dfasTail)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+                <svg width="12" height="29" viewBox="0 0 12 29" fill="none" style="position: absolute; left: 15px; top: -14.5px"><path d="M0.76812 16.5026C-0.253602 15.363 -0.2536 13.637 0.768122 12.4974L11.9727 0L11.9727 29L0.76812 16.5026Z" fill="var(--dfasact)"></path></svg><svg width="14" height="31" viewBox="0 0 14 31" fill="none" style="margin-right: 1px; position: absolute; left: 15px; height: 27px; width: 12px; top: -13.4861px"><defs><linearGradient id="dfasTail" x1="0.72" y1="15.75" x2="12.72" y2="15.75" gradientUnits="userSpaceOnUse"><stop stop-color="var(--pri)"></stop><stop offset="1" stop-color="var(--pri)" stop-opacity="0"></stop></linearGradient></defs><path d="M12.7227 0.75L1.51812 13.2474C0.4964 14.387 0.496398 16.113 1.51812 17.2526L12.7227 29.75" stroke="url(#dfasTail)" stroke-width="2" stroke-linecap="round"></path></svg>
+              </span>
+              <span style="flex:1;text-align:left;">
+                <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-size:16px;font-weight:700;letter-spacing:-.3px;color:{{ p.nameColor }};transition:color 380ms cubic-bezier(.33,1,.68,1);">{{ p.name }}</span><sc-if value="{{ p.badge }}" hint-placeholder-val=""><span style="{{ p.badgeStyle }}">{{ p.badge }}</span></sc-if></span>
+                <span style="display:block;font-size:12.5px;line-height:1.5;color:{{ p.subColor }};margin-top:4px;transition:color 380ms cubic-bezier(.33,1,.68,1);">{{ p.listSub }}</span>
+              </span>
+            </button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02 GateManager ── -->
+  <div style="padding:110px 0;display:flex;flex-direction:column;gap:34px;" data-om-label="GM">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;">
+      <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: 0px">중앙 관리형 스마트기기 불법 촬영 탐지 솔루션</p>
+      <h3 style="font-size:30px;font-weight:800;letter-spacing:-1px;">Gate Manager 제품군</h3>
+      <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; display: none">중앙 관리형 스마트기기 불법 촬영 탐지 솔루션</p>
+      <p style="font-size:15px;color:var(--sub);line-height:1.6;max-width:none;margin:0 auto;">보안 스티커 훼손 이후 스마트기기 사용 행위가 불분명하거나 <br>MDM 설치에 대한 거부감이 있는 환경에서는 GateManager가 최적의 대안입니다.</p>
+    </div>
+    <div style="display:flex;gap:18px;align-items:stretch;min-height:420px;">
+      <sc-for list="{{ gateCards }}" as="g" hint-placeholder-count="2">
+        <div class="cursor-hover-card" style="{{ g.cardStyle }}" style-hover="color:#7DA4FF;border-color:#93B0F8;background:var(--tint);box-shadow:0 14px 34px rgba(98,140,245,.14)">
+          <div style="padding:16px 16px 0;flex:none;">
+            <div style="position:relative;height:236px;border-radius:16px;background:linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%), radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), url('uploads/dark-01.png') center/cover no-repeat, #151320;">
+              <sc-if value="{{ g.image }}" hint-placeholder-val="">
+                <img src="{{ g.image }}" loading="lazy" alt="{{ g.name }}" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;transform:scale(1.2) translateY(26px);">
+              </sc-if>
+              <sc-if value="{{ g.noImage }}" hint-placeholder-val="{{ true }}">{{ g.motion }}</sc-if>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;padding:28px 32px 38px;flex:1;min-height:0;">
+            <div style="display:flex;align-items:center;gap:12px;flex:none;">
+              <img src="{{ g.logo }}" loading="lazy" alt="{{ g.name }}" style="height:28px;width:auto;display:block;">
+              <sc-if value="{{ g.badge }}" hint-placeholder-val="">
+                <img src="{{ g.badge }}" loading="lazy" alt="PRO" style="height:28px;width:auto;object-fit:fill;display:block;">
+              </sc-if>
+            </div>
+            <p style="font-size:14.5px;color:var(--sub);margin:-4px 0 0;flex:1;">
+              <span style="display:block;line-height:2.4;">{{ g.descLine1 }}</span>
+              <sc-if value="{{ g.descLine2 }}" hint-placeholder-val=""><span style="display:block;line-height:1.4;">{{ g.descLine2 }}</span></sc-if>
+            </p>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:9px;flex:none;margin-top:12px;">
+              <span style="font-size:13.5px;line-height:1.55;color:#B7CCFF;font-weight:500;">{{ g.noteTitle }}<br><span style="color:var(--sub);font-weight:400;">{{ g.noteSub }}</span></span>
+              <span class="arrow-cta" style="color:#B7CCFF;padding-right:2px;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div><div style="padding: 88px 0; padding-bottom: 0px" data-om-label="MCQ">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;margin-bottom:34px;">
+      <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: 0px">스마트기기 데이터 완전삭제 솔루션</p>
+      <h3 style="font-size:30px;font-weight:800;letter-spacing:-1px;">M-SecuManager 제품군</h3>
+      <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; display: none">스마트기기 데이터 완전삭제 솔루션</p>
+      <p style="font-size:15px;color:var(--sub);line-height:1.6;max-width:none;margin:0 auto;">장소와 유형, 방법에 맞춰 안전하게 삭제하세요. 삭제 결과를 확인·기록해 데이터 처리의 신뢰를 완성합니다. <br>국가정보원(NIS)·글로벌 표준(DoD 5220.22-M) 안심삭제 규격을 준수합니다.</p>
+    </div>
+    <div style="margin-bottom: 0px; margin-top: 0px">
+      <div style="position: relative; width: 90%; height: 594px; margin-left: auto; margin-right: auto; border-radius: 16px; overflow: hidden; isolation: isolate; margin-top: -78px">
+        <div style="position: absolute; inset: 0; background-image: radial-gradient(rgba(126,162,255,.15) 1px,transparent 1px); background-size: 18px 18px"></div>
+        <div style="position: absolute; inset: 56px 32px 40px; display: flex; align-items: center; justify-content: center; transform: scale(0.95); transform-origin: center;">
+          <div style="position:relative;height:100%;max-width:100%;aspect-ratio:11104 / 6876;isolation:isolate;">
+            <div style="position:absolute;left:7.313%;top:10.064%;width:85.303%;height:79.93%;overflow:hidden;z-index:1;background:#0a0d18;container-type:size;">
+              <div ref="{{ lottieRef }}" aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;transform:scale(1.1);transform-origin:center;"></div>
+              <div style="{{ screenLogoStyle }}">
+                <span class="ms" style="font-size:18px;color:#628CF5;">shield</span>
+                <span style="font-size:15px;font-weight:700;letter-spacing:-.3px;color:#fff;">M-SecuManager</span>
+              </div>
+              <div aria-hidden="true" style="{{ statusStyle }}">
+                <div style="display:flex;align-items:center;gap:2.4cqh;padding:3.4cqh 5cqh;border-radius:2.4cqh;background:rgba(32,29,48,.82);border:1px solid rgba(126,162,255,.18);backdrop-filter:blur(12px);">
+                  <span class="ms" style="font-size:5.6cqh;color:#32D8E3;">{{ statusIcon }}</span>
+                  <div style="display:flex;flex-direction:column;gap:1cqh;">
+                    <span style="font-size:3.4cqh;font-weight:700;letter-spacing:-.02em;color:#F5F7FA;">{{ statusText }}</span>
+                    <span style="position:relative;display:block;width:34cqh;height:.9cqh;border-radius:.9cqh;background:rgba(255,255,255,.12);overflow:hidden;">
+                      <span style="{{ statusBarStyle }}"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div aria-hidden="true" style="{{ reportStyle }}">
+                <div style="position:relative;height:100%;max-width:100%;aspect-ratio:2380 / 3368;border-radius:1.2cqh;overflow:hidden;background:#FFFFFF;box-shadow:0 4cqh 9cqh rgba(0,0,0,.5);">
+                  <img src="assets/cert-report-ko.png" alt="데이터 완전삭제 증명서" style="display:block;width:100%;height:100%;object-fit:contain;">
+                  <span style="{{ stampStyle }}">
+                    <span class="ms" style="font-size:2.6cqh;">task_alt</span>확인 완료
+                  </span>
+                </div>
+                <div style="display:none;"><div style="display:grid;grid-template-columns:32% 1fr;gap:0;flex:1;min-height:0;">
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2cqh;padding:2.6cqh;min-height:0;border-right:1px solid rgba(255,255,255,.06);background:linear-gradient(160deg,#262340,#201D30);">
+                      <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:11cqh;height:11cqh;border-radius:50%;background:radial-gradient(circle at 30% 25%,#3A3560,#201D30);border:.5cqh solid #C9A24B;">
+                        <span class="ms" style="font-size:5.4cqh;color:#E7C877;">encrypted</span>
+                      </span>
+                      <div style="flex-shrink:0;text-align:center;">
+                        <p style="font-size:5.6cqh;font-weight:800;letter-spacing:-.04em;line-height:1;color:#F5F7FA;">CERTIFICATION<span style="color:#7EA2FF;">.</span></p>
+                        <p style="margin-top:1.4cqh;font-size:2.7cqh;font-weight:500;color:#A7ADB5;letter-spacing:-.01em;">데이터 완전삭제 증명서</p>
+                      </div>
+                      <p style="flex-shrink:0;font-size:2.5cqh;line-height:1.55;text-align:center;color:#A7ADB5;text-wrap:pretty;">‘안심삭제 서비스’를 통해 해당 스마트폰의 데이터가 완전히 삭제되었습니다.</p>
+                      <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.8cqh;">
+                        <span style="font-size:2.5cqh;font-weight:600;color:#F5F7FA;text-align:center;">발급기관 : 주식회사 유락 (UROCK)</span>
+                        <span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.5cqh;color:#A7ADB5;">2025-05-05</span>
+                      </div>
+                      <span style="{{ stampStyle }}">
+                        <span class="ms" style="font-size:3cqh;">task_alt</span>확인 완료
+                      </span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;justify-content:center;gap:1.8cqh;padding:2.4cqh 2.8cqh;min-height:0;">
+                      <div>
+                        <p style="font-size:3.1cqh;font-weight:700;color:#F5F7FA;letter-spacing:-.02em;margin-bottom:1.2cqh;">단말기 정보</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4cqh;">
+                          <div style="display:flex;flex-direction:column;gap:.8cqh;padding:1.6cqh 2cqh;border-radius:1.2cqh;background:#26233F;border:1px solid rgba(255,255,255,.05);">
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">모델</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">SM-G887N</span></span>
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">IMEI</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">35357110080••••</span></span>
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">저장공간</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">128 GB</span></span>
+                          </div>
+                          <div style="display:flex;flex-direction:column;gap:.8cqh;padding:1.6cqh 2cqh;border-radius:1.2cqh;background:#26233F;border:1px solid rgba(255,255,255,.05);">
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">제조사</span><span style="font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">SAMSUNG</span></span>
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">일련번호</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">R59M20••••</span></span>
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">OS정보</span><span style="font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">Android 10</span></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <p style="font-size:3.1cqh;font-weight:700;color:#F5F7FA;letter-spacing:-.02em;margin-bottom:1.2cqh;">배터리 정보</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4cqh;">
+                          <div style="display:flex;flex-direction:column;gap:.8cqh;padding:1.6cqh 2cqh;border-radius:1.2cqh;background:#26233F;border:1px solid rgba(255,255,255,.05);">
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">성능</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">85%</span></span>
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">완충 횟수</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">764</span></span>
+                          </div>
+                          <div style="display:flex;flex-direction:column;gap:.8cqh;padding:1.6cqh 2cqh;border-radius:1.2cqh;background:#26233F;border:1px solid rgba(255,255,255,.05);">
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">정격 용량</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">2214 mAH</span></span>
+                            <span style="display:flex;justify-content:space-between;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">실제 용량</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">1840 mAH</span></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <p style="font-size:3.1cqh;font-weight:700;color:#F5F7FA;letter-spacing:-.02em;margin-bottom:1.2cqh;">삭제 정보</p>
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:2cqh;padding:1.6cqh 2cqh;border-radius:1.2cqh;background:#26233F;border:1px solid rgba(255,255,255,.05);">
+                          <div style="display:flex;flex-direction:column;gap:1cqh;min-width:0;">
+                            <span style="display:flex;align-items:center;gap:1.6cqh;"><span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;white-space:nowrap;">소요 시간</span><span style="font-family:Spoqa,Pretendard,sans-serif;font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">00:00:58</span></span>
+                            <span style="display:flex;align-items:center;gap:1.6cqh;flex-wrap:wrap;">
+                              <span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;white-space:nowrap;">삭제 방식</span>
+                              <span style="display:inline-flex;align-items:center;gap:.8cqh;font-size:2.7cqh;font-weight:600;color:#F5F7FA;white-space:nowrap;"><span style="display:inline-block;width:1.8cqh;height:1.8cqh;border-radius:50%;border:.5cqh solid #7EA2FF;background:#201D30;"></span>공장초기화</span>
+                              <span style="display:inline-flex;align-items:center;gap:.8cqh;font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;"><span style="display:inline-block;width:1.8cqh;height:1.8cqh;border-radius:50%;border:1px solid rgba(255,255,255,.24);"></span>일반삭제</span>
+                              <span style="display:inline-flex;align-items:center;gap:.8cqh;font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;"><span style="display:inline-block;width:1.8cqh;height:1.8cqh;border-radius:50%;border:1px solid rgba(255,255,255,.24);"></span>덮어쓰기</span>
+                              <span style="display:inline-flex;align-items:center;gap:.8cqh;font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;"><span style="display:inline-block;width:1.8cqh;height:1.8cqh;border-radius:50%;border:1px solid rgba(255,255,255,.24);"></span>빈공간삭제</span>
+                            </span>
+                          </div>
+                          <span style="flex-shrink:0;padding:1cqh 2cqh;border-radius:1cqh;background:#628CF5;color:#FFFFFF;font-size:2.9cqh;font-weight:700;letter-spacing:.04em;white-space:nowrap;">SUCCESS</span>
+                        </div>
+                      </div>
+                      <div>
+                        <p style="font-size:3.1cqh;font-weight:700;color:#F5F7FA;letter-spacing:-.02em;margin-bottom:1.2cqh;">솔루션 정보</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4cqh;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;gap:1.6cqh;padding:1.6cqh 2cqh;border-radius:1.2cqh;background:#26233F;border:1px solid rgba(255,255,255,.05);">
+                            <span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">솔루션명</span>
+                            <span style="display:inline-flex;align-items:center;gap:.8cqh;font-size:2.9cqh;font-weight:600;color:#F5F7FA;white-space:nowrap;flex-shrink:0;"><span class="ms" style="font-size:3.2cqh;color:#7EA2FF;">shield</span>M-SecuManager 1.2.4</span>
+                          </div>
+                          <div style="display:flex;align-items:center;justify-content:space-between;gap:1.6cqh;padding:1.6cqh 2cqh;border-radius:1.2cqh;background:#26233F;border:1px solid rgba(255,255,255,.05);">
+                            <span style="font-size:2.7cqh;color:#A7ADB5;white-space:nowrap;">제조사</span>
+                            <span style="font-size:2.9cqh;font-weight:500;color:#F5F7FA;white-space:nowrap;flex-shrink:0;">주식회사 유락</span>
+                          </div>
+                        </div>
+                      </div>
+                      <p style="flex-shrink:0;font-size:2.4cqh;color:#A7ADB5;line-height:1.5;text-wrap:pretty;">* M-SecuManager는 안심삭제 서비스를 제공하기 위한 (주)유락의 모바일 데이터 완전삭제 솔루션입니다.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <img src="assets/monitor-frame-sm.png" alt="" aria-hidden="true" style="position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;">
+          </div>
+        </div>
+
+      </div>
+    </div><div style="box-sizing: border-box; margin-top: -16px"><div ref="{{ mcqCardsRef }}" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <sc-for list="{{ msecuItems }}" as="m" hint-placeholder-count="4">
+        <sc-if value="{{ m.svc }}" hint-placeholder-val="">
+          <div class="cursor-hover-card" style="{{ m.cardStyle }}" style-hover="border-color:#11BCC7;box-shadow:0 14px 34px rgba(17,188,199,.14);transform:translateY(-4px)">
+            <div style="display: flex; gap: 0px; align-items: flex-start; flex-direction: column; justify-content: space-between; height: 100%">
+            <div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; justify-content: normal; align-items: normal"><div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; align-self: stretch">
+              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="./icon-msecu-p-trim.png"></image-slot>
+              <span style="{{ m.chipStyle }}">{{ m.catLabel }}</span>
+            </div><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; justify-content: normal; align-items: normal"><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 0px; justify-content: normal; align-items: normal"><p style="font-size:12px;font-weight:700;color:{{ m.catColor }};letter-spacing:.2px;margin:0 0 5px;">{{ m.cat }}</p><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:7px;">
+              <span style="font-size:18px;font-weight:800;letter-spacing:-.4px;color:#FAFAFA;">{{ m.name }}</span>
+              
+            </div><p style="font-size:13.5px;line-height:1.6;color:var(--sub);margin-bottom:14px;">{{ m.desc }}</p></div></div></div>
+            </div>
+            <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: flex-end">
+              <sc-if value="{{ m.insurance }}" hint-placeholder-val="">
+                <div style="font-size:12px;color:var(--sub);margin-bottom:12px;display:flex;align-items:center;gap:6px;"><span class="ms" style="font-size:15px;color:#11BCC7;">verified_user</span>{{ m.insurance }}</div>
+              </sc-if>
+              
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--sub); margin-bottom: 14px"><span class="ms" style="font-size:16px;">smartphone</span>최대 동시 <span class="num" style="font-weight:700;color:#FAFAFA;">{{ m.n }}</span>대</span>
+              <span class="arrow-cta" style="color:#B7CCFF;margin-bottom:12px;padding-right:2px;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ m.svcOff }}" hint-placeholder-val="{{ true }}">
+          <div class="cursor-hover-card" style="{{ m.cardStyle }}" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
+            <div style="display: flex; gap: 0px; align-items: flex-start; flex-direction: column; justify-content: space-between; height: 100%">
+            <div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; justify-content: normal; align-items: normal"><div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; align-self: stretch">
+              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="./icon-msecu-g-trim.png"></image-slot>
+              <x-import component-from-global-scope="UROCKDesignSystemV13_2d2438.Tag" color="blue" size="S" hint-size="auto,22px">{{ m.catLabel }}</x-import>
+            </div><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; justify-content: normal; align-items: normal"><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 0px; justify-content: normal; align-items: normal"><p style="font-size:12px;font-weight:700;color:{{ m.catColor }};letter-spacing:.2px;margin:0 0 5px;">{{ m.cat }}</p><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:7px;">
+              <span style="font-size:18px;font-weight:800;letter-spacing:-.4px;color:#FAFAFA;">{{ m.name }}</span>
+              
+            </div><p style="font-size:13.5px;line-height:1.6;color:var(--sub);margin-bottom:14px;">{{ m.desc }}</p></div></div></div>
+            </div>
+            <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: flex-end">
+              <sc-if value="{{ m.insurance }}" hint-placeholder-val="">
+                <div style="font-size:12px;color:var(--sub);margin-bottom:12px;display:flex;align-items:center;gap:6px;"><span class="ms" style="font-size:15px;color:#11BCC7;">verified_user</span>{{ m.insurance }}</div>
+              </sc-if>
+              
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--sub); margin-bottom: 14px"><span class="ms" style="font-size:16px;">smartphone</span>최대 동시 <span class="num" style="font-weight:700;color:#FAFAFA;">{{ m.n }}</span>대</span>
+              <span class="arrow-cta" style="color:#B7CCFF;margin-bottom:12px;padding-right:2px;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+            </div>
+          </div>
+        </sc-if>
+      </sc-for>
+    </div></div>
+    
+    
+  </div>
+
+  <!-- ── 03 M-SecuManager ── -->
+  
+</section><div data-solutions-background="1" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; z-index: 0; pointer-events: none; background-color: var(--navy)">
+    <div data-px-stage="1" style="position:absolute;top:0;left:0;right:0;height:100vh;min-height:100svh;overflow:hidden;pointer-events:none;will-change:transform;background:var(--navy);">
+      <div data-px="1" style="position:absolute;left:-4%;right:-4%;top:-10%;bottom:-10%;background:radial-gradient(120% 100% at 20% 0%,#25223f,var(--navy) 50%,var(--navy2));will-change:transform;"></div>
+      <div data-px="2" style="position:absolute;left:-4%;right:-4%;top:-14%;bottom:-14%;opacity:0;will-change:transform,opacity;background:radial-gradient(90% 60% at 26% 30%,rgba(98,140,245,.14) 0%,rgba(32,29,48,0) 62%),radial-gradient(80% 55% at 78% 66%,rgba(73,120,235,.12) 0%,rgba(32,29,48,0) 60%);"></div>
+      <div data-px="3" style="position:absolute;left:-6%;right:-6%;top:-18%;bottom:-18%;opacity:0;will-change:transform,opacity;background:radial-gradient(60% 44% at 50% 46%,rgba(98,140,245,.30) 0%,rgba(73,120,235,.10) 42%,rgba(32,29,48,0) 72%);"></div>
+      <div data-px="4" style="position:absolute;left:-8%;right:-8%;top:-22%;bottom:-22%;opacity:0;will-change:transform,opacity;background:radial-gradient(120% 60% at 50% 106%,rgba(98,140,245,.20) 0%,rgba(32,29,48,0) 58%),linear-gradient(180deg,rgba(21,19,32,0) 42%,rgba(21,19,32,.7) 100%);"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,var(--navy) 0%,rgba(32,29,48,.22) 14%,rgba(32,29,48,.22) 86%,var(--navy2) 100%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 42%,rgba(21,19,32,0) 42%,rgba(21,19,32,.55) 100%);"></div>
+    </div>
+    <div style="position:absolute;top:0;left:0;right:0;height:640px;background:linear-gradient(180deg,#181622 0%,rgba(24,22,34,.75) 40%,rgba(24,22,34,0) 100%);"></div>
+  </div></div><div style="box-sizing: border-box; position: relative; background-image:url('assets/bg-consulting.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"><div style="position: absolute; inset: 0; background: rgba(21,19,32,.4); pointer-events: none; padding-top: 0px; padding-bottom: 0px"></div><section id="consulting" style="position: relative; max-width: 1240px; margin: 0 auto; padding: 160px 32px 90px; padding-top: 171px; padding-bottom: 176px" data-om-label="Consulting">
+  <div style="display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start;">
+    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:36px;">
+      <div data-focus-head="1" style="display:flex;flex-direction:column;gap:26px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ headOpacity }};filter:{{ headBlur }};transform:{{ headShift }};">
+        <p style="font-size: 13px; font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: 1.5px; display: none">SERVICE · EXPERT OPERATIONS</p>
+        <h2 style="font-size:44px;font-weight:800;letter-spacing:-1.6px;color:#FFFFFF;">컨설팅</h2>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+        <h3 style="font-size:19px;font-weight:700;letter-spacing:-.4px;color:#FFFFFF;">유락 10년 노하우 기반의 행위 중심 전문 서비스</h3>
+        <p style="font-size:13.5px;line-height:1.6;color:#8B929A;">제품 도입이 아니어도 전문가가 직접 수행하는 진단·분석·교육·삭제 서비스로 조직의 보안 역량을 보완합니다.</p>
+        <p style="font-size:13.5px;line-height:1.6;color:#8B929A;">해외 수사기관을 대상으로 보안 컨설팅, 리스크 관리, 포렌식 랩(LAB)·LIMS 구축까지 통합 제공합니다.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:28px;">
+        <sc-for list="{{ consultingStats }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;width:96px;">
+            <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.1);color:#B7CCFF;"><span class="ms" style="font-size:26px;">{{ s.icon }}</span></div>
+            <p style="font-size:12.5px;line-height:1.45;color:rgba(255,255,255,.75);">{{ s.label }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <a href="#footer" class="cursor-hover-card" style="display: inline-flex; align-items: center; gap: 5px; padding: 10px; font-size: 16px; font-weight: 600; color: #B7CCFF; padding-top: 10px; padding-right: 10px; padding-left: 6px; transition:gap 200ms, color 200ms;" style-hover="gap:9px;color:#DCE6FF;">자세히 보기<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></a>
+    </div>
+    <div style="position:relative;min-height:520px;">
+      <div style="position:absolute;top:-130px;left:0;width:100%;height:780px;overflow:hidden;">
+        <sc-for list="{{ consultArc }}" as="c" hint-placeholder-count="5">
+          <div style="{{ c.style }}">
+            <div style="position:absolute;inset:0;">
+              <image-slot id="{{ c.slotId }}" shape="rect" fit="cover" placeholder=" "></image-slot>
+            </div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(32,29,48,.35) 0%,rgba(32,29,48,.88) 62%,rgba(32,29,48,.96) 100%);pointer-events:none;"></div>
+            <div style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:4px;padding:14px 16px;pointer-events:none;">
+              <p style="font-size:11px;font-weight:700;letter-spacing:.2px;color:#B7CCFF;">{{ c.tag }}</p>
+              <h3 style="font-size:16px;font-weight:800;letter-spacing:-.5px;color:#FFFFFF;">{{ c.title }}</h3>
+              <sc-if value="{{ c.isActive }}" hint-placeholder-val="{{ true }}">
+                <p style="font-size:10.5px;line-height:1.5;color:rgba(255,255,255,.68);margin-top:2px;">{{ c.desc }}</p>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:5;">
+        <button type="button" onClick="{{ consultUp }}" aria-label="이전 카드" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_upward</span></button>
+        <button type="button" onClick="{{ consultDown }}" aria-label="다음 카드" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_downward</span></button>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<!-- ===== GLOBAL MAP ===== -->
+<section id="global" style="position:relative;background:radial-gradient(120% 100% at 20% 0%,#25223f,var(--navy) 50%,var(--navy2));color:#fff;padding:96px 32px;overflow:hidden;" data-om-label="Global">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:30px 30px;"></div>
+  <div style="position:relative;max-width:1240px;margin:0 auto;">
+    <div data-focus-head-global="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin-bottom:14px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ gHeadOpacity }};filter:{{ gHeadBlur }};transform:{{ gHeadShift }};">
+      <p style="font-size:15px;font-weight:700;color:#7EA2FF;">GLOBAL FOOTPRINT</p>
+      <h2 style="font-size:38px;font-weight:800;letter-spacing:-1.5px;line-height:1.3;color:#FFFFFF;">17년 이상 포렌식 현장 경험과<br>검증된 공신력</h2>
+    </div>
+    <div style="display:flex;justify-content:center;gap:56px;margin:38px 0 50px;flex-wrap:wrap;">
+      <div ref="{{ statsRef }}" style="display:flex;gap:56px;flex-wrap:wrap;justify-content:center;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+          <div style="text-align:center;">
+            <div style="font-size:52px;font-weight:800;letter-spacing:-2px;color:#7EA2FF;" class="num">{{ s.displayValue }}<span style="font-size:24px;color:#32D8E3;">+</span></div>
+            <div style="font-size:15px;color:#C7CBDA;margin-top:4px;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="margin-top:-20px;">
+      <!-- world map -->
+      <div style="position:relative;width:100%;aspect-ratio:1024/567;border-radius:16px;background:transparent;">
+        <img src="assets/global-map-dots-lite.png" width="1200" height="665" loading="eager" decoding="async" fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;image-rendering:auto;" alt="Global Footprint Map">
+        <sc-for list="{{ countries }}" as="c" hint-placeholder-count="5">
+          <div style="{{ c.lineStyle }}"></div>
+        </sc-for>
+        <sc-for list="{{ countries }}" as="c" hint-placeholder-count="5">
+          <div style="{{ c.wrapStyle }}" style-focus="box-shadow:0 0 0 2px rgba(126,162,255,.7);border-radius:50%;" tabIndex="0" onClick="{{ c.onClick }}" onKeyDown="{{ c.onKeyDown }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" onFocus="{{ c.onEnter }}" onBlur="{{ c.onLeave }}">
+            <span style="{{ c.glowStyle }}"></span>
+            <span class="geo-ripple" style="{{ c.rippleStyle }}"></span>
+            <span class="geo-dot" style="{{ c.dotStyle }}"></span>
+          </div>
+          <div style="{{ c.labelStyle }}" onClick="{{ c.onClick }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}">{{ c.nameText }}
+            <div style="{{ c.tooltipStyle }}">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <span style="{{ c.flagStyle }}"></span>
+                <div><div style="font-size:16px;font-weight:800;letter-spacing:-.3px;color:#fff;">{{ c.nameText }}</div><div style="font-size:11px;color:#8b90a5;letter-spacing:.4px;">{{ c.altNameText }}</div></div>
+              </div>
+              <span style="display:inline-block;padding:3px 9px;border-radius:7px;background:rgba(126,162,255,.16);color:#B7CCFF;font-size:11.5px;font-weight:600;margin-top:2px;margin-bottom:8px;">{{ c.roleText }}</span>
+              <p style="font-size:12.5px;line-height:1.55;color:#C7CBDA;margin:0;">{{ c.descText }}</p>
+              <div style="margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.015);">
+                <p style="font-size:10.5px;font-weight:700;letter-spacing:.6px;color:#8b90a5;margin:0 0 7px;">{{ c.partnersLabel }}</p>
+                <div style="{{ c.partnerListStyle }}">
+                  <sc-for list="{{ c.partnerItems }}" as="p" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;line-height:1.45;color:#C7CBDA;">
+                      <span style="display:block;width:3px;height:3px;border-radius:50%;background:#7EA2FF;flex:none;"></span>
+                      <span>{{ p.name }}</span>
+                      <sc-if value="{{ p.isPartner }}" hint-placeholder-val="">
+                        <span style="display:inline-block;padding:1.5px 6px;border-radius:5px;background:rgba(139,144,165,.1);color:#8b90a5;font-size:9.5px;font-weight:700;letter-spacing:.2px;flex:none;">{{ c.partnerTagLabel }}</span>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARTNERS ===== -->
+<section style="max-width:1240px;margin:0 auto;padding:88px 32px;display:flex;flex-direction:column;gap:44px;" data-om-label="Partners">
+  <div data-focus-head-partners="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ pHeadOpacity }};filter:{{ pHeadBlur }};transform:{{ pHeadShift }};">
+    <p style="font-size:15px;font-weight:700;color:var(--pri2);">PARTNERS &amp; CLIENTS</p>
+    <h2 style="font-size:34px;font-weight:800;letter-spacing:-1.2px;">공공·수사·금융·기업이 신뢰합니다</h2>
+    <p style="font-size:16px;color:var(--sub);">300여 개 기관·기업이 유락의 솔루션을 도입했습니다</p>
+  </div>
+  <div style="display:flex;justify-content:center;">
+<div ref="{{ logoRef }}" style="position:relative;width:76%;">
+      <div aria-hidden="true" style="position:absolute;left:50%;top:50%;width:118%;height:150%;transform:translate(-50%,-50%);pointer-events:none;z-index:2;mix-blend-mode:screen;background:radial-gradient(ellipse at center,rgba(126,162,255,.42) 0%,rgba(98,140,245,.18) 40%,rgba(98,140,245,0) 70%);filter:blur(10px);animation:geoGlow 5.5s ease-in-out infinite;"></div>
+      <img src="assets/clients-logos-6x5.png" width="1400" height="578" loading="eager" decoding="async" style="display:block;width:100%;height:auto;" alt="국내 주요 고객사 로고">
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;mix-blend-mode:screen;-webkit-mask-image:url('assets/clients-logos-6x5.png');mask-image:url('assets/clients-logos-6x5.png');-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;">
+        <div key="{{ logoPlayKey }}" style="position:absolute;top:-60%;left:-35%;width:30%;height:220%;transform:rotate(-45deg);animation:logoScan 2.2s linear 3;{{ logoAnimStyle }}">
+          <div style="position:absolute;top:0;left:0;width:33.3%;height:100%;background:linear-gradient(90deg,rgba(126,162,255,0) 0%,rgba(126,162,255,.6) 25%,rgba(255,255,255,.9) 50%,rgba(126,162,255,.6) 75%,rgba(126,162,255,0) 100%);filter:brightness(1.6);"></div>
+          <div style="position:absolute;top:0;left:56.3%;width:45%;height:100%;background:linear-gradient(90deg,rgba(126,162,255,0) 0%,rgba(126,162,255,.7) 20%,rgba(255,255,255,1) 50%,rgba(126,162,255,.7) 80%,rgba(126,162,255,0) 100%);filter:brightness(1.6);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWS ===== -->
+
+
+<!-- ===== CTA + FOOTER ===== -->
+<section id="news" style="position:relative;background:#111111 url('assets/news-bg.png') center/cover no-repeat;padding:90px 32px;border:none;" data-om-label="Newsroom">
+  <div style="position: absolute; inset: 0; background: rgba(10,10,20,.35);"></div>
+  <div style="position:relative;max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:26px;">
+    <div data-focus-head-news="1" style="display:flex;flex-direction:column;gap:10px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ nHeadOpacity }};filter:{{ nHeadBlur }};transform:{{ nHeadShift }};">
+      <p style="font-size:15px;font-weight:700;color:#9EB4FF;">NEWSROOM</p>
+      <h2 style="font-size:38px;font-weight:800;letter-spacing:-1.5px;color:#fff;">유락 소식</h2>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <sc-for list="{{ newsTabItems }}" as="t" hint-placeholder-count="4">
+          <div onClick="{{ t.onClick }}" style="{{ t.style }}display:flex;align-items:center;">{{ t.label }}</div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:10px;flex:none;position:relative;z-index:6;">
+        <button class="news-nav-btn" onClick="{{ newsPrev }}" disabled="{{ newsPrevDisabled }}" aria-label="이전 소식" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_back</span></button>
+        <button class="news-nav-btn" onClick="{{ newsNext }}" disabled="{{ newsNextDisabled }}" aria-label="다음 소식" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_forward</span></button>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div ref="{{ newsScrollRef }}" class="news-scroll" style="display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; overflow-y: visible; position: static; padding: 8px 0 12px; margin: -8px 0 -12px">
+        <sc-for list="{{ newsFiltered }}" as="n" hint-placeholder-count="4">
+          <a href="#news" class="cursor-hover-card" style="flex:0 0 280px;display:block;background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--line);transition:all .25s;" style-hover="border-color:#93B0F8;transform:translateY(-6px);box-shadow:0 18px 38px rgba(20,25,45,.1)">
+            <div style="height:150px;position:relative;background:{{ n.bg }};">
+              <image-slot id="{{ n.imgId }}" shape="rect" placeholder="이미지 삽입" style="width:100%;height:100%;"></image-slot>
+            </div>
+            <div style="padding:22px;display:flex;flex-direction:column;gap:9px;">
+              <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;font-weight:700;color:var(--pri2);background:var(--btint);padding:3px 9px;border-radius:6px;white-space:nowrap;">{{ n.cat }}</span><span style="font-size:12px;color:#9aa0ac;" class="num">{{ n.date }}</span></div>
+              <h3 style="font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.4px;color:var(--ink);">{{ n.title }}</h3>
+              <p style="font-size:13px;line-height:1.5;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ n.desc }}</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <sc-for list="{{ n.tags }}" as="tag" hint-placeholder-count="2">
+                  <span style="font-size:11.5px;color:#9aa0ac;">{{ tag }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </a>
+        </sc-for>
+      
+      
+<div style="{{ newsLeftFadeStyle }}"><div style="position: absolute; left: -23px; width: 26px; height: 326px; top: 0px; pointer-events: none; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); filter: blur(1px)"></div><div style="box-sizing: border-box; display: flex; flex-direction: column; width: 115px; height: 356px; border-radius: 0px; position: absolute; left: -19px; border-width: 0px; border-style: solid; border-color: #000000; background: linear-gradient(90deg, #181727, #181727, #1817274A, #18172700); filter: blur(8px); top: -22px"></div></div><div style="{{ newsRightFadeStyle }}"><div style="box-sizing: border-box; display: flex; flex-direction: column; width: 88px; height: 370px; border-radius: 0px; position: absolute; left: 1172px; border-width: 0px; border-style: solid; border-color: #000000; background: linear-gradient(270deg, #181626, #181626, #181626AD, #18162600); filter: blur(8px); top: -33px"></div></div>
+</div>
+      
+    </div>
+  </div>
+</section><footer id="footer" style="background:var(--navy2);color:#fff;">
+  <div style="max-width:1240px;margin:0 auto;padding:80px 32px 40px;">
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.03);">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <h2 style="font-size:34px;font-weight:800;letter-spacing:-1.2px;line-height:1.35;"><blur-reveal once="false">디지털 증거의 가치,<br>유락과 함께 발견하세요</blur-reveal></h2>
+        <p style="font-size:16px;color:#9297ac;"><blur-reveal once="false">도입 상담과 데모 신청을 지금 문의해 주세요.</blur-reveal></p>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;">
+        <a href="#footer" style="display:inline-flex;align-items:center;gap:8px;height:56px;padding:0 30px;border-radius:14px;background:var(--pri);color:#fff;font-size:17px;font-weight:600;box-shadow:0 10px 28px rgba(98,140,245,.4);">도입 문의하기</a>
+        <a href="#footer" style="display: inline-flex; align-items: center; gap: 8px; height: 56px; padding: 0 30px; border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 17px; font-weight: 600; padding-left: 26px"><span class="ms" style="font-size:16px;">download</span>자료 다운로드</a>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;padding:48px 0;">
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <img src="assets/UROCK_white.svg" alt="UROCK" style="height:32px;align-self:flex-start;">
+        <p style="font-size:14px;line-height:1.7;color:#8b90a5;">AI 디지털 포렌식 전문기업</p>
+        <p style="font-size:13px;line-height:1.7;color:#8b90a5;">대표자명 유봉석<br>경기 성남시 수정구 대왕판교로 815<br>기업지원허브 <span class="num">467</span>호, B<span class="num">102</span>호</p>
+        <div style="display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:14px;font-size:13px;line-height:1.5;color:#8b90a5;">
+          <span style="display:inline-flex;align-items:center;gap:8px;"><span style="color:#6b7085;">E</span><span>hello@urock.kr</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;"><span style="color:#6b7085;">T</span><span class="num">070-8670-9016</span></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;"><span style="color:#6b7085;">F</span><span class="num">031-5182-9178</span></span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="font-size:14px;font-weight:700;color:#C7CBDA;">솔루션</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:#8b90a5;"><a href="#solutions">DFAS 제품군</a><a href="#solutions">GateManager</a><a href="#solutions">M-SecuManager</a><a href="#consulting">컨설팅</a></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="font-size:14px;font-weight:700;color:#C7CBDA;">회사</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:#8b90a5;"><a href="#top">회사소개</a><a href="#global">글로벌</a><a href="#news">유락소식</a><a href="#footer">채용</a></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="font-size:14px;font-weight:700;color:#C7CBDA;">고객지원</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:#8b90a5;"><a href="#footer">문의하기</a><a href="#footer">기술지원</a><a href="#footer">자료실</a><a href="#footer">FAQ</a></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-top:30px;border-top:1px solid rgba(255,255,255,.06);">
+      <p style="font-size:13px;color:#6b7085;">copyright <span class="num">2022</span>@UROCK. allright reserved.</p>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:700;letter-spacing:-.5px;color:#fff;"><span class="ms" style="font-size:20px;color:#8b90a5;">call</span><span class="num">070-8670-9016</span></span>
+        <span style="font-size:13px;line-height:1.6;color:#8b90a5;">점심시간 <span class="num">12:00-13:00</span> · 토/일 공휴일 휴무 <span class="num">09:00-17:00</span></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ qmOpen }}" hint-placeholder-val="">
+  <div onClick="{{ closeQuick }}" style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(24,22,34,.55);backdrop-filter:blur(6px);">
+    <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:1080px;max-height:88vh;overflow-y:auto;box-sizing:border-box;padding:38px 44px 44px;border-radius:22px;background:var(--card);border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.4);animation:riseUp 320ms cubic-bezier(.16,1,.3,1) both;">
+      <button onClick="{{ closeQuick }}" aria-label="닫기" style="position:absolute;top:20px;right:20px;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:none;border-radius:50%;background:var(--tint);color:var(--sub);cursor:pointer;transition:all .2s ease;" style-hover="background:var(--btint);color:var(--ink)"><span class="ms" style="font-size:20px;">close</span></button>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span style="display:flex;flex-direction:column;gap:3px;">
+          <span style="font-size:12px;font-weight:800;letter-spacing:1.4px;color:#7DA4FF;">RECOMMENDED</span>
+          <h3 style="font-size:23px;font-weight:800;letter-spacing:-.9px;">{{ qmTitle }}</h3>
+        </span>
+      </div>
+      <p style="font-size:14px;line-height:1.6;color:var(--sub);margin:18px 0 0;">{{ qmDesc }}</p>
+      <div style="display:grid;grid-template-columns:{{ qmCols }};align-items:stretch;margin-top:40px;">
+        <div style="display:flex;flex-direction:column;gap:18px;padding:{{ qmSolPad }};">
+          <p style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:-.5px;"><span class="ms" style="font-size:19px;color:#7DA4FF;">apps</span>추천 솔루션</p>
+          <div style="display:grid;grid-template-columns:{{ qmSolCols }};gap:14px;">
+            <sc-for list="{{ qmSolutions }}" as="s" hint-placeholder-count="2">
+              <a href="{{ s.href }}" onClick="{{ closeQuick }}" class="cursor-hover-card" style="display:flex;align-items:center;gap:14px;padding:4px 10px 4px 4px;border-radius:16px;border:1px solid transparent;background:var(--tint);text-decoration:none;color:var(--ink);transition:all .2s ease;" style-hover="box-shadow:0 14px 32px rgba(98,140,245,.16);border-color:rgba(125,164,255,.55)">
+                <span style="display:block;flex:none;width:125px;height:125px;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);">
+                  <sc-if value="{{ s.isPIllust }}" hint-placeholder-val="{{ false }}">
+                    <span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#201D30;">
+                      <svg width="86" height="72" viewBox="0 0 30 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="M-SecuManager P 일러스트">
+                        <path d="M2.83744 5.16115L3.72559 4.11042L11.7711 14.2126C11.911 14.3883 11.9381 14.6286 11.8406 14.8311L7.85184 23.1152L2.40811 19.0122C2.25475 18.8966 2.16786 18.7131 2.17559 18.5213L2.69963 5.51539C2.70487 5.38527 2.75337 5.26061 2.83744 5.16115Z" fill="#26243A" stroke="#7EA2FF" stroke-width="0.654545"></path>
+                        <path d="M7.69133 22.8189L3.63466 4.57154C3.55849 4.22892 3.79894 3.89678 4.14821 3.86214L24.0189 1.89187C24.3059 1.86341 24.5708 2.04823 24.6432 2.32736L28.1964 16.0311C28.2735 16.3284 28.1076 16.6348 27.8165 16.7327L8.44919 23.2466C8.11968 23.3574 7.76678 23.1582 7.69133 22.8189Z" fill="#313554" stroke="#7EA2FF" stroke-width="0.654545"></path>
+                        <path d="M6.71998 6.1942C6.54058 6.21623 6.43307 6.37562 6.47985 6.55021C6.52664 6.7248 6.70999 6.84847 6.88939 6.82644L6.80469 6.51032L6.71998 6.1942ZM12.9591 6.08118C13.1385 6.05915 13.246 5.89976 13.1992 5.72517C13.1524 5.55058 12.9691 5.42691 12.7897 5.44894L12.8744 5.76506L12.9591 6.08118ZM6.80469 6.51032L6.88939 6.82644L12.9591 6.08118L12.8744 5.76506L12.7897 5.44894L6.71998 6.1942L6.80469 6.51032Z" fill="#B7CCFF"></path>
+                        <path d="M7.99912 11.9323C7.82321 11.9658 7.72809 12.1331 7.78665 12.3058C7.84521 12.4786 8.03529 12.5914 8.21119 12.5579L8.10516 12.2451L7.99912 11.9323ZM22.6064 9.81278C22.7823 9.77924 22.8774 9.61201 22.8188 9.43926C22.7603 9.26651 22.5702 9.15367 22.3943 9.18721L22.5003 9.5L22.6064 9.81278ZM8.10516 12.2451L8.21119 12.5579L22.6064 9.81278L22.5003 9.5L22.3943 9.18721L7.99912 11.9323L8.10516 12.2451Z" fill="#506098"></path>
+                        <path d="M9.09066 15.4351C8.91739 15.4759 8.8304 15.6478 8.89636 15.819C8.96233 15.9902 9.15626 16.0958 9.32953 16.055L9.21009 15.745L9.09066 15.4351ZM19.5722 13.6411C19.7454 13.6003 19.8324 13.4284 19.7665 13.2573C19.7005 13.0861 19.5066 12.9804 19.3333 13.0213L19.4527 13.3312L19.5722 13.6411ZM9.21009 15.745L9.32953 16.055L19.5722 13.6411L19.4527 13.3312L19.3333 13.0213L9.09066 15.4351L9.21009 15.745Z" fill="#506098"></path>
+                        <circle cx="0.465754" cy="0.465754" r="0.465754" transform="matrix(0.992546 -0.121869 0.258819 0.965926 14.4434 5.12672)" fill="#B7CCFF"></circle>
+                        <circle cx="0.465754" cy="0.465754" r="0.465754" transform="matrix(0.992546 -0.121869 0.258819 0.965926 16.5703 4.86576)" fill="#B7CCFF"></circle>
+                      </svg>
+                    </span>
+                  </sc-if>
+                  <sc-if value="{{ s.isGIllust }}" hint-placeholder-val="{{ false }}">
+                    <span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#201D30;">
+                      <svg width="82" height="82" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="M-SecuManager G 일러스트">
+                        <path d="M7.08789 27.2798H22.0013" stroke="#7EA2FF" stroke-width="0.654545"></path>
+                        <rect x="13" y="22" width="3" height="5" rx="0.585241" fill="#313554" stroke="#7EA2FF" stroke-width="0.654545"></rect>
+                        <rect x="6.74609" y="1.78608" width="15.5968" height="21.9732" rx="0.585241" fill="#313554" stroke="#7EA2FF" stroke-width="0.654545"></rect>
+                        <rect x="9" y="4" width="11" height="14" rx="1" stroke="#506098" stroke-width="0.654545" stroke-linecap="round"></rect>
+                        <path d="M9.39258 20.9267H15.5079" stroke="#B7CCFF" stroke-width="0.654545" stroke-linecap="round"></path>
+                        <circle cx="17.6728" cy="20.9451" r="0.465754" fill="#B7CCFF"></circle>
+                        <circle cx="19.8134" cy="20.9451" r="0.465754" fill="#B7CCFF"></circle>
+                      </svg>
+                    </span>
+                  </sc-if>
+                  <sc-if value="{{ s.noIllust }}" hint-placeholder-val="{{ true }}">
+                    <image-slot id="{{ s.slotId }}" shape="rect" fit="cover" src="{{ s.img }}" placeholder="{{ s.name }}" style="object-position:center bottom;"></image-slot>
+                  </sc-if>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0;">
+                  <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <span style="font-size:15px;font-weight:800;letter-spacing:-.4px;">{{ s.name }}</span>
+                    <sc-if value="{{ s.hasOs }}" hint-placeholder-val="{{ true }}">
+                      <span style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:6px;background:var(--btint);font-size:10.5px;font-weight:700;color:#B7CCFF;">{{ s.os }}</span>
+                    </sc-if>
+                  </span>
+                  <span style="font-size:12px;line-height:1.55;color:var(--sub);">{{ s.note }}</span>
+                  <span style="font-size:11px;font-weight:700;color:#7DA4FF;">{{ s.tags }}</span>
+                </span>
+                <span class="ms modal-card-chevron" style="flex:none;font-size:30px;color:#7DA4FF;">chevron_right</span>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ qmHasConsult }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:18px;padding-left:34px;border-left:1px solid var(--line);">
+            <p style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:-.5px;"><span class="ms" style="font-size:19px;color:#7DA4FF;">handshake</span>추천 컨설팅 · 전문 서비스</p>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <sc-for list="{{ qmConsulting }}" as="c" hint-placeholder-count="1">
+                <a href="#consulting" onClick="{{ closeQuick }}" class="cursor-hover-card" style="display:flex;align-items:center;gap:14px;padding:4px 10px 4px 4px;border-radius:16px;border:1px solid transparent;background:var(--tint);text-decoration:none;color:var(--ink);transition:all .2s ease;" style-hover="box-shadow:0 14px 32px rgba(98,140,245,.16);border-color:rgba(125,164,255,.55)">
+                  <span style="display:block;flex:none;width:125px;height:125px;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);">
+                    <image-slot id="{{ c.slotId }}" shape="rect" fit="cover" src="{{ c.img }}" placeholder="{{ c.name }}"></image-slot>
+                  </span>
+                  <span style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0;">
+                    <span style="font-size:15px;font-weight:800;letter-spacing:-.4px;">{{ c.name }}</span>
+                    <span style="font-size:12px;line-height:1.55;color:var(--sub);">{{ c.note }}</span>
+                    <span style="font-size:11px;font-weight:700;color:#7DA4FF;">{{ c.tags }}</span>
+                  </span>
+                  <span class="ms modal-card-chevron" style="flex:none;font-size:30px;color:#7DA4FF;">chevron_right</span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<button onClick="{{ scrollTop }}" aria-label="맨 위로" style="{{ fabStyle }}">
+  <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--card);box-shadow:0 6px 20px rgba(20,25,45,.16);">
+    <span class="ms" style="font-size:22px;color:var(--sub);">arrow_upward</span>
+  </span>
+  <svg viewBox="0 0 60 60" style="position:absolute;inset:0;width:60px;height:60px;transform:rotate(-90deg);pointer-events:none;">
+    <circle cx="30" cy="30" r="27" fill="none" stroke="var(--line)" stroke-width="2"></circle>
+    <circle cx="30" cy="30" r="27" fill="none" stroke="var(--pri)" stroke-width="2" stroke-linecap="round" stroke-dasharray="{{ fabDash }}" stroke-dashoffset="{{ fabOffset }}"></circle>
+  </svg>
+</button>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', country: null, lang: 'KO', scrolled: false, theme: 'light', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1 };
+
+  openQuick = (tab, i) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ quickModal: { tab: tab, idx: i } }); };
+  closeQuick = () => this.setState({ quickModal: null });
+  stopProp = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+
+  rotateConsult = (dir) => () => {
+    const now = Date.now();
+    if (this._rotAt && now - this._rotAt < 260) return;
+    this._rotAt = now;
+    const n = 5, cur = this.state.consultOffset;
+    const wrap = dir === 1 ? ((cur % n) + n) % n : (((cur - 1) % n) + n) % n;
+    clearTimeout(this._consultT);
+    this.setState({ consultOffset: cur + dir, consultWrap: wrap });
+    this._consultT = setTimeout(() => this.setState({ consultWrap: -1 }), 80);
+  };
+
+  logoRef = (el) => {
+    if (this._logoObs && this._logoEl !== el) { this._logoObs.disconnect(); this._logoObs = null; }
+    if (!el || this._logoObs) return;
+    this._logoEl = el;
+    this._logoObs = new IntersectionObserver((entries) => {
+      const inView = entries[0].isIntersecting;
+      this.setState(s => ({ logoInView: inView, logoPlayKey: inView && !s.logoInView ? s.logoPlayKey + 1 : s.logoPlayKey }));
+    }, { threshold: 0.2 });
+    this._logoObs.observe(el);
+  };
+
+  _startDfasTimer = () => {
+    if (this._dfasTimer) return;
+    this._dfasTimer = setInterval(() => {
+      this.setState(s => ({ dfasSel: (s.dfasSel + 1) % this._dfasCount, dfasOS: 'win' }));
+    }, 4300);
+  };
+  _stopDfasTimer = () => {
+    if (this._dfasTimer) { clearInterval(this._dfasTimer); this._dfasTimer = null; }
+  };
+
+  dfasSectionRef = (el) => {
+    if (!el || this._dfasObs) return;
+    this._dfasObs = new IntersectionObserver((entries) => {
+      this._dfasInView = entries[0].isIntersecting;
+      if (this._dfasInView && !this.state.dfasPaused) this._startDfasTimer();
+      else this._stopDfasTimer();
+    }, { threshold: 0.3 });
+    this._dfasObs.observe(el);
+  };
+
+  dfasToggleAuto = () => {
+    this.setState(s => {
+      const paused = !s.dfasPaused;
+      if (paused) this._stopDfasTimer();
+      else if (this._dfasInView) this._startDfasTimer();
+      return { dfasPaused: paused };
+    });
+  };
+
+  statsRef = (el) => {
+    if (!el || this._statsObs) return;
+    this._statsRunId = 0;
+    this._statsObs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        const runId = ++this._statsRunId;
+        this.setState({ statsProgress: 0 });
+        const start = performance.now();
+        const dur = 1500;
+        const tick = (now) => {
+          if (runId !== this._statsRunId) return; // superseded by a newer entry
+          const t = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - t, 3);
+          this.setState({ statsProgress: eased });
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      } else {
+        this._statsRunId++; // cancel any in-flight animation, reset for next entry
+        this.setState({ statsProgress: 0 });
+      }
+    }, { threshold: 0.3 });
+    this._statsObs.observe(el);
+  };
+
+  motionPanel(k, name, icon, opts) {
+    opts = opts || {};
+    const h = React.createElement;
+    const H = opts.height || 176;
+    const heights = [34, 58, 40, 72, 48, 64, 38, 54];
+    const bars = heights.map((ht, i) => h('div', { key: i, style: { width: '14px', height: ht + 'px', transformOrigin: 'bottom', borderRadius: '3px', background: 'linear-gradient(180deg,#7EA2FF,#32D8E3)', animation: `barGrow .9s ease ${0.15 + i * 0.07}s both` } }));
+    const kids = [
+      h('div', { key: 'g', style: { position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(126,162,255,.15) 1px,transparent 1px)', backgroundSize: '18px 18px' } }),
+      h('div', { key: 's', style: { position: 'absolute', top: 0, bottom: 0, width: '2px', background: 'linear-gradient(180deg,transparent,#32D8E3,transparent)', boxShadow: '0 0 16px #32D8E3', animation: 'scanX 1.3s ease both' } }),
+      h('div', { key: 'b', style: { position: 'absolute', left: '24px', right: '24px', bottom: '22px', height: '72px', display: 'flex', alignItems: 'flex-end', gap: '8px', opacity: .92 } }, bars),
+      h('div', { key: 'p', style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-64%)', width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(2px)' } }, h('span', { className: 'ms', style: { fontSize: '30px', color: '#fff', marginLeft: '3px' } }, 'play_arrow')),
+      h('div', { key: 'l', style: { position: 'absolute', top: '16px', left: '18px', display: 'flex', alignItems: 'center', gap: '8px', color: '#fff' } },
+        h('span', { className: 'ms', style: { fontSize: '20px', color: '#7EA2FF' } }, icon),
+        h('span', { style: { fontSize: '14px', fontWeight: 700, letterSpacing: '-.3px' } }, name)),
+    ];
+    if (opts.note) kids.push(h('div', { key: 'n', style: { position: 'absolute', bottom: '16px', right: '18px', display: 'flex', alignItems: 'center', gap: '6px', color: '#32D8E3', fontSize: '13px', fontWeight: 700 } }, h('span', { className: 'ms', style: { fontSize: '17px' } }, 'description'), opts.note));
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: 'linear-gradient(150deg,#20264a,#151320)', border: opts.noBorder ? 'none' : '1px solid rgba(255,255,255,.1)' } }, ...kids);
+  }
+
+  scanLine(k) {
+    return React.createElement('div', { key: k, style: { position: 'absolute', top: 0, bottom: 0, width: '2px', background: 'linear-gradient(180deg,transparent,#32D8E3,transparent)', boxShadow: '0 0 16px #32D8E3', animation: 'scanX 0.85s ease both', zIndex: 5, pointerEvents: 'none' } });
+  }
+
+  dfasVideoStack(activeId, name) {
+    const h = React.createElement;
+    this._dfasSeen = this._dfasSeen || new Set();
+    this._dfasSeen.add(activeId);
+    const seen = this._dfasSeen;
+    const mediaRef = (id) => (el) => {
+      if (!el) return;
+      if (id === activeId) { const p = el.play(); if (p && p.catch) p.catch(() => {}); }
+      else { try { el.pause(); } catch (e) {} }
+    };
+    const vidStyle = (fit, extra) => Object.assign({ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: fit, display: 'block' }, extra || {});
+    const vid = (src, fit, extra, id) => h('video', { key: 'v', src, ref: mediaRef(id), autoPlay: true, muted: true, loop: true, playsInline: true, preload: id === activeId ? 'auto' : 'metadata', 'aria-hidden': true, style: vidStyle(fit, extra) });
+    const bg = h('img', { key: 'bg', src: 'uploads/dark-01.png', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } });
+    const grad = h('div', { key: 'grad', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%)' } });
+    const goBar = h('div', { key: 'sb', style: { position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '78%', maxWidth: '320px', top: '38%', height: '38px', borderRadius: '10px', background: 'rgba(21,19,32,.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,.25)', display: 'flex', alignItems: 'center', padding: '0 12px', gap: '8px', overflow: 'hidden', zIndex: 2 } },
+      h('span', { className: 'ms', style: { fontSize: '17px', color: '#7EA2FF' } }, 'search'),
+      h('div', { style: { position: 'relative', height: '15px', flex: 1, overflow: 'hidden' } },
+        h('div', { style: { position: 'absolute', top: 0, left: 0, display: 'flex', alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap', color: 'rgba(255,255,255,.9)', fontSize: '12.5px', fontWeight: 600, animation: 'typeWidth 3.6s steps(20) infinite' } },
+          '지난주 외부 반출 이력 검색',
+          h('span', { style: { display: 'inline-block', flex: 'none', marginLeft: '2px', width: '1.5px', height: '14px', background: '#7EA2FF', animation: 'typeCursor .8s step-end infinite' } }))));
+    const layers = [
+      { id: 'edge', kids: [vid('uploads/DFAS%20Edge.mp4', 'cover', null, 'edge')] },
+      { id: 'proone', kids: [vid('uploads/DFAS%20Pro%20One.mp4', 'cover', null, 'proone')] },
+      { id: 'discovery', kids: [
+        h('div', { key: 'dbg', 'aria-hidden': true, style: { position: 'absolute', inset: 0, background: 'radial-gradient(120% 100% at 50% 42%, #0b1336 0%, #060d27 45%, #02091e 100%)' } }),
+        h('video', { key: 'v', src: 'uploads/DFAS%20Enterprise%20video.mp4', ref: mediaRef('discovery'), autoPlay: true, muted: true, loop: true, playsInline: true, preload: activeId === 'discovery' ? 'auto' : 'metadata', 'aria-hidden': true,
+          style: { position: 'absolute', left: '50%', top: '50%', width: '132%', height: 'auto', aspectRatio: '1 / 1', display: 'block', transform: 'translate(-50%,-50%) translate(-11.2%, 10.65%)' } }),
+      ] },
+      { id: 'go', kids: [bg, grad, vid('uploads/dfas_section_card_go-bc0f4e97.webm', 'cover', null, 'go'), goBar] },
+      { id: 'arc', kids: [vid('uploads/dfas_section_card_arc.webm', 'cover', null, 'arc')] },
+    ];
+    return h('div', { key: 'dfas-stack', 'aria-label': name, style: { position: 'relative', width: '100%', height: '100%', borderRadius: '16px', overflow: 'hidden', background: '#151320' } },
+      layers.map(l => h('div', { key: l.id, style: { position: 'absolute', inset: 0, opacity: l.id === activeId ? 1 : 0, transition: 'opacity 520ms cubic-bezier(.22,.61,.36,1)', pointerEvents: l.id === activeId ? 'auto' : 'none' } }, seen.has(l.id) ? l.kids : null)),
+      this.scanLine('scan-' + activeId));
+  }
+
+  dfasFrame(k, name, icon, kids, opts) {
+    opts = opts || {};
+    const h = React.createElement;
+    const H = opts.height || 176;
+    const label = h('div', { key: 'lbl', style: { position: 'absolute', top: '16px', left: '18px', display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', zIndex: 3 } },
+      h('span', { className: 'ms', style: { fontSize: '20px', color: '#7EA2FF' } }, icon),
+      h('span', { style: { fontSize: '14px', fontWeight: 700, letterSpacing: '-.3px' } }, name));
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: 'linear-gradient(150deg,#20264a,#151320)', border: '1px solid rgba(255,255,255,.1)' } }, label, ...kids, this.scanLine('scan'));
+  }
+
+  motionDfasEdge(k, name, icon, opts) {
+    const h = React.createElement;
+    const H = (opts && opts.height) || 176;
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#151320', border: '1px solid rgba(255,255,255,.1)' } },
+      h('video', { key: 'v', src: 'uploads/DFAS%20Edge.mp4', autoPlay: true, muted: true, loop: true, playsInline: true, 'aria-label': name, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      this.scanLine('scan'));
+  }
+
+  motionDfasProOne(k, name, icon, osIcon, opts) {
+    const h = React.createElement;
+    const H = (opts && opts.height) || 176;
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#151320', border: '1px solid rgba(255,255,255,.1)' } },
+      h('video', { key: 'v', src: 'uploads/DFAS%20Pro%20One.mp4', autoPlay: true, muted: true, loop: true, playsInline: true, 'aria-label': name, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      this.scanLine('scan'));
+  }
+
+  motionDfasProOneLegacy(k, name, icon, osIcon, opts) {
+    const h = React.createElement;
+    const cells = Array.from({ length: 24 }, (_, i) => h('div', { key: 'c' + i, style: { width: '16px', height: '11px', borderRadius: '2px', background: '#32D8E3', opacity: .16, animation: `sectorLight 2.6s ease ${(i % 8) * 0.12 + Math.floor(i / 8) * 0.3}s infinite` } }));
+    const grid = h('div', { key: 'g', style: { position: 'absolute', left: '24px', right: '24px', top: '50%', transform: 'translateY(-50%)', display: 'grid', gridTemplateColumns: 'repeat(8,1fr)', gap: '5px' } }, cells);
+    const os = h('div', { key: 'o', style: { position: 'absolute', top: '16px', right: '18px', display: 'flex', alignItems: 'center', gap: '5px', color: '#fff', background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.25)', padding: '4px 10px', borderRadius: '999px', fontSize: '12px', fontWeight: 600 } }, h('span', { className: 'ms', style: { fontSize: '14px' } }, osIcon));
+    const folder = h('div', { key: 'f', style: { position: 'absolute', bottom: '16px', right: '18px', display: 'flex', alignItems: 'center', gap: '6px', color: '#7EA2FF', fontSize: '12.5px', fontWeight: 700 } }, h('span', { className: 'ms', style: { fontSize: '16px', animation: 'pulse 2s ease infinite' } }, 'folder_check'), '수집·분석 완료');
+    return this.dfasFrame(k, name, icon, [grid, os, folder], opts);
+  }
+
+  dfasShell(k, name, icon, kids, opts) {
+    const h = React.createElement;
+    const H = (opts && opts.height) || 176;
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#201D30', border: '1px solid rgba(255,255,255,.1)' } },
+      h('div', { key: 'lbl', style: { position: 'absolute', top: '16px', left: '18px', display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', zIndex: 6 } },
+        h('span', { className: 'ms', style: { fontSize: '20px', color: '#7EA2FF' } }, icon),
+        h('span', { style: { fontSize: '14px', fontWeight: 700, letterSpacing: '-.3px' } }, name)),
+      ...kids);
+  }
+
+  motionDfasDiscovery(k, name, icon, opts) {
+    const h = React.createElement;
+    const H = (opts && opts.height) || 176;
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#151320', border: '1px solid rgba(255,255,255,.1)' } },
+      h('img', { key: 'bg', src: 'uploads/dark-01.png', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      h('div', { key: 'grad', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%)' } }),
+      h('video', { key: 'v', src: 'uploads/dfas_section_card_discovery-4d47c0da.webm', autoPlay: true, muted: true, loop: true, playsInline: true, 'aria-label': name, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', display: 'block', transform: 'scale(1.1)' } }),
+      this.scanLine('scan'));
+  }
+
+  motionDfasGo(k, name, icon, opts) {
+    const h = React.createElement;
+    const H = (opts && opts.height) || 176;
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#151320', border: '1px solid rgba(255,255,255,.1)' } },
+      h('img', { key: 'bg', src: 'uploads/dark-01.png', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      h('div', { key: 'grad', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%)' } }),
+      h('video', { key: 'v', src: 'uploads/dfas_section_card_go-bc0f4e97.webm', autoPlay: true, muted: true, loop: true, playsInline: true, 'aria-label': name, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      h('div', { key: 'sb', style: { position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '78%', maxWidth: '320px', top: '38%', height: '38px', borderRadius: '10px', background: 'rgba(21,19,32,.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,.25)', display: 'flex', alignItems: 'center', padding: '0 12px', gap: '8px', overflow: 'hidden', zIndex: 2 } },
+        h('span', { className: 'ms', style: { fontSize: '17px', color: '#7EA2FF' } }, 'search'),
+        h('div', { style: { position: 'relative', height: '15px', flex: 1, overflow: 'hidden' } },
+          h('div', { style: { position: 'absolute', top: 0, left: 0, display: 'flex', alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap', color: 'rgba(255,255,255,.9)', fontSize: '12.5px', fontWeight: 600, animation: 'typeWidth 3.6s steps(20) infinite' } },
+            '지난주 외부 반출 이력 검색',
+            h('span', { style: { display: 'inline-block', flex: 'none', marginLeft: '2px', width: '1.5px', height: '14px', background: '#7EA2FF', animation: 'typeCursor .8s step-end infinite' } })))),
+      this.scanLine('scan'));
+  }
+
+  motionDfasArc(k, name, icon, opts) {
+    const h = React.createElement;
+    const H = (opts && opts.height) || 176;
+    return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#151320', border: '1px solid rgba(255,255,255,.1)' } },
+      h('video', { key: 'v', src: 'uploads/dfas_section_card_arc.webm', autoPlay: true, muted: true, loop: true, playsInline: true, 'aria-label': name, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      this.scanLine('scan'));
+  }
+
+  reportPhases() {
+    const p = this.state.reportPhase || 'erasing';
+    const showStatus = p === 'done' || p === 'gen';
+    const showReport = p === 'report' || p === 'confirm' || p === 'exit' || p === 'static';
+    const visible = p === 'report' || p === 'confirm' || p === 'static';
+    return {
+      screenLogoStyle: {
+        position: 'absolute', top: '14%', left: '50%', display: 'flex', alignItems: 'center', gap: '8px',
+        zIndex: 2, pointerEvents: 'none', transition: 'opacity 420ms ease, transform 420ms ease',
+        transform: showReport || showStatus ? 'translateX(-50%) translateY(-1.6cqh)' : 'translateX(-50%)',
+        opacity: showReport || showStatus ? 0 : 1,
+      },
+      statusStyle: {
+        position: 'absolute', inset: 0, zIndex: 4, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        pointerEvents: 'none', transition: 'opacity 320ms ease, transform 320ms ease',
+        opacity: showStatus ? 1 : 0, transform: showStatus ? 'scale(1)' : 'scale(.96)',
+        visibility: showStatus ? 'visible' : 'hidden',
+      },
+      statusIcon: p === 'gen' ? 'description' : 'task_alt',
+      statusText: p === 'gen' ? '삭제 보고서 생성 중' : '데이터 삭제 완료',
+      statusBarStyle: {
+        position: 'absolute', left: 0, top: 0, bottom: 0, borderRadius: '.9cqh', background: '#32D8E3',
+        width: p === 'gen' ? '100%' : '8%', transition: p === 'gen' ? 'width 900ms cubic-bezier(.4,0,.2,1)' : 'none',
+      },
+      reportStyle: {
+        position: 'absolute', inset: 0, zIndex: 5, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '3cqh', pointerEvents: 'none',
+        transition: 'opacity 520ms ease, transform 520ms cubic-bezier(.4,0,.2,1)',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0) scale(1)' : (p === 'exit' ? 'translateY(-2cqh) scale(.97)' : 'translateY(4cqh) scale(.97)'),
+        visibility: showReport ? 'visible' : 'hidden',
+      },
+      stampStyle: {
+        position: 'absolute', left: '50%', bottom: '3cqh', marginLeft: '-9.9cqh',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '.88cqh', width: '19.8cqh',
+        padding: '1.1cqh 0', borderRadius: '1.1cqh', fontSize: '2.64cqh', fontWeight: 700, letterSpacing: '-.01em',
+        color: '#1D9AA3', background: '#D6F8FA', border: '1px solid rgba(29,154,163,.35)',
+        backdropFilter: 'blur(4px)', boxShadow: 'none',
+        transition: 'opacity 340ms ease, transform 340ms cubic-bezier(.4,0,.2,1)',
+        opacity: p === 'confirm' || p === 'exit' || p === 'static' ? 1 : 0,
+        transform: p === 'confirm' || p === 'exit' || p === 'static' ? 'scale(1)' : 'scale(.86)',
+      },
+    };
+  }
+
+  setReportPhase(p) { this.setState({ reportPhase: p }); }
+
+  runReportSequence() {
+    this._seqTimers = this._seqTimers || [];
+    const at = (ms, fn) => this._seqTimers.push(setTimeout(fn, ms));
+    this.setReportPhase('done');
+    at(760, () => this.setReportPhase('gen'));
+    at(1820, () => this.setReportPhase('report'));
+    at(2220, () => this.setReportPhase('confirm'));
+    at(7700, () => this.setReportPhase('exit'));
+    at(8420, () => {
+      this.setReportPhase('erasing');
+      if (this._lottieAnim) this._lottieAnim.goToAndPlay(0, true);
+    });
+  }
+
+  lottieRef = (el) => {
+    if (!el || this._lottieEl === el) return;
+    this._lottieEl = el;
+    if (this._lottieAnim) { this._lottieAnim.destroy(); this._lottieAnim = null; }
+    if (this._monObs) { this._monObs.disconnect(); this._monObs = null; }
+    this._monObs = new IntersectionObserver((entries) => {
+      const inView = entries[0].isIntersecting;
+      if (inView === this._monIn) return;
+      this._monIn = inView;
+      if (!this._lottieAnim) return;
+      if (inView) {
+        (this._seqTimers || []).forEach(clearTimeout);
+        this._seqTimers = [];
+        this.setReportPhase('erasing');
+        this._lottieAnim.goToAndPlay(0, true);
+      } else {
+        this._lottieAnim.pause();
+        (this._seqTimers || []).forEach(clearTimeout);
+        this._seqTimers = [];
+      }
+    }, { threshold: 0.3 });
+    this._monObs.observe(el);
+    this.mountLottie();
+  };
+
+  mountLottie() {
+    const el = this._lottieEl;
+    if (!el || this._lottieAnim) return;
+    if (!window.lottie) { setTimeout(() => this.mountLottie(), 120); return; }
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._lottieAnim = window.lottie.loadAnimation({
+      container: el,
+      renderer: 'svg',
+      loop: false,
+      autoplay: false,
+      path: 'assets/splash-device-statusbar.json',
+      rendererSettings: { preserveAspectRatio: 'xMidYMid slice', progressiveLoad: true },
+    });
+    if (reduced) {
+      this._lottieAnim.addEventListener('DOMLoaded', () => this._lottieAnim.goToAndStop(0, true));
+      this.setReportPhase('static');
+    } else {
+      this._lottieAnim.addEventListener('complete', () => { if (this._monIn) this.runReportSequence(); });
+      this._lottieAnim.addEventListener('DOMLoaded', () => { if (this._monIn) this._lottieAnim.goToAndPlay(0, true); });
+    }
+  }
+
+  _retryBrokenImages = () => {
+    document.querySelectorAll('img').forEach(img => {
+      if (img.complete && img.naturalWidth === 0 && img.src) {
+        const n = (img.dataset.retry ? +img.dataset.retry : 0);
+        if (n >= 3) return;
+        img.dataset.retry = n + 1;
+        const base = img.src.split('#')[0].split('?')[0];
+        img.src = base + '?r=' + Date.now();
+      }
+    });
+  };
+
+  componentDidMount() {
+    this._mounted = true;
+    this._imgRetryTimer = setInterval(this._retryBrokenImages, 1200);
+    window.addEventListener('load', this._retryBrokenImages);
+    const dark = document.documentElement.classList.contains('dark');
+    if (dark !== (this.state.theme === 'dark')) this.setState({ theme: dark ? 'dark' : 'light' });
+    this._onScroll = () => {
+      const s = window.scrollY > 60;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      const next = {};
+      if (s !== this.state.scrolled) next.scrolled = s;
+      if (Math.abs(pct - this.state.scrollPct) > 0.002) next.scrollPct = pct;
+      // FAB should only appear once the Hero has been scrolled past entirely
+      // (into the next section), not as soon as any scrolling starts inside
+      // the (very tall) Hero itself.
+      const heroEl = document.getElementById('top');
+      const pastHero = heroEl ? heroEl.getBoundingClientRect().bottom <= 0 : s;
+      if (pastHero !== this.state.pastHero) next.pastHero = pastHero;
+      const hEl = document.querySelector('[data-focus-head]');
+      if (hEl) {
+        const r = hEl.getBoundingClientRect();
+        const on = r.top < window.innerHeight * 0.8 && r.bottom > window.innerHeight * 0.12;
+        if (on !== this.state.headOn) next.headOn = on;
+      }
+      const pEl = document.querySelector('[data-focus-head-partners]');
+      if (pEl) {
+        const pr = pEl.getBoundingClientRect();
+        const pOn = pr.top < window.innerHeight * 0.8 && pr.bottom > window.innerHeight * 0.12;
+        if (pOn !== this.state.partnersHeadOn) next.partnersHeadOn = pOn;
+      }
+      const nEl = document.querySelector('[data-focus-head-news]');
+      if (nEl) {
+        const nr = nEl.getBoundingClientRect();
+        const nOn = nr.top < window.innerHeight * 0.8 && nr.bottom > window.innerHeight * 0.12;
+        if (nOn !== this.state.newsHeadOn) next.newsHeadOn = nOn;
+      }
+      [['[data-focus-head-quick]', 'quickHeadOn'], ['[data-focus-head-cta]', 'ctaHeadOn'], ['[data-focus-head-global]', 'globalHeadOn']].forEach(([sel, key]) => {
+        const el = document.querySelector(sel);
+        if (!el) return;
+        const rr = el.getBoundingClientRect();
+        const v = rr.top < window.innerHeight * 0.8 && rr.bottom > window.innerHeight * 0.12;
+        if (v !== this.state[key]) next[key] = v;
+      });
+      if (Object.keys(next).length) this.setState(next);
+    };
+    // Coalesce to at most once per animation frame (native 'scroll' events can
+    // fire far more often than the display refresh rate on some input
+    // devices/browsers); _onScroll's own logic/values are unchanged, only the
+    // dispatch frequency is. Same pattern as _pxTick below and hero-scrollworld.js.
+    this._onScrollRaf = () => {
+      if (this._scrollRafId) return;
+      this._scrollRafId = requestAnimationFrame(() => {
+        this._scrollRafId = 0;
+        this._onScroll();
+      });
+    };
+    window.addEventListener('scroll', this._onScrollRaf, { passive: true });
+    requestAnimationFrame(() => this._onScroll && this._onScroll());
+    this._initParallax();
+    this._autoTip = setInterval(() => {
+      this.setState(s => ({ autoIdx: (s.autoIdx + 1) % this._countryCount }));
+    }, 3000);
+    this._onCursorMove = (e) => {
+      if (this.state.cursorVisible) this.setState({ cursorX: e.clientX, cursorY: e.clientY });
+    };
+    this._onCursorOver = (e) => {
+      const excluded = e.target.closest && e.target.closest('.cursor-exclude');
+      const card = e.target.closest && e.target.closest('.cursor-hover-card');
+      if (card && !excluded && !this.state.cursorVisible) this.setState({ cursorVisible: true, cursorX: e.clientX, cursorY: e.clientY });
+      if (excluded && this.state.cursorVisible) this.setState({ cursorVisible: false });
+    };
+    this._onCursorOut = (e) => {
+      const card = e.target.closest && e.target.closest('.cursor-hover-card');
+      const related = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.cursor-hover-card');
+      const relatedExcluded = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.cursor-exclude');
+      if (card && (!related || relatedExcluded)) this.setState({ cursorVisible: false });
+    };
+    window.addEventListener('mousemove', this._onCursorMove);
+    document.addEventListener('mouseover', this._onCursorOver);
+    document.addEventListener('mouseout', this._onCursorOut);
+    this._killSlotCursor = () => {
+      document.querySelectorAll('.cursor-hover-card image-slot').forEach(el => {
+        const sr = el.shadowRoot;
+        if (!sr || sr.querySelector('style[data-nocursor]')) return;
+        const st = document.createElement('style');
+        st.setAttribute('data-nocursor', '');
+        st.textContent = '.empty,.frame,.ctl,.ctl button{cursor:none !important}';
+        sr.appendChild(st);
+      });
+    };
+    [0, 300, 1200].forEach(t => setTimeout(this._killSlotCursor, t));
+  }
+  mcqCardsRef = (el) => {
+    if (!el || this._mcqObs) return;
+    this._mcqObs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !this._mcqAutoStarted) {
+        this._mcqAutoStarted = true;
+        this._runMcqAutoHover();
+        this._mcqObs.disconnect();
+      }
+    }, { threshold: 0.35 });
+    this._mcqObs.observe(el);
+  }
+  _runMcqAutoHover() {
+    const n = 4;
+    let i = 0;
+    const step = () => {
+      if (!this._mounted) return;
+      this.setState({ mcqAutoIdx: i });
+      i++;
+      this._mcqAutoTimer = setTimeout(i < n ? step : () => this.setState({ mcqAutoIdx: null }), 300);
+    };
+    step();
+  }
+  _initParallax() {
+    const wrap = document.querySelector('[data-px-wrap]');
+    if (!wrap) return;
+    const layers = [1, 2, 3, 4].map(n => wrap.querySelector('[data-px="' + n + '"]'));
+    const stage = wrap.querySelector('[data-px-stage]');
+    if (!stage || layers.some(el => !el)) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const ramp = (v, a, b) => Math.min(1, Math.max(0, (v - a) / (b - a)));
+    const ease = t => t * t * (3 - 2 * t);
+    let ticking = false;
+    const apply = () => {
+      ticking = false;
+      const scope = wrap.querySelector('[data-solutions-background="1"]') || wrap;
+      const r = scope.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = r.height - vh;
+      const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
+      // emulate sticky (the DC scroll container breaks position:sticky)
+      const off = Math.min(Math.max(-r.top, 0), Math.max(0, r.height - vh));
+      stage.style.transform = 'translate3d(0,' + off.toFixed(1) + 'px,0)';
+      const mobile = window.innerWidth < 768;
+      const k = mq.matches ? 0 : (mobile ? 0.5 : 1);
+      // depth: back layers drift least, front layers most
+      const shift = [-40, -70, -110, -160].map(v => v * k);
+      const scale = [1.04, 1.06, 1.08, 1.12];
+      // scroll-driven crossfade: night sky -> stars -> planet -> full scene
+      const op = [
+        1,
+        ease(ramp(p, 0.02, 0.32)),
+        ease(ramp(p, 0.30, 0.60)),
+        ease(ramp(p, 0.58, 0.88))
+      ];
+      layers.forEach((el, i) => {
+        el.style.transform = 'translate3d(0,' + (p * shift[i]).toFixed(2) + 'px,0) scale(' + (scale[i] + p * 0.04).toFixed(3) + ')';
+        el.style.opacity = op[i].toFixed(3);
+      });
+    };
+    this._pxTick = () => {
+      if (ticking) return;
+      ticking = true;
+      this._pxRaf = requestAnimationFrame(apply);
+    };
+    window.addEventListener('scroll', this._pxTick, { passive: true });
+    window.addEventListener('resize', this._pxTick, { passive: true });
+    this._pxTick();
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+    if (this._mcqAutoTimer) clearTimeout(this._mcqAutoTimer);
+    if (this._mcqObs) this._mcqObs.disconnect();
+    if (this._imgRetryTimer) clearInterval(this._imgRetryTimer);
+    window.removeEventListener('load', this._retryBrokenImages);
+    if (this._pxTick) {
+      window.removeEventListener('scroll', this._pxTick);
+      window.removeEventListener('resize', this._pxTick);
+    }
+    if (this._pxRaf) cancelAnimationFrame(this._pxRaf);
+    window.removeEventListener('scroll', this._onScrollRaf);
+    if (this._scrollRafId) cancelAnimationFrame(this._scrollRafId);
+    window.removeEventListener('mousemove', this._onCursorMove);
+    document.removeEventListener('mouseover', this._onCursorOver);
+    document.removeEventListener('mouseout', this._onCursorOut);
+    if (this._autoTip) clearInterval(this._autoTip);
+    if (this._lottieAnim) { this._lottieAnim.destroy(); this._lottieAnim = null; }
+    (this._seqTimers || []).forEach(clearTimeout);
+    if (this._monObs) { this._monObs.disconnect(); this._monObs = null; }
+    if (this._dfasObs) { this._dfasObs.disconnect(); this._dfasObs = null; }
+    if (this._dfasTimer) { clearInterval(this._dfasTimer); this._dfasTimer = null; }
+
+  }
+
+  toggleTheme = () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    try { localStorage.setItem('urock-theme', dark ? 'dark' : 'light'); } catch (e) {}
+    this.setState({ theme: dark ? 'dark' : 'light' });
+  };
+
+  renderVals() {
+    const { quickTab, country, lang, scrolled, theme, dfasSel, dfasOS, dfasPaused, gateSel, hoverCountry, autoIdx, headOn } = this.state;
+    const isDark = theme === 'dark';
+    const headOpacity = headOn ? 1 : 0.25;
+    const headBlur = headOn ? 'blur(0px)' : 'blur(2.5px)';
+    const headShift = headOn ? 'translateY(0)' : 'translateY(16px)';
+    const pOn = this.state.partnersHeadOn;
+    const pHeadOpacity = pOn ? 1 : 0.25;
+    const pHeadBlur = pOn ? 'blur(0px)' : 'blur(2.5px)';
+    const pHeadShift = pOn ? 'translateY(0)' : 'translateY(16px)';
+    const nOn = this.state.newsHeadOn;
+    const nHeadOpacity = nOn ? 1 : 0.25;
+    const nHeadBlur = nOn ? 'blur(0px)' : 'blur(2.5px)';
+    const nHeadShift = nOn ? 'translateY(0)' : 'translateY(16px)';
+    const qOn = this.state.quickHeadOn;
+    const qHeadOpacity = qOn ? 1 : 0.25;
+    const qHeadBlur = qOn ? 'blur(0px)' : 'blur(2.5px)';
+    const qHeadShift = qOn ? 'translateY(0)' : 'translateY(16px)';
+    const cOn = this.state.ctaHeadOn;
+    const cHeadOpacity = cOn ? 1 : 0.25;
+    const cHeadBlur = cOn ? 'blur(0px)' : 'blur(2.5px)';
+    const cHeadShift = cOn ? 'translateY(0)' : 'translateY(16px)';
+    const gOn = this.state.globalHeadOn;
+    const gHeadOpacity = gOn ? 1 : 0.25;
+    const gHeadBlur = gOn ? 'blur(0px)' : 'blur(2.5px)';
+    const gHeadShift = gOn ? 'translateY(0)' : 'translateY(16px)';
+
+    const flow = [
+      { ko: '단서', en: 'Clue', color: '#fff' },
+      { ko: '관계', en: 'Relation', color: '#C7CBDA' },
+      { ko: '연결', en: 'Link', color: '#B7CCFF' },
+    ];
+
+    const situation = [
+      { icon: 'gpp_maybe', title: '자료 반출 의심', desc: '퇴사자 · 임직원 PC의 파일 활동과 와장매체 연결 흔적을 확인합니다.', link: '추천 보기' },
+      { icon: 'search', title: '여러 PC 원격 조사', desc: '자사 · 원격 근무자 PC를 원격 조사하고 결과를 한곳에서 관리합니다.', link: '추천 보기' },
+      { icon: 'lock', title: '폐쇄망 현장 분석', desc: '인터넷 연결과 데이터 반출이 제한된 환경에서 필요한 자료를 현장 분석합니다.', link: '추천 보기' },
+      { icon: 'bug_report', title: '촬영 흔적 점검', desc: '설정한 시간대의 사진, 영상과 삭제 · 숨김 흔적을 스마트기기에서 확인합니다.', link: '추천 보기' },
+      { icon: 'delete_forever', title: '스마트기기 완전삭제', desc: '스마트폰 · 태블릿을 완전삭제하고 기기별 결과를 보고서로 확인합니다.', link: '추천 보기', img: './assets/situ-mobile-erase.png' },
+      { icon: 'school', title: '사건 · 분쟁 전문 분석', desc: '자체 대응이 어려운 사건 · 분쟁의 디지털 자료를 전문가가 분석합니다.', link: '추천 보기' },
+    ];
+    const role = [
+      { icon: 'fact_check', iconImg: './assets/quick-icons/audit.png', title: '내부감사 · 준법', desc: '퇴사자 · 임직원 PC의 파일 반출과 사용자 활동을 조사하고 결과를 관리합니다.', link: '추천 보기' },
+      { icon: 'shield_person', iconImg: './assets/quick-icons/security.png', title: '정보보안', desc: '계정 · 원격 접속 · 시스템 설정과 파일 활동을 점검해 PC 보안 위험을 진단합니다.', link: '추천 보기' },
+      { icon: 'dns', iconImg: './assets/quick-icons/it-infra.png', title: '연구소 · 제조 보안', desc: '폐쇄망 PC를 분석하고 출입구별 스마트기기 촬영 흔적 점검 결과를 관리합니다.', link: '추천 보기' },
+      { icon: 'travel_explore', iconImg: './assets/quick-icons/investigation.png', title: '수사 · 공공', desc: 'Windows · macOS와 폐쇄망 현장에 맞춰 디지털 자료를 수집 · 분석합니다.', link: '추천 보기' },
+      { icon: 'diversity_3', iconImg: './assets/quick-icons/consulting.png', title: '총무 · 자산관리', desc: '법인 스마트기기를 완전삭제하고 기기별 결과와 처리 이력을 관리합니다.', link: '추천 보기' },
+      { icon: 'gavel', iconImg: './assets/quick-icons/legal.png', title: '법무 · 전문가', desc: '사건 · 분쟁 관련 디지털 자료를 분석하고 확인 가능한 결과를 보고서로 제공합니다.', link: '추천 보기' },
+    ];
+    const S = {
+      'DFAS Pro One': { note: '현장 수집부터 분석 · 보고까지 통합 포렌식', href: '#solutions' },
+      'DFAS Discovery': { note: '대용량 자료 검토와 컴플라이언스 관리', href: '#solutions' },
+      'DFAS Go': { note: 'PC 보안 위험 점검 · 진단', href: '#solutions' },
+      'DFAS Edge': { note: '폐쇄망 · 현장 대응형 분석', href: '#solutions' },
+      'GateManager': { note: '출입구 스마트기기 촬영 흔적 점검', href: '#solutions' },
+      'GateManager Pro': { note: '대규모 사업장용 촬영 흔적 점검', href: '#solutions' },
+      'M-SecuManager P': { note: '스마트기기 완전삭제 (개인 · 소규모)', href: '#solutions' },
+      'M-SecuManager S': { note: '스마트기기 완전삭제 (기업 표준)', href: '#solutions' },
+      'M-SecuManager G': { note: '스마트기기 완전삭제 (공공 · 대규모)', href: '#solutions' },
+    };
+    const OS = {
+      'DFAS Pro One': 'Window / Mac',
+    };
+    const TAGS = {
+      'DFAS Pro One': '#통합포렌식 #내부조사 #현장수집',
+      'DFAS Discovery': '#컴플라이언스 #자료검토 #보고서',
+      'DFAS Go': '#보안점검 #위험진단 #계정이력',
+      'DFAS Edge': '#폐쇄망 #현장분석 #휴대성',
+      'GateManager': '#출입점검 #촬영흔적 #사업장보안',
+      'GateManager Pro': '#대규모사업장 #통합관리 #이력관리',
+      'M-SecuManager P': '#완전삭제 #소규모 #보고서',
+      'M-SecuManager S': '#완전삭제 #자산관리 #이력관리',
+      'M-SecuManager G': '#공공기관 #대량처리 #감사대응',
+    };
+    const CS = {
+      '디지털 포렌식 분석 서비스': { note: '전문가가 사건 자료를 분석해 결과를 보고합니다.', tags: '#전문가분석 #사건대응 #보고서' },
+      '보안진단 서비스': { note: 'PC · 계정 · 시스템 설정의 보안 위험을 진단합니다.', tags: '#보안진단 #취약점 #개선안' },
+      '정보보안 교육': { note: '실무 중심 포렌식 · 보안 교육을 진행합니다.', tags: '#실무교육 #포렌식 #역량강화' },
+      '안심삭제 서비스': { note: '스마트기기를 완전삭제하고 처리 이력을 제공합니다.', tags: '#완전삭제 #처리이력 #증빙' },
+    };
+    const roleRecs = [
+      { sol: ['DFAS Pro One', 'DFAS Discovery'], con: ['디지털 포렌식 분석 서비스'] },
+      { sol: ['DFAS Go'], con: ['보안진단 서비스'] },
+      { sol: ['DFAS Edge', 'DFAS Pro One', 'GateManager', 'GateManager Pro'], con: [] },
+      { sol: ['DFAS Pro One', 'DFAS Edge'], con: ['디지털 포렌식 분석 서비스', '정보보안 교육'] },
+      { sol: ['M-SecuManager P', 'M-SecuManager S', 'M-SecuManager G'], con: ['안심삭제 서비스'] },
+      { sol: ['DFAS Pro One', 'DFAS Discovery'], con: ['디지털 포렌식 분석 서비스'] },
+    ];
+    const CONS_FORENSIC = Object.keys(CS)[0];
+    const CONS_ERASE = Object.keys(CS)[3];
+    const situRecs = [
+      { sol: ['DFAS Pro One', 'DFAS Discovery'], con: [CONS_FORENSIC] },
+      { sol: ['DFAS Discovery'], con: [CONS_FORENSIC] },
+      { sol: ['DFAS Edge', 'DFAS Pro One'], con: [] },
+      { sol: ['GateManager', 'GateManager Pro'], con: [] },
+      { sol: ['M-SecuManager P', 'M-SecuManager S', 'M-SecuManager G'], con: [CONS_ERASE] },
+      { sol: ['DFAS Pro One', 'DFAS Discovery'], con: [CONS_FORENSIC] },
+    ];
+    const qmSel = this.state.quickModal;
+    const qmIsSitu = !!qmSel && qmSel.tab === 'situation';
+    const qmSrc = !qmSel ? null : (qmIsSitu ? situation[qmSel.idx] : role[qmSel.idx]);
+    const qmRec = !qmSel ? null : (qmIsSitu ? situRecs[qmSel.idx] : roleRecs[qmSel.idx]);
+    const qmVals = {
+      qmOpen: !!qmSrc,
+      qmTitle: qmSrc ? qmSrc.title : '',
+      qmDesc: qmSrc ? qmSrc.desc : '',
+      qmIcon: qmSrc ? (qmSrc.iconImg || '') : '',
+      qmGlyph: qmSrc ? qmSrc.icon : '',
+      qmIconIsImg: !!(qmSrc && qmSrc.iconImg),
+      qmIconIsGlyph: !!(qmSrc && !qmSrc.iconImg),
+      qmSolutions: qmRec ? qmRec.sol.map(n => ({ name: n, isPIllust: n === 'M-SecuManager P', isGIllust: n === 'M-SecuManager G', noIllust: n !== 'M-SecuManager P' && n !== 'M-SecuManager G', note: (S[n] || {}).note || '', os: OS[n] || '', hasOs: !!OS[n], tags: TAGS[n] || '', href: (S[n] || {}).href || '#solutions', slotId: 'qm-sol-' + n.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase(), img: ({ 'DFAS Discovery': './assets/dfas-discovery-thumb.png', 'DFAS Edge': './assets/dfas-edge-thumb.png', 'DFAS Pro One': './assets/dfas-pro-one-thumb.png', 'GateManager': './assets/gatemanager-thumb-glow.png', 'GateManager Pro': './assets/gatemanager-pro-thumb-glow.png', 'M-SecuManager P': './assets/msecumanager-p-thumb.png', 'M-SecuManager S': './assets/msecumanager-s-thumb.png', 'M-SecuManager G': './assets/msecumanager-g-thumb.png', 'DFAS Go': './assets/dfas-go-thumb-v2-glow.png' })[n] || '' })) : [],
+      qmConsulting: qmRec ? qmRec.con.map((n, i) => ({ name: n, note: (CS[n] || {}).note || '', tags: (CS[n] || {}).tags || '', slotId: 'qm-con-' + i + '-' + encodeURIComponent(n), img: ({ '디지털 포렌식 분석 서비스': './assets/consult-forensic-analysis-thumb.png', '안심삭제 서비스': './assets/service-safe-erase.png', '정보보안 교육': './assets/consult-security-training-thumb-v2-glow.png', '보안진단 서비스': './assets/consult-security-audit-thumb-v4-glow.png' })[n] || '' })) : [],
+      qmHasConsult: !!(qmRec && qmRec.con.length),
+      qmCols: (qmRec && qmRec.con.length) ? '1fr 1fr' : '1fr',
+      qmSolCols: (qmRec && qmRec.con.length) ? '1fr' : '1fr 1fr',
+      qmSolPad: (qmRec && qmRec.con.length) ? '0 34px 0 0' : '0',
+    };
+
+    // ── 01 DFAS ──
+    const dfasProducts = [
+      { id: 'edge', name: 'DFAS Edge', logo: 'uploads/DFAS%20Edge_white_AI.png', icon: 'memory', listSub: '온디바이스 AI 포렌식', badge: '2026 4분기 출시예정', eyebrow: 'RECORD · DIGITAL FORENSICS',
+        desc: ['공개된 연구 방법론과 성능 평가를 기반으로 신뢰할 수 있는 AI 기술을 제공합니다.', '엣지 AI 디바이스에 SLM·NPU를 탑재해 폐쇄망·오프라인 현장에서도 100% 독립 운영되는 차세대 포렌식 솔루션입니다.'] },
+      { id: 'proone', name: 'DFAS Pro One', logo: 'uploads/DFAS%20Pro_white_one.png', icon: 'devices', listSub: '폐쇄망 환경에서도 작동하는 현장형 OS 통합 포렌식', eyebrow: 'RECORD · DIGITAL FORENSICS', hasOS: true,
+        os: { win: { desc: ['네트워크 사용이 어려운 현장에서도 Windows와 macOS 데이터를 안정적으로 수집·분석할 수 있습니다.', '현장형 OS 통합 포렌식 에이전트로, 서버 연동 또는 단독 실행이 모두 가능합니다.'] },
+              mac: { desc: ['macOS 환경에 최적화된 수집 엔진으로 APFS 볼륨과 통합 로그(Unified Log)를 폐쇄망 현장에서 정밀 분석합니다.', '서버 연동 또는 단독 실행이 모두 가능합니다.'] } } },
+      { id: 'discovery', name: 'DFAS Discovery', logo: 'uploads/DFAS%20Discovery_white.png', icon: 'fact_check', listSub: '원격 증거 수집 · 통합 분석 및 보고서 생성', eyebrow: 'RECORD · DIGITAL FORENSICS',
+        desc: ['여러 사업장과 원격지 PC의 데이터를 수집하고 통합 분석합니다.', '조사 대상과 케이스 관리부터 결과 조회, 보고서 생성까지 하나의 흐름으로 운영할 수 있습니다.'],
+        tags: ['#통합 조회', '#타임라인 분석', '#에이전트 관리', '#케이스 관리', '#보고서 생성'] },
+      { id: 'go', name: 'DFAS Go', logo: 'uploads/DFAS%20Go_white.png', icon: 'travel_explore', listSub: '보안진단 · 리스크 관리 · 자연어 리스크 탐지', eyebrow: 'RECORD · DIGITAL FORENSICS',
+        desc: ['자연어 검색으로 사내 리스크 징후를 신속하게 수집·분석합니다.', '보안 진단과 리스크 관리를 하나의 흐름으로 연결합니다.'] },
+      { id: 'arc', name: 'DFAS Arc', logo: 'uploads/DFAS%20Arc_white.png', icon: 'inventory_2', listSub: '문서 보안등급 분류 · 기밀 탐지 AI 아카이빙', eyebrow: 'RECORD · DIGITAL FORENSICS',
+        desc: ['문서의 보안등급을 자동 분류하고 기밀을 탐지해 안전하게 아카이빙합니다.', 'AI 기반 분류로 방대한 문서를 체계적으로 관리합니다.'] },
+    ];
+    this._dfasCount = dfasProducts.length;
+    const dp = dfasProducts[dfasSel] || dfasProducts[0];
+    const variant = dp.hasOS ? dp.os[dfasOS] : dp;
+    const dfasCur = { name: dp.name, logo: dp.logo, eyebrow: dp.eyebrow, badge: dp.badge || '', desc: variant.desc, tags: variant.tags || dp.tags || [], hasTags: !!((variant.tags || dp.tags || []).length) };
+    const pad2 = n => (n < 10 ? '0' + n : '' + n);
+    const dfasPager = pad2(dfasSel + 1) + ' / ' + pad2(dfasProducts.length);
+    const dfasKey = 'dfas-' + dp.id + (dp.hasOS ? '-' + dfasOS : '');
+    let dfasMotion;
+    if (['edge', 'proone', 'discovery', 'go', 'arc'].indexOf(dp.id) >= 0) dfasMotion = this.dfasVideoStack(dp.id, dp.name);
+    else dfasMotion = this.motionPanel(dfasKey, dp.name, dp.icon, { height: '100%' });
+    const osMeta = [{ k: 'win', label: 'Windows', icon: 'window' }, { k: 'mac', label: 'macOS', icon: 'laptop_mac' }];
+    const osTabBase = 'cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 16px;border-radius:17px;font-size:13px;font-weight:600;white-space:nowrap;transition:all .2s;';
+    const osTabs = osMeta.map(o => ({ label: o.label, icon: o.icon,
+      style: osTabBase.replace('cursor:pointer;', 'cursor:default;') + 'background:rgba(255,255,255,.06);color:#c7cbda;border:1px solid rgba(255,255,255,.2);' }));
+    const dfasEase = 'cubic-bezier(.33,1,.68,1)';
+    const dfasRowBase = 'position:relative;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;width:100%;padding:16px 18px;border-radius:14px;border-width:1px;border-style:solid;'
+      + 'transition:background-color 420ms ' + dfasEase + ',border-color 420ms ' + dfasEase + ',box-shadow 420ms ' + dfasEase + ',transform 420ms ' + dfasEase + ';';
+    const dfasTailBase = 'position:absolute;left:-24px;top:50%;display:flex;align-items:center;pointer-events:none;gap:0px;'
+      + 'transition:opacity 420ms ' + dfasEase + ',transform 420ms ' + dfasEase + ';';
+    const dfasList = dfasProducts.map((p, i) => {
+      const on = i === dfasSel;
+      return { name: p.name, listSub: p.listSub, badge: p.badge || '', on, off: !on, always: true,
+        cls: on ? 'cursor-exclude' : 'cursor-exclude dfas-row-off',
+        onClick: () => { this._stopDfasTimer(); this.setState({ dfasSel: i, dfasOS: 'win' }); if (this._dfasInView && !this.state.dfasPaused) this._startDfasTimer(); },
+        nameColor: on ? '#fff' : 'var(--ink)', subColor: on ? 'rgba(255,255,255,.82)' : 'var(--sub)', arrowColor: on ? '#fff' : 'var(--sub)',
+        tailStyle: dfasTailBase + (on ? 'opacity:1;transform:translateY(-50%) translateX(0);' : 'opacity:0;transform:translateY(-50%) translateX(-8px);'),
+        hover: on ? '' : 'background-color:#333E6B;border-color:#93B0F8',
+        badgeStyle: 'font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;transition:color 380ms ' + dfasEase + ',background-color 380ms ' + dfasEase + ';' + (on ? 'color:#fff;background:rgba(255,255,255,.22);' : 'color:var(--pri2);background:var(--btint);'),
+        style: dfasRowBase + (on ? 'cursor:default;background:var(--dfasact);border-color:var(--pri);box-shadow:0 10px 24px rgba(98,140,245,.28);' : 'background:var(--tint);border-color:var(--line);box-shadow:0 0 0 rgba(98,140,245,0);') };
+    });
+
+    // ── 02 GateManager ──
+    const gateData = [
+      { id: 'gm', name: 'Gate Manager', logo: 'uploads/gatemanager_white.png', descLine1: '출입구 현장에서 앱 설치나 설정 변경 없이 파악합니다.', descLine2: '특정 시간대의 촬영·녹음 여부를 신속히 탐지하여 정보 보안 위협 발생 시 현장에서 빠르게 대응할 수 있습니다.', icon: 'videocam', noteIcon: 'dns', noteTitle: '현장 보안 담당자용', noteSub: '실제 분석을 위한 에이전트 · 서버 연동 또는 단독 실행 가능', image: 'uploads/card_gm.png' },
+      { id: 'gmpro', name: 'Gate Manager Pro', logo: 'uploads/gatemanager_white.png', badge: 'uploads/gatemanager_pro_asset.png', descLine1: '현장 방문 없이, 사무실에서 전체 현장을 한눈에 조회합니다.', descLine2: '전용 웹 매니저를 제공하여 여러 Gate에서 수집된 탐지 결과를 한눈에 관리·모니터링할 수 있습니다.', icon: 'hub', noteIcon: 'hub', noteTitle: '중앙 보안 관리자용', noteSub: '중앙 관리형 매니저 · 에이전트에서 분석된 결과를 중앙에서 관리', image: 'uploads/card_gm_pro.png' },
+    ];
+    const gateCards = gateData.map(g => ({
+      ...g,
+      cardStyle: 'display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;background:linear-gradient(rgba(32,29,48,0.03),rgba(32,29,48,0.03)),rgba(173,161,255,0.07);box-shadow:0px 24.63157844543457px 37.89px rgba(22,20,33,0.5);backdrop-filter:blur(37.89px);overflow:hidden;transition:border-color .25s,box-shadow .25s;flex:1;min-width:0;',
+      motion: this.motionPanel('gate-' + g.id, g.name, g.icon, { height: '100%' }),
+      noImage: !g.image,
+    }));
+
+    // ── 03 M-SecuManager ──
+    const solChip = 'font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:7px;color:#C08FFF;background:#393054;';
+    const svcChip = 'font-size:11px;font-weight:700;letter-spacing:.3px;padding:4.5px 10px 5.5px;border-radius:7px;color:#11BCC7;background:rgba(17,188,199,.14);';
+    const msecuRaw = [
+      { name: 'M-SecuManager P', form: '현장 포터블형', cat: '현장 포터블형', svc: false, icon: 'devices_other',
+        desc: '현장 방문 삭제에 최적화된 터치형 하드웨어 탑재 포터블 패키지', tags: [], n: '5', type: '현장형' },
+      { name: 'M-SecuManager S', form: '다중 멀티서비스형', cat: '다중 멀티서비스형', svc: false, icon: 'dns',
+        desc: '다수 모바일 기기를 원격으로 동시 삭제하고 중앙에서 모니터링 · 수량 확장 가능', tags: [], n: '21', type: '기본형' },
+      { name: 'M-SecuManager G', form: '셀프 키오스크형', cat: '셀프 키오스크형', svc: false, icon: 'point_of_sale',
+        desc: '자율 반납·영구 삭제 증적을 발행하는 독립형 키오스크', tags: [], n: '1', type: '셀프형' },
+      { name: '안심삭제 서비스', form: 'SaaS', cat: 'SaaS 서비스', svc: true, icon: 'cloud_done',
+        desc: 'SaaS 기반 스마트기기 데이터 완전 삭제 서비스. 필요한 수량만큼 이용권을 결제해 사용합니다.', tags: [], n: '21', type: '서비스형', insurance: '현대해상 개인정보보호 배상책임보험 가입' },
+    ];
+    const msecuItems = msecuRaw.map((m, i) => ({ name: m.name, icon: m.icon, imgId: 'msecu-img-' + i, form: m.form, cat: m.cat, desc: m.desc, tags: m.tags, hasTags: m.tags.length > 0, n: m.n, type: m.type, insurance: m.insurance | '',
+      svc: m.svc, svcOff: !m.svc,
+      catLabel: m.svc ? '서비스' : '솔루션', chipStyle: m.svc ? svcChip : solChip,
+      catColor: m.svc ? '#11BCC7' : (i === 2 ? 'rgb(var(--color-text-04-brand))' : 'rgb(var(--color-text-05-dark))'), iconBg: m.svc ? 'rgba(17,188,199,.14)' : 'var(--btint)', iconColor: m.svc ? '#11BCC7' : 'var(--pri2)',
+      arrowBg: m.svc ? '#11BCC7' : 'var(--pri)',
+      cardStyle: 'display:flex;flex-direction:column;min-height:320px;padding:24px 22px;border-radius:16px;background:var(--card);transition:border-color .25s cubic-bezier(.33,1,.68,1),box-shadow .25s cubic-bezier(.33,1,.68,1),transform .25s cubic-bezier(.33,1,.68,1);border:1px solid var(--line);' +
+        (this.state.mcqAutoIdx === i
+          ? (m.svc ? 'border-color:#11BCC7;box-shadow:0 14px 34px rgba(17,188,199,.14);transform:translateY(-4px);' : 'border-color:#93B0F8;box-shadow:0 14px 34px rgba(98,140,245,.14);transform:translateY(-4px);')
+          : 'border-color:var(--line);box-shadow:0px 24.63157844543457px 37.89px rgba(22,20,33,0.5);transform:translateY(0);') }));
+
+    const consultingStats = [
+      { icon: 'diversity_3', label: '10년 이상 전문 고급 인력 구성' },
+      { icon: 'handshake', label: '체계화된 프로세스 및 신뢰 기반 인프라' },
+      { icon: 'tune', label: '상황별 적합한 솔루션 및 시스템 적용' },
+    ];
+    const consultingCards = [
+      { title: '해외 프로젝트', tag: '상황별 적합한 시스템 적용', desc: '해외 수사기관을 대상으로 보안 컨설팅, 리스크 관리, 포렌식 랩(LAB)·LIMS 구축까지 통합 제공합니다.' },
+      { title: '포렌식·정보보안 교육', tag: '수사기관 수준 실무 기술 전수', desc: '수사기관 수준의 최첨단 포렌식 실무 기술 전수 및 임직원 맞춤형 보안 의식 강화 커리큘럼.' },
+      { title: '보안진단 서비스', tag: '침입 흔적(Artifacts)까지 정밀 진단', desc: '인프라 취약점 점검을 넘어 시스템 내 공격자의 침입 흔적(Artifacts)까지 포렌식 관점에서 정밀 진단.' },
+      { title: '디지털 포렌식 분석', tag: '법적 효력을 갖는 증거 분석·감정 보고서', desc: '횡령·기술 유출·인사 사고 발생 시 법적 효력을 갖는 증거 분석 및 법정 제출용 전문 감정 보고서.' },
+      { title: '안심삭제 서비스', tag: '전문가 영구 삭제 대행·인증서 발행', desc: '자산 반납·불용 처분 시 전문가 영구 삭제 대행 및 공식 영구 삭제 인증서 발행으로 법적 리스크 소멸.' },
+    ];
+    const petals = [
+      { dx: -11,  dy: -258, a: 46,  s: 0.72, o: 0.5, z: 1 },
+      { dx: -83,  dy: -162, a: 26,  s: 1.0,  o: 0.8, z: 2 },
+      { dx: -120, dy: 0,    a: 0,   s: 1.32, o: 1,   z: 4 },
+      { dx: -83,  dy: 162,  a: -26, s: 1.0,  o: 0.8, z: 2 },
+      { dx: -11,  dy: 258,  a: -46, s: 0.72, o: 0.5, z: 1 },
+    ];
+    const consultArc = consultingCards.map((c, i) => {
+      const slot = (((i - this.state.consultOffset) % 5) + 5) % 5;
+      const p = petals[slot];
+      const wrapping = this.state.consultWrap === i;
+      const isActive = slot === 2;
+      return { ...c, slotId: 'consult-' + (i + 1), isActive,
+        style: 'position:absolute;right:8px;top:50%;margin-top:-72px;width:260px;height:144px;box-sizing:border-box;overflow:hidden;border-radius:16px;background:#201D30;'
+          + 'box-shadow:' + (isActive ? '0 0 18px 4px rgba(126,162,255,.15)' : (p.s > 1 ? '0 26px 60px rgba(20,25,45,.42)' : '0 14px 34px rgba(20,25,45,.28)')) + ';'
+          + 'border:' + (isActive ? '0.3px' : '1px') + ' solid ' + (isActive ? 'rgba(168,190,255,.7)' : (p.s > 1 ? 'rgba(126,162,255,.55)' : 'rgba(126,162,255,.18)')) + ';'
+          + 'transform:translate3d(' + p.dx + 'px,' + p.dy + 'px,0) rotate(' + p.a + 'deg) scale(' + p.s + ');z-index:' + (isActive ? 10 : p.z) + ';'
+          + 'opacity:' + (wrapping ? 0 : p.o) + ';'
+          + (isActive ? 'filter:none;' : 'filter:blur(' + (slot === 1 || slot === 3 ? 1.05 : 4.05) + 'px);')
+          + (wrapping ? 'transition:none;' : 'transition:transform 430ms cubic-bezier(.22,1,.36,1),opacity 300ms ease-out,filter ' + (isActive ? '0ms' : '200ms ease-out 320ms') + (isActive ? ' ease-out' : '') + ',box-shadow 500ms ease-out,border-color 500ms ease-out;') };
+    });
+
+    const stats = [
+      { value: '9', label: '특허 · 인증 보유' },
+      { value: '300', label: '도입 고객사' },
+      { value: '17', label: '년 포렌식 전문성' },
+    ].map(s => ({ ...s, displayValue: Math.round(parseInt(s.value, 10) * this.state.statsProgress) }));
+
+    const countryData = [
+      { code: 'KR', ko: '대한민국', en: 'KOREA', role: '본사 · R&D 센터', roleEn: 'HQ · R&D Center', x: 75.5, y: 38.7, dx: 0, dy: -3.4, flag: ['#fff', '#cd2e3a'], partners: ['에이블시큐 (파트너)', '시큐모바일 (파트너)', '네오드림스 (파트너)'], partnersEn: ['ABLESECU (Partner)', 'SecuMobile (Partner)', 'NeoDreams (Partner)'], desc: '서울 본사와 연구소를 중심으로 국내 수사·공공·금융기관에 디지털 포렌식 솔루션을 공급합니다.', descEn: 'From our Seoul HQ and R&D lab, we supply digital forensics solutions to domestic law enforcement, public, and financial institutions.' },
+      { code: 'TW', ko: '대만', en: 'TAIWAN', role: '구축 사례', roleEn: 'Case Study', x: 72.46, y: 49.03, dx: 2.8, dy: 2.8, flag: ['#000095', '#fe0000'], partners: ['경찰청', 'Kaoten (파트너)'], partnersEn: ['National Police Agency', 'Kaoten (Partner)'], desc: '현지 기관과 협력해 포렌식 분석 및 데이터 보안 솔루션을 구축했습니다.', descEn: 'Deployed forensic analysis and data security solutions in partnership with local agencies.' },
+      { code: 'IN', ko: '인도', en: 'INDIA', role: '구축 사례', roleEn: 'Case Study', x: 63.37, y: 50.12, dx: 0, dy: 3.4, flag: ['#ff9933', '#138808'], partners: ['SiberSentinel (파트너)'], partnersEn: ['SiberSentinel (Partner)'], desc: '대규모 조직을 대상으로 증거 수집·분석 플랫폼을 공급했습니다.', descEn: 'Supplied an evidence collection and analysis platform to large-scale organizations.' },
+      { code: 'OM', ko: '오만', en: 'OMAN', role: '구축 사례', roleEn: 'Case Study', x: 55.79, y: 52.35, dx: 2.8, dy: 2.2, flag: ['#db161b', '#008000'], partners: ['OIC-CERT / ITA', 'Mustafa Sultan (파트너)', 'AI-Thabat Holding LLC (파트너)'], partnersEn: ['OIC-CERT / ITA', 'Mustafa Sultan (Partner)', 'AI-Thabat Holding LLC (Partner)'], desc: '중동 지역 보안 프로젝트에 참여해 반출 통제 체계를 구축했습니다.', descEn: 'Participated in a Middle East security project, building a device export control system.' },
+      { code: 'SA', ko: '사우디아라비아', en: 'SAUDI ARABIA', role: '구축 사례', roleEn: 'Case Study', x: 53.89, y: 48.91, dx: -3.6, dy: 0, flag: ['#006c35', '#fff'], partners: ['사우디아라비아 국가정보원', 'TCC - ICT (파트너)'], partnersEn: ['Saudi Arabia General Intelligence Presidency', 'TCC - ICT (Partner)'], desc: '정부·공공 기관 대상 디지털 포렌식 인프라 구축을 지원했습니다.', descEn: 'Supported digital forensics infrastructure deployment for government and public institutions.' },
+      { code: 'PL', ko: '폴란드', en: 'POLAND', role: '구축 사례', roleEn: 'Case Study', x: 49.32, y: 34.60, dx: 2.2, dy: -2.6, flag: ['#fff', '#dc143c'], partners: ['SKBM'], partnersEn: ['SKBM'], desc: '유럽 수사기관 대상 디지털 증거 분석 솔루션 도입을 지원했습니다.', descEn: 'Supported the adoption of digital evidence analysis solutions for European law enforcement.' },
+      { code: 'HU', ko: '헝가리', en: 'HUNGARY', role: '구축 사례', roleEn: 'Case Study', x: 50.82, y: 37.78, dx: 3.2, dy: 0.6, flag: ['#ce2939', '#436f4d'], partners: ['SKOH'], partnersEn: ['SKOH'], desc: '중부 유럽 기관에 반출 통제 및 데이터 보안 체계를 공급했습니다.', descEn: 'Supplied device export control and data security systems to Central European institutions.' },
+      { code: 'CN', ko: '중국', en: 'CHINA', role: '구축 사례', roleEn: 'Case Study', x: 73.60, y: 39.49, dx: -2.4, dy: -3.2, flag: ['#de2910', '#ffde00'], partners: ['SKOY / BEST / EUE'], partnersEn: ['SKOY / BEST / EUE'], desc: '현지 파트너와 협력해 디지털 포렌식 분석 인프라를 구축했습니다.', descEn: 'Built digital forensics analysis infrastructure in partnership with local partners.' },
+      { code: 'JP', ko: '일본', en: 'JAPAN', role: '구축 사례', roleEn: 'Case Study', x: 76.74, y: 41.69, dx: 3.4, dy: 0, flag: ['#fff', '#bc002d'], partners: ['JCG(해상보안청)', 'TOSHIBA', 'HITACHI', 'Japan PC Service', 'NTTコムウェア', 'MOJ(법무성)', '경찰청', '경시청', '도쿄 의과 치과 대학', 'NIKKO', 'FUJITSU', '금융감독청', '고베지방검찰청', 'KYODO', '히로시마현 경찰', '도쿄 노동국', '후생 노동성'], partnersEn: ['JCG (Japan Coast Guard)', 'TOSHIBA', 'HITACHI', 'Japan PC Service', 'NTT Comware', 'MOJ (Ministry of Justice)', 'National Police Agency', 'Metropolitan Police Department', 'Tokyo Medical and Dental University', 'NIKKO', 'FUJITSU', 'Financial Services Agency', 'Kobe District Public Prosecutors Office', 'KYODO', 'Hiroshima Prefectural Police', 'Tokyo Labour Bureau', 'Ministry of Health, Labour and Welfare'], desc: '기업·공공 기관 대상 데이터 보안 솔루션을 공급했습니다.', descEn: 'Supplied data security solutions to corporate and public institutions.' },
+      { code: 'BD', ko: '방글라데시', en: 'BANGLADESH', role: '구축 사례', roleEn: 'Case Study', x: 68.67, y: 44.46, dx: 0, dy: 3.4, flag: ['#006a4e', '#f42a41'], partners: ['경찰청'], partnersEn: ['National Police Agency'], desc: '수사기관 대상 디지털 증거 수집·분석 체계를 구축했습니다.', descEn: 'Built a digital evidence collection and analysis system for law enforcement.' },
+      { code: 'AE', ko: '아랍에미리트', en: 'UAE', role: '구축 사례', roleEn: 'Case Study', x: 55.41, y: 46.53, dx: 2.8, dy: -2.6, flag: ['#00732f', '#000'], partners: ['United Arab Emirates State Security'], partnersEn: ['United Arab Emirates State Security'], desc: '중동 정부 기관에 통합 보안 컨설팅과 솔루션을 제공했습니다.', descEn: 'Provided integrated security consulting and solutions to Middle East government agencies.' },
+      { code: 'US', ko: '미국', en: 'UNITED STATES', role: '구축 사례', roleEn: 'Case Study', x: 22.08, y: 40.32, dx: 0, dy: 3.4, flag: ['#3c3b6e', '#b22234'], partners: ['SKBA / BOSK'], partnersEn: ['SKBA / BOSK'], desc: '글로벌 파트너십을 통해 북미 지역 고객에 솔루션을 공급했습니다.', descEn: 'Supplied solutions to North American customers through a global partnership.' },
+      { code: 'TZ', ko: '탄자니아', en: 'TANZANIA', role: '구축 사례', roleEn: 'Case Study', x: 52.57, y: 62.88, dx: 2.8, dy: 2.2, flag: ['#1eb53a', '#00a3dd'], partners: ['TCRA'], partnersEn: ['TCRA'], desc: '아프리카 지역 공공기관 대상 디지털 포렌식 역량 구축을 지원했습니다.', descEn: 'Supported digital forensics capacity building for public institutions in Africa.' },
+    ];
+
+    const isEn = lang === 'EN';
+    this._countryCount = countryData.length;
+    const mapAsp = 567 / 1024; // px-height/px-width factor of the map image (fixed aspect-ratio box)
+    const countries = countryData.map((c, i) => {
+      const on = i === country;
+      const hovered = hoverCountry === i || (hoverCountry === null && autoIdx === i);
+      const emphasized = on || hovered;
+      // keep tooltips to the right of the label, but flip inward when they'd overflow the map's right edge
+      const tipLeft = false;
+      const tipY = c.y + c.dy;
+      const tipDown = tipY < 30;   // anchor near the top → open downward
+      const tipUp = tipY > 58;     // anchor near the bottom → open upward
+      const dyEq = c.dy * mapAsp;
+      const lineLen = Math.sqrt(c.dx * c.dx + dyEq * dyEq);
+      const angle = Math.atan2(dyEq, c.dx) * 180 / Math.PI;
+      const delay = -(i * 0.53 % 3.1).toFixed(2) + 's';
+      const dur = (2.6 + (i % 5) * 0.24).toFixed(2) + 's';
+      const setHover = (v) => () => this.setState({ hoverCountry: v });
+      return {
+        ...c,
+        nameText: isEn ? c.en : c.ko,
+        altNameText: isEn ? c.ko : c.en,
+        onClick: () => this.setState({ country: i }),
+        onEnter: setHover(i), onLeave: setHover(null),
+        onKeyDown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.setState({ country: i }); } },
+        wrapStyle: 'position:absolute;left:' + c.x + '%;top:' + c.y + '%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);cursor:pointer;z-index:' + (hovered ? 200 : 100) + ';outline:none;',
+        lineStyle: 'position:absolute;left:' + c.x + '%;top:' + c.y + '%;width:' + lineLen + '%;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.65),rgba(255,255,255,.15));transform-origin:left center;transform:rotate(' + angle + 'deg);pointer-events:none;z-index:1;',
+        labelStyle: 'position:absolute;left:' + (c.x + c.dx) + '%;top:' + (c.y + c.dy) + '%;transform:translate(' + (c.dx >= 0 ? '6px' : 'calc(-100% - 6px)') + ',-50%);font-size:13px;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);white-space:nowrap;cursor:pointer;z-index:' + (hovered ? 200 : 100) + ';transition:color .2s;',
+        glowStyle: 'position:absolute;width:' + (emphasized ? '54px' : '46px') + ';height:' + (emphasized ? '54px' : '46px') + ';border-radius:50%;background:radial-gradient(circle,rgba(98,140,245,.55) 0%,rgba(98,140,245,.22) 45%,rgba(98,140,245,0) 75%);filter:blur(2px);pointer-events:none;transition:width .2s,height .2s;animation:geoGlow ' + dur + ' ease-in-out infinite;animation-delay:' + delay + ';',
+        rippleStyle: 'position:absolute;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(150,178,248,.9);box-shadow:0 0 10px rgba(98,140,245,.5);animation:geoRipple ' + dur + ' ease-out infinite;animation-delay:' + delay + ';opacity:0;pointer-events:none;',
+        dotStyle: 'position:relative;display:block;width:' + (emphasized ? '10px' : '8px') + ';height:' + (emphasized ? '10px' : '8px') + ';border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(255,255,255,.9),0 0 14px rgba(98,140,245,.9);transition:width .2s,height .2s;animation:pulse 2.4s ease-in-out infinite;animation-delay:' + delay + ';',
+        partnersLabel: isEn ? 'Key Clients & Partners' : '주요 고객사 · 파트너',
+        partnerTagLabel: isEn ? 'Partner' : '파트너',
+        roleText: isEn ? c.roleEn : c.role,
+        descText: isEn ? c.descEn : c.desc,
+        partnerListStyle: 'display:grid;grid-template-columns:' + ((c.partners || []).length > 6 ? '1fr 1fr' : '1fr') + ';gap:4px 10px;',
+        partnerItems: (isEn ? c.partnersEn : c.partners || []).map(p => {
+          const isPartner = /\((파트너|Partner)\)$/.test(p);
+          return { name: p.replace(/ \((파트너|Partner)\)$/, ''), isPartner };
+        }),
+        flagStyle: 'width:32px;height:22px;border-radius:4px;flex:none;background:linear-gradient(135deg,' + c.flag[0] + ' 0 50%,' + c.flag[1] + ' 50% 100%);box-shadow:0 2px 6px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);',
+        tooltipStyle: 'position:absolute;top:0;' + (tipLeft ? 'right:calc(100% + 12px);' : 'left:calc(100% + 12px);') + 'text-align:left;font-weight:400;white-space:normal;width:min(' + ((c.partners || []).length > 6 ? 320 : 250) + 'px,74vw);padding:16px 18px;border-radius:14px;background:rgba(20,22,40,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.03);box-shadow:0 12px 30px rgba(0,0,0,.4);opacity:' + (hovered ? 1 : 0) + ';transform:' + (hovered ? 'translateY(0) scale(1)' : 'translateY(4px) scale(.98)') + ';pointer-events:none;transition:opacity .4s ease-in-out,transform .4s ease-in-out;z-index:30;',
+      };
+    });
+    const active = countryData[country] || countryData[0];
+    const flagGrad = (f) => 'width:40px;height:28px;border-radius:5px;flex:none;background:linear-gradient(135deg,' + f[0] + ' 0 50%,' + f[1] + ' 50% 100%);box-shadow:0 2px 8px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);';
+
+    const partners = ['SAMSUNG', 'LG', 'SK', '국세청', '경찰청', '대검찰청', 'KB금융', '현대', '한국전력', '국방부', 'NAVER', 'KT', '우리은행', '금융감독원', '한국은행', 'POSCO', 'LOTTE', 'CJ'];
+
+    const news = [
+      { cat: '전시회', group: '전시회', date: '2025.06', title: '국제 보안 엑스포 2025 참가, DFAS Edge 신제품 공개', desc: '국제 보안 엑스포 2025에서 DFAS Edge 신제품을 최초 공개했습니다.', tags: ['#전시회', '#DFAS'], icon: 'storefront', bg: 'linear-gradient(135deg,#628CF5,#4663AE)' },
+      { cat: '보도자료', group: '유락소식', date: '2025.05', title: 'LMS Lite 출시 — 소규모 조직을 위한 로그 관리 솔루션', desc: '소규모 조직도 쉽게 도입할 수 있는 경량 로그 관리 솔루션을 출시했습니다.', tags: ['#유락소식', '#신제품'], icon: 'campaign', bg: 'linear-gradient(135deg,#7EA2FF,#597FDF)' },
+      { cat: '인증', group: '제품소식', date: '2025.04', title: '디지털 포렌식 기술 특허 추가 취득으로 공신력 강화', desc: '핵심 포렌식 기술에 대한 특허를 추가로 취득해 기술 공신력을 강화했습니다.', tags: ['#제품소식', '#특허'], icon: 'workspace_premium', bg: 'linear-gradient(135deg,#11BCC7,#4663AE)' },
+      { cat: '세미나', group: '유락소식', date: '2025.03', title: '기업 정보보안 담당자 초청 포렌식 실무 세미나 개최', desc: '기업 정보보안 담당자를 초청해 포렌식 실무 세미나를 진행했습니다.', tags: ['#유락소식', '#세미나'], icon: 'groups', bg: 'linear-gradient(135deg,#4978EB,#293B67)' },
+      { cat: '제품업데이트', group: '제품소식', date: '2025.02', title: 'DFAS Pro One v3.2 업데이트 — 분석 속도 40% 개선', desc: '엔진 최적화로 대용량 이미지 분석 속도를 크게 개선한 업데이트를 배포했습니다.', tags: ['#제품소식', '#DFAS'], icon: 'update', bg: 'linear-gradient(135deg,#597FDF,#2c3a63)' },
+      { cat: '유락소식', group: '유락소식', date: '2025.01', title: '유락, 서울 R&D 센터 확장 이전 — 연구 인력 30% 증원', desc: '늘어난 연구 수요에 대응해 서울 R&D 센터를 확장 이전하고 연구 인력을 확충했습니다.', tags: ['#유락소식', '#R&D'], icon: 'apartment', bg: 'linear-gradient(135deg,#7EA2FF,#3d4f8a)' },
+      { cat: '유락소식', group: '유락소식', date: '2024.12', title: '유락, 2024년 우수 정보보호 기업 표창 수상', desc: '정보보호 산업 발전에 기여한 공로를 인정받아 우수 기업 표창을 수상했습니다.', tags: ['#유락소식', '#수상'], icon: 'military_tech', bg: 'linear-gradient(135deg,#32D8E3,#1c6b73)' },
+      { cat: '블로그', group: '블로그', date: '2025.06', title: '디지털 포렌식 초심자를 위한 증거 수집 가이드', desc: '현장에서 증거 훼손을 막는 기본 원칙과 절차를 정리했습니다.', tags: ['#블로그', '#가이드'], icon: 'article', bg: 'linear-gradient(135deg,#9B8CF5,#4F4694)' },
+      { cat: '블로그', group: '블로그', date: '2025.04', title: 'AI 포렌식 기술 동향과 유락의 접근 방식', desc: 'SLM·NPU 기반 온디바이스 분석이 현장 조사를 바꾸는 방식을 소개합니다.', tags: ['#블로그', '#AI'], icon: 'article', bg: 'linear-gradient(135deg,#628CF5,#2c3a63)' },
+    ];
+    news.forEach((n, i) => { n.imgId = 'news-img-' + i; });
+    const newsTabs = ['All', '유락소식', '제품소식', '전시회', '블로그'];
+    const newsFilter = this.state.newsFilter;
+    const newsFiltered = news.filter(n => newsFilter === 'All' || n.group === newsFilter);
+    const newsTabItems = newsTabs.map(t => ({
+      label: t,
+      style: 'height:38px;padding:0 18px;border-radius:19px;font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .2s;' +
+        (newsFilter === t ? 'background:#fff;color:#15182b;' : 'background:rgba(255,255,255,.06);color:#c7cbda;border:1px solid rgba(255,255,255,.2);'),
+      onClick: () => {
+        if (this._newsScrollEl) this._newsScrollEl.scrollTo({ left: 0 });
+        this.setState({ newsFilter: t, newsScrolled: false });
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          if (this._syncNewsScroll) this._syncNewsScroll();
+        }));
+      },
+    }));
+    const newsScrollBy = (dir) => () => {
+      const canScroll = dir < 0 ? this.state.newsScrolled : this.state.newsMoreRight;
+      if (canScroll && this._newsScrollEl) this._newsScrollEl.scrollBy({ left: dir * 320, behavior: 'smooth' });
+    };
+    const newsScrollRef = (el) => {
+      this._newsScrollEl = el;
+      if (el && !this._newsScrollBound) {
+        this._newsScrollBound = true;
+        const sync = () => {
+          const scrolledOut = el.scrollLeft > 4;
+          const moreRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 4;
+          const next = {};
+          if (scrolledOut !== this.state.newsScrolled) next.newsScrolled = scrolledOut;
+          if (moreRight !== this.state.newsMoreRight) next.newsMoreRight = moreRight;
+          if (Object.keys(next).length) this.setState(next);
+        };
+        this._syncNewsScroll = sync;
+        el.addEventListener('scroll', sync, { passive: true });
+        sync();
+      }
+    };
+    const fadeMotion = (on) => 'pointer-events:none;opacity:' + (on ? 1 : 0) +
+      ';visibility:' + (on ? 'visible' : 'hidden') +
+      ';transition:opacity .4s cubic-bezier(.33,1,.68,1),visibility .4s;';
+    const newsLeftFadeStyle = fadeMotion(this.state.newsScrolled);
+    const newsRightFadeStyle = fadeMotion(this.state.newsMoreRight);
+
+    const tabBase = 'cursor:pointer;font-family:inherit;height:38px;padding:0 22px;border-radius:8px;font-size:14px;font-weight:600;white-space:nowrap;border:none;transition:all .2s;';
+    const tabOn = tabBase + 'background:#fff;color:#15182b;box-shadow:0 1px 3px rgba(0,0,0,.08);cursor:default;pointer-events:none;';
+    const tabOff = tabBase + 'background:transparent;color:#c7cbda;';
+    const tabHoverOn = 'background:#fff;color:#15182b;box-shadow:0 1px 3px rgba(0,0,0,.08);';
+    const tabHoverOff = 'background:rgba(255,255,255,.08);color:#7DA4FF;';
+
+    return {
+      headOpacity, headBlur, headShift,
+      pHeadOpacity, pHeadBlur, pHeadShift,
+      nHeadOpacity, nHeadBlur, nHeadShift,
+      qHeadOpacity, qHeadBlur, qHeadShift,
+      cHeadOpacity, cHeadBlur, cHeadShift,
+      gHeadOpacity, gHeadBlur, gHeadShift,
+      flow,
+      quickItems: (quickTab === 'situation'
+        ? situation.map((s, i) => ({ ...s, hasImg: true, noImg: false, img: s.img || '', slotId: 'qg-sit-' + (i + 1), open: this.openQuick('situation', i) }))
+        : role.map((r, i) => ({ ...r, hasImg: false, noImg: true, open: this.openQuick('role', i) }))),
+      ...qmVals,
+      closeQuick: this.closeQuick, stopProp: this.stopProp,
+      setSituation: () => { if (quickTab !== 'situation') this.setState({ quickTab: 'situation' }); },
+      setRole: () => { if (quickTab !== 'role') this.setState({ quickTab: 'role' }); },
+      tabSituationStyle: quickTab === 'situation' ? tabOn : tabOff,
+      tabRoleStyle: quickTab === 'role' ? tabOn : tabOff,
+      tabSituationHover: quickTab === 'situation' ? tabHoverOn : tabHoverOff,
+      tabRoleHover: quickTab === 'role' ? tabHoverOn : tabHoverOff,
+      situationOn: quickTab === 'situation', situationOff: quickTab !== 'situation',
+      roleOn: quickTab === 'role', roleOff: quickTab !== 'role',
+      dfasFadeStyle: 'display:flex;flex-direction:column;gap:20px;animation:' + (dfasSel % 2 ? 'dfasSwapA' : 'dfasSwapB') + ' 520ms cubic-bezier(.22,.61,.36,1) both;',
+      dfasList, dfasCur, dfasHasOS: !!dp.hasOS, osTabs, dfasMotion, dfasPager, dfasSectionRef: this.dfasSectionRef,
+      dfasToggleAuto: this.dfasToggleAuto, dfasAutoIcon: dfasPaused ? 'play_arrow' : 'pause', dfasAutoLabel: dfasPaused ? '자동 전환 재생' : '자동 전환 일시정지',
+      dfasToggleBtnStyle: 'display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;cursor:pointer;transition:all .2s;' + (dfasPaused ? 'border:1px solid var(--pri);background:var(--btint);color:var(--pri2);' : 'border:1px solid var(--line);background:var(--card);color:var(--sub);'),
+      gateCards,
+      stopPropagation: (e) => e.stopPropagation(),
+      msecuItems, mcqCardsRef: this.mcqCardsRef, lottieRef: this.lottieRef, ...this.reportPhases(),
+      consultingStats, consultArc, consultUp: this.rotateConsult(1), consultDown: this.rotateConsult(-1), stats, partners, news,
+      countries, active, statsRef: this.statsRef, logoRef: this.logoRef,
+      newsTabItems, newsFiltered, newsScrollRef, newsPrev: newsScrollBy(-1), newsNext: newsScrollBy(1),
+      newsPrevDisabled: !this.state.newsScrolled, newsNextDisabled: !this.state.newsMoreRight, newsLeftFadeStyle, newsRightFadeStyle,
+      fabDash: (2 * Math.PI * 27).toFixed(1),
+      fabOffset: (2 * Math.PI * 27 * (1 - this.state.scrollPct)).toFixed(1),
+      fabStyle: 'position:fixed;bottom:44px;right:44px;width:60px;height:60px;z-index:900;cursor:pointer;border:none;padding:0;background:transparent;opacity:' + (this.state.pastHero ? 1 : 0) + ';pointer-events:' + (this.state.pastHero ? 'auto' : 'none') + ';transition:opacity .25s;',
+      scrollTop: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+      logoAnimStyle: 'animation-play-state:' + (this.state.logoInView ? 'running' : 'paused') + ';',
+      logoPlayKey: this.state.logoPlayKey,
+      activeFlagStyle: flagGrad(active.flag),
+      lang, langLabel: lang, toggleLang: () => this.setState({ lang: lang === 'KO' ? 'EN' : 'KO' }),
+      theme, isDark,
+      toggleTheme: this.toggleTheme,
+      themeIcon: isDark ? 'light_mode' : 'dark_mode',
+      themeLabel: isDark ? 'Switch to light mode' : 'Switch to dark mode',
+      toggleHoverBg: scrolled ? (isDark ? 'rgba(255,255,255,.08)' : 'rgba(20,25,45,.06)') : 'rgba(255,255,255,.12)',
+      logoWhiteOpacity: (scrolled && !isDark) ? 0 : 1,
+      logoNavyOpacity: (scrolled && !isDark) ? 1 : 0,
+      navBg: scrolled ? (isDark ? 'rgba(24,22,34,.9)' : 'rgba(255,255,255,.92)') : 'rgba(32,29,48,0)',
+      navBorder: scrolled ? (isDark ? 'rgba(255,255,255,.1)' : '#EDEDED') : 'rgba(255,255,255,0)',
+      navText: scrolled ? (isDark ? '#FAFAFA' : '#1A1A1A') : '#fff',
+      cursorStyle: {
+        position: 'fixed', left: this.state.cursorX + 'px', top: this.state.cursorY + 'px',
+        transform: 'translate(-50%,-50%) scale(' + (this.state.cursorVisible ? 1 : 0.5) + ')',
+        opacity: this.state.cursorVisible ? 1 : 0,
+        pointerEvents: 'none', zIndex: 2147483647, width: '56px', height: '56px',
+        transition: 'opacity .18s ease, transform .18s cubic-bezier(.4,0,.2,1)', willChange: 'transform,opacity',
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

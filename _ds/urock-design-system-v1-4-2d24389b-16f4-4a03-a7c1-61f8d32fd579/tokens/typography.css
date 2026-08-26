@@ -1,0 +1,55 @@
+/* UROCK Design System — Typography Tokens */
+
+:root {
+  /* ── Font families ── */
+  --font-pretendard: "Pretendard", -apple-system, sans-serif;
+  --font-spoqa: "SpoqaHanSans", "Pretendard", sans-serif;
+
+  /* ── Font size scale ── */
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-20: 20px;
+  --text-24: 24px;
+  --text-28: 28px;
+  --text-32: 32px;
+  --text-36: 36px;
+  --text-40: 40px;
+  --text-48: 48px;
+  --text-72: 72px;
+  --text-120: 120px;
+
+  /* ── Font weight ── */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ── Letter-spacing (tight, negative) ── */
+  --tracking-tight-03: -0.3px;
+  --tracking-tight-05: -0.5px;
+  --tracking-tight-1: -1px;
+  --tracking-tight-13: -1.3px;
+  --tracking-tight-15: -1.5px;
+  --tracking-tight-2: -2px;
+  --tracking-tight-3: -3px;
+  --tracking-tight-4: -4px;
+
+  /* ── Semantic usage ── */
+  /* Text (Korean, multilingual, general UI): Pretendard */
+  /* Numbers: Spoqa Han Sans Neo */
+  /* Usage rule: --font-pretendard and --font-spoqa defined in colors.css */
+}
+
+/* ── Base typography reset ── */
+body {
+  font-family: var(--font-pretendard);
+  font-size: var(--text-14);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  color: rgb(var(--color-text-03-high, 26, 26, 26));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

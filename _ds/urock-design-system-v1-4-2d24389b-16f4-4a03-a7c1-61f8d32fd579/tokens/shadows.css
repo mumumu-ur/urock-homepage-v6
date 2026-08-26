@@ -1,0 +1,149 @@
+/* UROCK Design System — Shadow Tokens
+ * Families: black (neutral), blue (brand), green, red, yellow
+ * Intensity levels: 01 (subtle) → 10 (dramatic)
+ */
+
+:root {
+  /* ── Black shadows (neutral elevation) ── */
+  --shadow-black-01: 0 1px 1px 0 rgba(0,0,0,0.031);
+  --shadow-black-02:
+    0 0 1px 0 rgba(0,0,0,0.02),
+    0 2px 2px 0 rgba(0,0,0,0.012),
+    0 4px 3px 0 rgba(0,0,0,0.012);
+  --shadow-black-03:
+    0 1px 2px 0 rgba(0,0,0,0.02),
+    0 4px 4px 0 rgba(0,0,0,0.02),
+    0 10px 6px 0 rgba(0,0,0,0.012);
+  --shadow-black-04:
+    0 2px 2px 0 rgba(15,15,15,0.012),
+    0 3px 5px 0 rgba(15,15,15,0.012),
+    0 7px 10px 0 rgba(15,15,15,0.02),
+    0 24px 32px 0 rgba(15,15,15,0.031);
+  --shadow-black-05:
+    0 2px 2px 0 rgba(15,15,15,0.012),
+    0 3px 5px 0 rgba(15,15,15,0.012),
+    0 7px 10px 0 rgba(15,15,15,0.02),
+    0 12px 16px 0 rgba(15,15,15,0.031),
+    0 24px 32px 0 rgba(15,15,15,0.031),
+    0 60px 80px 0 rgba(15,15,15,0.039);
+  --shadow-black-08:
+    0 2px 5px 0 rgba(22,20,33,0.251),
+    0 9px 10px 0 rgba(22,20,33,0.149),
+    0 20px 12px 0 rgba(22,20,33,0.102),
+    0 36px 14px 0 rgba(22,20,33,0.059),
+    0 60px 16px 0 rgba(22,20,33,0.012);
+  --shadow-black-09: 0 24px 40px 0 rgba(22,20,33,0.502);
+  --shadow-black-10:
+    -24px 24px 60px -24px rgba(10,10,34,0.4),
+    -24px 72px 100px 0 rgba(10,10,34,0.302);
+
+  /* ── Blue shadows (brand color) ── */
+  --shadow-blue-01:
+    0 1px 2px 0 rgba(98,140,245,0.02),
+    0 4px 4px 0 rgba(98,140,245,0.02),
+    0 10px 10px 0 rgba(98,140,245,0.012);
+  --shadow-blue-02:
+    -1px 4px 10px 0 rgba(98,140,245,0.059),
+    -1px 2px 2px 0 rgba(98,140,245,0.031);
+  --shadow-blue-03: -1px 5px 14px 0 rgba(98,140,245,0.161);
+  --shadow-blue-04:
+    0 2px 2px 0 rgba(98,140,245,0.02),
+    0 3px 5px 0 rgba(98,140,245,0.051),
+    0 7px 10px 0 rgba(98,140,245,0.102),
+    0 24px 32px 0 rgba(98,140,245,0.122);
+  --shadow-blue-05:
+    0 1px 3px 0 rgba(177,197,248,0.6),
+    0 4px 6px 0 rgba(177,197,248,0.439),
+    0 6px 12px 0 rgba(177,197,248,0.361),
+    0 12px 20px 0 rgba(177,197,248,0.302),
+    0 20px 40px 0 rgba(177,197,248,0.259);
+
+  /* ── Green shadows ── */
+  --shadow-green-01:
+    0 1px 2px 0 rgba(1,215,219,0.02),
+    0 4px 4px 0 rgba(1,215,219,0.02),
+    0 10px 6px 0 rgba(1,215,219,0.012);
+  --shadow-green-02:
+    -1px 4px 10px 0 rgba(1,215,219,0.059),
+    -1px 2px 2px 0 rgba(1,215,219,0.031);
+  --shadow-green-03: -1px 5px 14px 0 rgba(1,215,219,0.161);
+  --shadow-green-04:
+    0 2px 2px 0 rgba(1,215,219,0.02),
+    0 3px 5px 0 rgba(1,215,219,0.051),
+    0 7px 10px 0 rgba(1,215,219,0.102),
+    0 24px 32px 0 rgba(1,215,219,0.122);
+  --shadow-green-05:
+    0 1px 3px 0 rgba(1,215,219,0.6),
+    0 4px 6px 0 rgba(1,215,219,0.078),
+    0 6px 12px 0 rgba(1,215,219,0.149),
+    0 12px 20px 0 rgba(1,215,219,0.149);
+
+  /* ── Red shadows ── */
+  --shadow-red-01:
+    0 1px 2px 0 rgba(248,177,177,0.02),
+    0 4px 4px 0 rgba(248,177,177,0.02),
+    0 10px 6px 0 rgba(248,177,177,0.012);
+  --shadow-red-02:
+    -1px 4px 10px 0 rgba(248,177,177,0.059),
+    -1px 2px 2px 0 rgba(248,177,177,0.031);
+  --shadow-red-03: -1px 5px 14px 0 rgba(248,177,177,0.161);
+  --shadow-red-04:
+    0 2px 2px 0 rgba(248,177,177,0.02),
+    0 3px 5px 0 rgba(248,177,177,0.051),
+    0 7px 10px 0 rgba(248,177,177,0.102),
+    0 24px 32px 0 rgba(248,177,177,0.122);
+  --shadow-red-05:
+    0 1px 3px 0 rgba(248,177,177,0.149),
+    0 6px 12px 0 rgba(248,177,177,0.322),
+    0 12px 16px 0 rgba(248,177,177,0.2),
+    0 20px 32px 0 rgba(248,177,177,0.2);
+
+  /* ── Yellow shadows ── */
+  --shadow-yellow-01:
+    0 1px 2px 0 rgba(255,198,10,0.02),
+    0 4px 4px 0 rgba(255,198,10,0.02),
+    0 10px 6px 0 rgba(255,198,10,0.012);
+  --shadow-yellow-02:
+    -1px 4px 10px 0 rgba(255,198,10,0.059),
+    -1px 2px 2px 0 rgba(255,198,10,0.02);
+  --shadow-yellow-03: -1px 5px 14px 0 rgba(255,198,10,0.149);
+  --shadow-yellow-04:
+    0 2px 2px 0 rgba(255,198,10,0.02),
+    0 3px 5px 0 rgba(255,198,10,0.051),
+    0 7px 10px 0 rgba(255,198,10,0.078),
+    0 24px 32px 0 rgba(255,198,10,0.102);
+  --shadow-yellow-05:
+    0 1px 3px 0 rgba(255,198,10,0.102),
+    0 6px 12px 0 rgba(255,198,10,0.149),
+    0 12px 16px 0 rgba(255,198,10,0.149),
+    0 20px 32px 0 rgba(255,198,10,0.149);
+}
+
+/* ── Dark mode shadows (amplified) ── */
+.dark {
+  --shadow-black-01: 0 1px 1px 0 rgba(0,0,0,0.1);
+  --shadow-black-02:
+    0 0 1px 0 rgba(0,0,0,0.08),
+    0 2px 2px 0 rgba(0,0,0,0.06),
+    0 4px 3px 0 rgba(0,0,0,0.06);
+  --shadow-black-03:
+    0 1px 2px 0 rgba(0,0,0,0.09),
+    0 4px 4px 0 rgba(0,0,0,0.08),
+    0 10px 6px 0 rgba(0,0,0,0.06);
+  --shadow-black-04:
+    0 2px 2px 0 rgba(0,0,0,0.1),
+    0 3px 5px 0 rgba(0,0,0,0.12),
+    0 7px 10px 0 rgba(0,0,0,0.16),
+    0 24px 32px 0 rgba(0,0,0,0.2);
+  --shadow-black-05:
+    0 2px 2px 0 rgba(0,0,0,0.12),
+    0 3px 5px 0 rgba(0,0,0,0.14),
+    0 7px 10px 0 rgba(0,0,0,0.18),
+    0 12px 16px 0 rgba(0,0,0,0.22),
+    0 24px 32px 0 rgba(0,0,0,0.24),
+    0 60px 80px 0 rgba(0,0,0,0.28);
+  --shadow-blue-03: -1px 5px 14px 0 rgba(98,140,245,0.22);
+  --shadow-red-03: -1px 5px 14px 0 rgba(248,177,177,0.22);
+  --shadow-green-03: -1px 5px 14px 0 rgba(1,215,219,0.22);
+  --shadow-yellow-03: -1px 5px 14px 0 rgba(255,198,10,0.18);
+}

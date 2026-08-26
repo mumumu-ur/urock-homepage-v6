@@ -1,0 +1,11 @@
+/* UROCK Design System — Global CSS Entry Point
+ * This file is @import-only. Add no inline rules here.
+ * Consumers link this single file to get all tokens + fonts.
+ */
+
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/shadows.css";
+@import "./tokens/borders.css";
+@import "./tokens/blur.css";

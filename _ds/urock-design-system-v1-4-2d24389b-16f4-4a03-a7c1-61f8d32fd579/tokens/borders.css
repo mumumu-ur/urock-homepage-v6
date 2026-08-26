@@ -1,0 +1,42 @@
+/* UROCK Design System — Border Tokens
+ * Radius and border-width tokens
+ */
+
+:root {
+  /* ── Border Radius ── */
+  /* Button radii */
+  --border-radius-button-large: 0.75rem;   /* 12px */
+  --border-radius-button-medium: 0.625rem; /* 10px */
+  --border-radius-button-small: 0.5rem;    /* 8px */
+
+  /* Input radius */
+  --border-radius-input: 0.75rem;          /* 12px */
+
+  /* Modal */
+  --border-radius-modal: var(--border-radius-frame-20);
+
+  /* Frame radii (general containers) */
+  --border-radius-frame-4: 0.25rem;        /* 4px */
+  --border-radius-frame-8: 0.5rem;         /* 8px */
+  --border-radius-frame-10: 0.625rem;      /* 10px */
+  --border-radius-frame-12: 0.75rem;       /* 12px */
+  --border-radius-frame-16: 1rem;          /* 16px */
+  --border-radius-frame-20: 1.25rem;       /* 20px */
+  --border-radius-frame-24: 1.5rem;        /* 24px */
+  --border-radius-frame-48: 3rem;          /* 48px */
+  --border-radius-frame-60: 3.75rem;       /* 60px */
+
+  /* Misc aliases */
+  --border-radius-default: 0.625rem;       /* 10px */
+  --border-radius-xl: 1rem;               /* 16px */
+  --border-radius-lg: 0.75rem;            /* 12px */
+  --border-radius-md: 0.625rem;           /* 10px */
+  --border-radius-sm: 0.5rem;             /* 8px */
+
+  /* ── Border Width ── */
+  --border-width-default: 1px;    /* 1px (canonical) */
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  --border-width-8: 8px;
+}
