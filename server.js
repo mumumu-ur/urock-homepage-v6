@@ -7,7 +7,7 @@ const { exec } = require('child_process');
 
 const ROOT = path.resolve(__dirname);
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
-const ENTRY = '유락 메인.dc.html';
+const ENTRY = 'index.html';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
