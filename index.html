@@ -850,7 +850,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
           <div class="cursor-hover-card" style="{{ m.cardStyle }}" style-hover="border-color:#11BCC7;box-shadow:0 14px 34px rgba(17,188,199,.14);transform:translateY(-4px)">
             <div style="display: flex; gap: 0px; align-items: flex-start; flex-direction: column; justify-content: space-between; height: 100%">
             <div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; justify-content: normal; align-items: normal"><div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; align-self: stretch">
-              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="./icon-msecu-p-trim.png"></image-slot>
+              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="{{ m.img }}"></image-slot>
               <span style="{{ m.chipStyle }}">{{ m.catLabel }}</span>
             </div><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; justify-content: normal; align-items: normal"><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 0px; justify-content: normal; align-items: normal"><p style="font-size:12px;font-weight:700;color:{{ m.catColor }};letter-spacing:.2px;margin:0 0 5px;">{{ m.cat }}</p><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:7px;">
               <span style="font-size:18px;font-weight:800;letter-spacing:-.4px;color:#FAFAFA;">{{ m.name }}</span>
@@ -871,7 +871,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
           <div class="cursor-hover-card" style="{{ m.cardStyle }}" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
             <div style="display: flex; gap: 0px; align-items: flex-start; flex-direction: column; justify-content: space-between; height: 100%">
             <div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; justify-content: normal; align-items: normal"><div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; align-self: stretch">
-              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="./icon-msecu-g-trim.png"></image-slot>
+              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="{{ m.img }}"></image-slot>
               <x-import component-from-global-scope="UROCKDesignSystemV13_2d2438.Tag" color="blue" size="S" hint-size="auto,22px">{{ m.catLabel }}</x-import>
             </div><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; justify-content: normal; align-items: normal"><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 0px; justify-content: normal; align-items: normal"><p style="font-size:12px;font-weight:700;color:{{ m.catColor }};letter-spacing:.2px;margin:0 0 5px;">{{ m.cat }}</p><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:7px;">
               <span style="font-size:18px;font-weight:800;letter-spacing:-.4px;color:#FAFAFA;">{{ m.name }}</span>
@@ -924,7 +924,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
         <sc-for list="{{ consultArc }}" as="c" hint-placeholder-count="5">
           <div style="{{ c.style }}">
             <div style="position:absolute;inset:0;">
-              <image-slot id="{{ c.slotId }}" shape="rect" fit="cover" placeholder=" "></image-slot>
+              <image-slot id="{{ c.slotId }}" shape="rect" fit="cover" src="{{ c.img }}" placeholder=" "></image-slot>
             </div>
             <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(32,29,48,.35) 0%,rgba(32,29,48,.88) 62%,rgba(32,29,48,.96) 100%);pointer-events:none;"></div>
             <div style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:4px;padding:14px 16px;pointer-events:none;">
@@ -1809,12 +1809,12 @@ class Component extends DCLogic {
     ];
 
     const situation = [
-      { icon: 'gpp_maybe', title: '자료 반출 의심', desc: '퇴사자 · 임직원 PC의 파일 활동과 와장매체 연결 흔적을 확인합니다.', link: '추천 보기' },
-      { icon: 'search', title: '여러 PC 원격 조사', desc: '자사 · 원격 근무자 PC를 원격 조사하고 결과를 한곳에서 관리합니다.', link: '추천 보기' },
-      { icon: 'lock', title: '폐쇄망 현장 분석', desc: '인터넷 연결과 데이터 반출이 제한된 환경에서 필요한 자료를 현장 분석합니다.', link: '추천 보기' },
-      { icon: 'bug_report', title: '촬영 흔적 점검', desc: '설정한 시간대의 사진, 영상과 삭제 · 숨김 흔적을 스마트기기에서 확인합니다.', link: '추천 보기' },
-      { icon: 'delete_forever', title: '스마트기기 완전삭제', desc: '스마트폰 · 태블릿을 완전삭제하고 기기별 결과를 보고서로 확인합니다.', link: '추천 보기', img: './assets/situ-mobile-erase.png' },
-      { icon: 'school', title: '사건 · 분쟁 전문 분석', desc: '자체 대응이 어려운 사건 · 분쟁의 디지털 자료를 전문가가 분석합니다.', link: '추천 보기' },
+      { icon: 'gpp_maybe', title: '자료 반출 의심', desc: '퇴사자 · 임직원 PC의 파일 활동과 와장매체 연결 흔적을 확인합니다.', link: '추천 보기', img: './assets/quick/situ-01.webp' },
+      { icon: 'search', title: '여러 PC 원격 조사', desc: '자사 · 원격 근무자 PC를 원격 조사하고 결과를 한곳에서 관리합니다.', link: '추천 보기', img: './assets/quick/situ-02.webp' },
+      { icon: 'lock', title: '폐쇄망 현장 분석', desc: '인터넷 연결과 데이터 반출이 제한된 환경에서 필요한 자료를 현장 분석합니다.', link: '추천 보기', img: './assets/quick/situ-03.webp' },
+      { icon: 'bug_report', title: '촬영 흔적 점검', desc: '설정한 시간대의 사진, 영상과 삭제 · 숨김 흔적을 스마트기기에서 확인합니다.', link: '추천 보기', img: './assets/quick/situ-04.webp' },
+      { icon: 'delete_forever', title: '스마트기기 완전삭제', desc: '스마트폰 · 태블릿을 완전삭제하고 기기별 결과를 보고서로 확인합니다.', link: '추천 보기', img: './assets/quick/situ-05.webp' },
+      { icon: 'school', title: '사건 · 분쟁 전문 분석', desc: '자체 대응이 어려운 사건 · 분쟁의 디지털 자료를 전문가가 분석합니다.', link: '추천 보기', img: './assets/quick/situ-06.webp' },
     ];
     const role = [
       { icon: 'fact_check', iconImg: './assets/quick-icons/audit.png', title: '내부감사 · 준법', desc: '퇴사자·임직원 PC 활동 조사 및 관리', link: '추천 보기' },
@@ -1956,15 +1956,15 @@ class Component extends DCLogic {
     const svcChip = 'font-size:11px;font-weight:700;letter-spacing:.3px;padding:4.5px 10px 5.5px;border-radius:7px;color:#11BCC7;background:rgba(17,188,199,.14);';
     const msecuRaw = [
       { name: 'M-SecuManager P', form: '현장 포터블형', cat: '현장 포터블형', svc: false, icon: 'devices_other',
-        desc: '현장 방문 삭제에 최적화된 터치형 하드웨어 탑재 포터블 패키지', tags: [], n: '5', type: '현장형' },
+        desc: '현장 방문 삭제에 최적화된 터치형 하드웨어 탑재 포터블 패키지', tags: [], n: '5', type: '현장형', img: './assets/mcq/msecu-p.webp' },
       { name: 'M-SecuManager S', form: '다중 멀티서비스형', cat: '다중 멀티서비스형', svc: false, icon: 'dns',
-        desc: '다수 모바일 기기를 원격으로 동시 삭제하고 중앙에서 모니터링 · 수량 확장 가능', tags: [], n: '21', type: '기본형' },
+        desc: '다수 모바일 기기를 원격으로 동시 삭제하고 중앙에서 모니터링 · 수량 확장 가능', tags: [], n: '21', type: '기본형', img: './assets/mcq/msecu-s.webp' },
       { name: 'M-SecuManager G', form: '셀프 키오스크형', cat: '셀프 키오스크형', svc: false, icon: 'point_of_sale',
-        desc: '자율 반납·영구 삭제 증적을 발행하는 독립형 키오스크', tags: [], n: '1', type: '셀프형' },
+        desc: '자율 반납·영구 삭제 증적을 발행하는 독립형 키오스크', tags: [], n: '1', type: '셀프형', img: './assets/mcq/msecu-g.webp' },
       { name: '안심삭제 서비스', form: 'SaaS', cat: 'SaaS 서비스', svc: true, icon: 'cloud_done',
-        desc: 'SaaS 기반 스마트기기 데이터 완전 삭제 서비스. 필요한 수량만큼 이용권을 결제해 사용합니다.', tags: [], n: '21', type: '서비스형', insurance: '현대해상 개인정보보호 배상책임보험 가입' },
+        desc: 'SaaS 기반 스마트기기 데이터 완전 삭제 서비스. 필요한 수량만큼 이용권을 결제해 사용합니다.', tags: [], n: '21', type: '서비스형', insurance: '현대해상 개인정보보호 배상책임보험 가입', img: './assets/mcq/msecu-saas.webp' },
     ];
-    const msecuItems = msecuRaw.map((m, i) => ({ name: m.name, icon: m.icon, imgId: 'msecu-img-' + i, form: m.form, cat: m.cat, desc: m.desc, tags: m.tags, hasTags: m.tags.length > 0, n: m.n, type: m.type, insurance: m.insurance | '',
+    const msecuItems = msecuRaw.map((m, i) => ({ name: m.name, icon: m.icon, img: m.img, imgId: 'msecu-img-' + i, form: m.form, cat: m.cat, desc: m.desc, tags: m.tags, hasTags: m.tags.length > 0, n: m.n, type: m.type, insurance: m.insurance | '',
       svc: m.svc, svcOff: !m.svc,
       catLabel: m.svc ? '서비스' : '솔루션', chipStyle: m.svc ? svcChip : solChip,
       catColor: m.svc ? '#11BCC7' : (i === 2 ? 'rgb(var(--color-text-04-brand))' : 'rgb(var(--color-text-05-dark))'), iconBg: m.svc ? 'rgba(17,188,199,.14)' : 'var(--btint)', iconColor: m.svc ? '#11BCC7' : 'var(--pri2)',
@@ -1998,7 +1998,7 @@ class Component extends DCLogic {
       const p = petals[slot];
       const wrapping = this.state.consultWrap === i;
       const isActive = slot === 2;
-      return { ...c, slotId: 'consult-' + (i + 1), isActive,
+      return { ...c, slotId: 'consult-' + (i + 1), img: './assets/consult/consult-0' + (i + 1) + '.webp', isActive,
         style: 'position:absolute;right:8px;top:50%;margin-top:-72px;width:260px;height:144px;box-sizing:border-box;overflow:hidden;border-radius:16px;background:#201D30;'
           + 'box-shadow:' + (isActive ? '0 0 18px 4px rgba(126,162,255,.15)' : (p.s > 1 ? '0 26px 60px rgba(20,25,45,.42)' : '0 14px 34px rgba(20,25,45,.28)')) + ';'
           + 'border:' + (isActive ? '0.3px' : '1px') + ' solid ' + (isActive ? 'rgba(168,190,255,.7)' : (p.s > 1 ? 'rgba(126,162,255,.55)' : 'rgba(126,162,255,.18)')) + ';'
