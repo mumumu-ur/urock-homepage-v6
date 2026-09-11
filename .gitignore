@@ -21,6 +21,11 @@ screenshots/
 scraps/
 assets-source/
 
+# Canonical UROCK Design System v1.4 reference bundle (design.md, components/,
+# modules/, styles/) — read-only background reference for styling decisions,
+# not wired into the live site. Kept local; not pushed to GitHub/Netlify.
+claude-design-system-md v1.4/
+
 # Duplicate design-system fonts (the page loads fonts/ instead)
 _ds/**/fonts/
 
@@ -67,19 +72,19 @@ icon-msecu-s-trim.png
 
 # Design-tool dumps inside uploads — keep only files the page actually loads
 uploads/*
-!uploads/card_gm.png
-!uploads/card_gm_pro.png
-!uploads/dark-01.png
-!uploads/DFAS Arc_white.png
-!uploads/DFAS Discovery_white.png
+!uploads/card_gm.webp
+!uploads/card_gm_pro.webp
+!uploads/dark-01.webp
+!uploads/DFAS Arc_white.webp
+!uploads/DFAS Discovery_white.webp
 !uploads/DFAS Edge.mp4
-!uploads/DFAS Edge_white_AI.png
+!uploads/DFAS Edge_white_AI.webp
 !uploads/DFAS Enterprise video.mp4
-!uploads/DFAS Go_white.png
+!uploads/DFAS Go_white.webp
 !uploads/DFAS Pro One.mp4
-!uploads/DFAS Pro_white_one.png
+!uploads/DFAS Pro_white_one.webp
 !uploads/dfas_section_card_arc.webm
 !uploads/dfas_section_card_discovery-4d47c0da.webm
 !uploads/dfas_section_card_go-bc0f4e97.webm
-!uploads/gatemanager_pro_asset.png
-!uploads/gatemanager_white.png
+!uploads/gatemanager_pro_asset.webp
+!uploads/gatemanager_white.webp

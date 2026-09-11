@@ -27,6 +27,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_svg.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="./hero-coord-hud.js"></script>
 <style>
 .dfas-pager-group:hover .dfas-pause-btn { border-color: var(--pri) !important; background: var(--btint) !important; color: var(--pri2) !important; }
 .qg-tab-off:hover { color: #7DA4FF !important; }
@@ -171,7 +172,19 @@ hero-scrollworld [data-hsw-copy="1"]{opacity:var(--hsw-copy-1,0);transform:trans
 hero-scrollworld [data-hsw-copy="2"]{opacity:var(--hsw-copy-2,0);transform:translate(-50%,var(--hsw-copy-2-ty,16px));}
 hero-scrollworld [data-hsw-copy="4"]{opacity:var(--hsw-copy-4,0);transform:translate(-50%,var(--hsw-copy-4-ty,16px));}
 hero-scrollworld [data-hsw-copy="6"]{opacity:var(--hsw-copy-6,0);transform:translate(-50%,var(--hsw-copy-6-ty,16px));}
-hero-scrollworld .hsw-copy-text{margin:0;font-size:56px;line-height:1.24;letter-spacing:-2px;font-weight:800;text-shadow:0 2px 28px rgba(10,9,18,.4);flex:1 1 auto;min-width:0;}
+hero-scrollworld .hsw-copy-text{margin:0;font-size:56px;line-height:1.24;letter-spacing:-2px;font-weight:800;text-shadow:0 2px 28px rgba(10,9,18,.4);flex:1 1 auto;min-width:0;text-align:left;}
+/* Eyebrow label — one short English word per Scene, stacked above the
+   headline and left-aligned. .hsw-copy-head takes over .hsw-copy-text's old
+   role as the row's growable flex item (flex:1 1 auto/min-width:0 moved
+   here); .hsw-copy-text stays a plain block child of it now, so it keeps
+   filling that same width and wrapping the same way it always did — the
+   Scene-1 anchor-name override below still targets .hsw-copy-text directly
+   and is unaffected by the extra wrapper. Wrapped in its own <blur-reveal
+   manual> so it reveals/hides in lockstep with the headline (hero-
+   scrollworld.js's copyReveal collects every <blur-reveal> under a
+   data-hsw-copy block, not just the first — see its _init() comment). */
+hero-scrollworld .hsw-copy-head{display:block;flex:1 1 auto;min-width:0;text-align:left;}
+hero-scrollworld .hsw-copy-eyebrow{margin:0 0 10px;padding-right:2px;font-size:13px;font-weight:700;letter-spacing:2.5px;color:#7EA2FF;text-transform:uppercase;text-align:left;}
 /* ===== Hero Content Overlay (Alethia-inspired data panel) — additive only.
    Reuses the existing --hsw-copy-N / --hsw-copy-N-ty vars already computed
    by hero-scrollworld.js's _applyState() (same source the headline itself
@@ -193,19 +206,16 @@ hero-scrollworld .hsw-copy-text{margin:0;font-size:56px;line-height:1.24;letter-
    layer drawn again on top of it every frame). Confirmed empirically in
    Chromium and WebKit. */
 hero-scrollworld .hsw-ov-row{position:relative;z-index:3;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;width:100%;}
-/* transparent-frame-01-01 (renamed from front-layer-01-01: it has no title
-   text — Hero title text is 1-per-Scene — so "front-layer", which implies a
-   text+frame pair, no longer fit) is just the duplicated panel row.
-   position:absolute takes it OUT of .hsw-copy's normal flow entirely, so it
-   can never contribute to .hsw-copy's own (content-driven) height — .hsw-copy
-   is bottom-anchored (see .hsw-copy above), so if this stayed in-flow as a
-   second stacked row, growing that height would have pushed .hsw-copy's top
-   edge (and everything inside it: the headline, the anchor-positioned
-   cubes) upward. Placed instead directly above .hsw-copy's own box (bottom:
-   100% of it, plus a gap) so the original text/panel/cubes stay exactly
-   where they were. justify-content:flex-end keeps the lone panel
-   right-aligned the way it would be if paired with a text sibling. */
-hero-scrollworld [data-om-label="transparent-frame-01-01"]{position:absolute;width:auto;left:32px;right:32px;bottom:calc(100% + 16px);justify-content:flex-end;}
+/* Scene 1's original panel row (front-layer-01, holding the real
+   transparent-frame-01 panel) — bumped to the frontmost z-index within
+   Scene 1's .hsw-copy stacking context, on request, so it always paints
+   above every other Scene-1 layer (the object-01/-02 cubes at z-index 2/1,
+   the trace dots at their default z-index:auto). Scoped to this row's own
+   om-label so no other Scene's panel row is affected. */
+hero-scrollworld [data-om-label="front-layer-01"]{z-index:10;}
+/* transparent-frame-01-01, the duplicated LED-grid panel row that used to
+   sit here, was removed per request (Scene 1 keeps only its one real
+   panel now). */
 /* object-layer — one per Scene, nested in .hsw-copy so the existing
    --hsw-copy-N fade/translate still apply. Not itself positioned: the
    cubes' containing block is .hsw-copy, which also wraps the headline
@@ -215,6 +225,22 @@ hero-scrollworld [data-om-label="transparent-frame-01-01"]{position:absolute;wid
    those anchors. Scenes 2/4/6 stay empty placeholders. */
 hero-scrollworld .hsw-object-layer{pointer-events:none;}
 hero-scrollworld .hsw-object-layer .hsw-object{margin-top:-40px;}
+/* object-layer-01 fix: object-01/-02's mix-blend-mode:screen (see .hsw-object
+   below) had no isolation boundary of its own, so its blend group was
+   implicitly scoped to the same stacking context .hsw-ov-panel's transparent-
+   frame-01 lives in (both are plain siblings under .hsw-copy) — confirmed via
+   A/B backdrop-filter toggling that this, not z-index or the blur property
+   itself, is why transparent-frame-01's backdrop-filter rendered no visible
+   blur (Chromium/WebKit backdrop-filter + a sibling mix-blend-mode fighting
+   over the same compositing pass). isolation:isolate here gives the cubes
+   their own dedicated stacking context, separate from the panels', with no
+   visible change to the screen-blend look itself (verified). Safe: isolation
+   doesn't establish a containing block the way transform would (see the
+   object-layer comment above), so it doesn't disturb the anchor-positioned
+   object-01/-02 this layer contains. Scoped to -01 only — object-layer-02/-
+   03/-04 stay empty placeholders per the comment above, so Scenes 2/4/6 are
+   untouched. */
+hero-scrollworld [data-om-label="object-layer-01"]{isolation:isolate;}
 /* object-01 / object-02 stay in object-layer-01 (behind the front-layer)
    so screen-blend still hits the Scene. Positions are anchored to
    transparent-frame-01 / the Scene-1 headline rather than viewport %.
@@ -232,9 +258,40 @@ hero-scrollworld .hsw-object{position:absolute;height:auto;mix-blend-mode:screen
    space, outside the existing centering/rotate — unaffected by rotate's
    pivot. No CSS transition, same reason .hsw-ov-panel has none: this var
    already updates every scroll tick, so a transition would just lag
-   behind it. */
-hero-scrollworld .hsw-object-01{width:min(322px,22.4vw);left:anchor(--hsw-tf01 left);top:calc(anchor(--hsw-tf01 top) - 40px);z-index:2;transform:translate(calc((1 - var(--hsw-copy-1,0)) * -56px),calc((1 - var(--hsw-copy-1,0)) * -40px)) translate(-50%,-50%) rotate(-6deg);opacity:.92;}
-hero-scrollworld .hsw-object-02{width:min(209px,14.25vw);left:anchor(--hsw-txt01 center);top:-36svh;z-index:1;transform:translate(calc((1 - var(--hsw-copy-1,0)) * 64px),0) translateX(-50%) rotate(8deg);opacity:.84;}
+   behind it.
+   NOTE: for Scene 1 specifically this term is NOT a load-time animation —
+   hero-scrollworld.js's _applyState() forces inT = 1 unconditionally for
+   segment 0 (Scene 1 has no preceding Transition to ease in from; see the
+   "Scene 1 (segIdx === 0) has no entrance ease at all" comment on
+   _scrollToScene()), so --hsw-copy-1 is already ~1 within the first tick
+   after load — this offset only reappears later, sliding back out, as the
+   user scrolls past Scene 1 and --hsw-copy-1 ramps back down. Left as-is
+   for that exit behavior. */
+/* Literal page-load corner-entrance (separate from the scroll-driven term
+   above, which — per the NOTE — never actually animates on load for Scene
+   1): the standalone `translate` property plus a `@keyframes` animation
+   that runs once, automatically, the moment this markup paints — no JS,
+   no dependency on hydration or scroll position. Individual transform
+   properties (translate/rotate/scale) compose *outside* the `transform`
+   property (equivalent to prepending them to its function list), so this
+   layers on top of the existing rotate/centering/scroll-exit transform
+   without fighting it — same "leftmost = screen-space, unaffected by
+   inner rotate" principle the prepended translate() above already relies
+   on. object-01 starts past the viewport's top-left corner, object-02
+   past its bottom-right corner; both animate to translate:0 0 (their
+   authored resting spot) and hold there (fill-mode forwards). No separate
+   prefers-reduced-motion/data-hsw-mode="reduced" override needed: both
+   already set .hsw-stage (this markup's ancestor) to display:none in
+   that case. */
+/* top offset stays -130px (not the pre-grid-panel original -40px) even
+   after that grid-panel row's removal below — at -40px the cube overlaps
+   transparent-frame-01's (the remaining panel's) top-left corner instead,
+   confirmed empirically; -130px is still the right clearance for whichever
+   panel actually occupies that space. */
+hero-scrollworld .hsw-object-01{width:min(322px,22.4vw);left:anchor(--hsw-tf01 left);top:calc(anchor(--hsw-tf01 top) - 130px);z-index:2;translate:-60vw -60vh;animation:hsw-obj-01-in 1s cubic-bezier(.16,1,.3,1) forwards;transform:translate(calc((1 - var(--hsw-copy-1,0)) * -56px),calc((1 - var(--hsw-copy-1,0)) * -40px)) translate(-50%,-50%) rotate(-6deg);opacity:.92;}
+hero-scrollworld .hsw-object-02{width:min(209px,14.25vw);left:anchor(--hsw-txt01 center);top:-36svh;z-index:1;translate:60vw 60vh;animation:hsw-obj-02-in 1s cubic-bezier(.16,1,.3,1) forwards;transform:translate(calc((1 - var(--hsw-copy-1,0)) * 64px),0) translateX(-50%) rotate(8deg);opacity:.84;}
+@keyframes hsw-obj-01-in{from{translate:-60vw -60vh;}to{translate:0 0;}}
+@keyframes hsw-obj-02-in{from{translate:60vw 60vh;}to{translate:0 0;}}
 /* Dark tint (not the previous rgba(255,255,255,.045) white one) + a
    stronger blur: a near-white tint only reads against a dark Scene
    background — against a bright/busy one (Scene 1's glowing cubes, Scene
@@ -262,6 +319,27 @@ hero-scrollworld .hsw-ov-panel-idx{font-size:13px;font-weight:600;color:rgba(255
 hero-scrollworld .hsw-ov-panel-idx-num{font-size:17px;font-weight:700;color:#fff;}
 hero-scrollworld .hsw-ov-panel-div{display:block;height:1px;margin:12px 0 10px;background:rgba(255,255,255,.14);}
 hero-scrollworld .hsw-ov-panel-marker{display:block;width:22px;height:2px;border-radius:1px;background:#7EA2FF;}
+/* transparent-frame-01-01's LED status-grid widget (.hsw-ov-panel.hsw-grid-panel
+   / .hsw-grid-cells / .hsw-grid-cell / .hsw-grid-cell-on) was removed along
+   with its row per request — no longer used anywhere. */
+/* Scene 2's second panel row (transparent-frame-02-01) — same "duplicate
+   row anchored above the main one" trick as transparent-frame-01-01 above
+   (position:absolute, bottom:100%+gap, so it stays out of .hsw-copy's own
+   bottom-anchored flow — see that rule's comment for the full reasoning,
+   unchanged here). New widget, not a copy of the LED grid: a sparse
+   "signal grid" — a scattered dot field, a few faint crosshair trace
+   lines, and one dot picked out with a small target frame — no text or
+   invented data, same purely-decorative activity motif. */
+hero-scrollworld [data-om-label="transparent-frame-02-01"]{position:absolute;width:auto;left:32px;right:32px;bottom:calc(100% + 16px);justify-content:flex-end;}
+hero-scrollworld .hsw-ov-panel.hsw-signal-panel{width:auto;padding:11px;background-color:rgba(10,14,28,.55);}
+hero-scrollworld .hsw-signal-grid{position:relative;width:196px;height:84px;}
+hero-scrollworld .hsw-signal-line{position:absolute;background:rgba(126,162,255,.16);}
+hero-scrollworld .hsw-signal-line-v{top:0;bottom:0;width:1px;}
+hero-scrollworld .hsw-signal-line-h{left:0;right:0;height:1px;}
+hero-scrollworld .hsw-signal-dot{position:absolute;width:3px;height:3px;border-radius:50%;background:#7EA2FF;opacity:.45;transform:translate(-50%,-50%);box-shadow:0 0 3px .5px rgba(126,162,255,.5);}
+hero-scrollworld .hsw-signal-dot-bright{width:4px;height:4px;opacity:.9;box-shadow:0 0 6px 1.5px rgba(126,162,255,.75);}
+hero-scrollworld .hsw-signal-target{position:absolute;width:20px;height:20px;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.85);border-radius:3px;box-shadow:0 0 8px 1px rgba(126,162,255,.4);display:flex;align-items:center;justify-content:center;}
+hero-scrollworld .hsw-signal-target-core{width:6px;height:6px;border-radius:50%;background:#B8F0FF;box-shadow:0 0 8px 2px rgba(126,162,255,.9);}
 /* ===== Scene-specific Floating Objects (additive-only extension) =====
    New decorative elements only — existing .hsw-object-01/-02 and every
    .hsw-ov-panel (aka transparent-frame-01/-01-01/-02/-03/-04) above are
@@ -280,29 +358,15 @@ hero-scrollworld .hsw-trace-layer{pointer-events:none;}
 hero-scrollworld .hsw-trace-dot{position:absolute;border-radius:50%;background:#7EA2FF;}
 hero-scrollworld .hsw-trace-dot-a{width:4px;height:4px;left:8px;top:-49svh;opacity:calc(var(--hsw-copy-1,0) * .5);transform:translateY(calc((1 - var(--hsw-copy-1,0)) * 14px));}
 hero-scrollworld .hsw-trace-dot-b{width:3px;height:3px;left:38px;top:-43svh;opacity:calc(var(--hsw-copy-1,0) * .3);transform:translateY(calc((1 - var(--hsw-copy-1,0)) * 14px));}
-/* -- Scene 2 / DISCOVER — 4 sparse fragments + 1 slightly-brighter focus
-   point ("many signals -> one becomes noticeable"), upper-right, low
-   density, clear of the headline (left) and panel (bottom-right). */
-hero-scrollworld .hsw-frag{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);}
-hero-scrollworld .hsw-frag-1{width:5px;height:5px;right:70px;top:-46svh;opacity:calc(var(--hsw-copy-2,0) * .5);transform:translateY(calc((1 - var(--hsw-copy-2,0)) * 16px));}
-hero-scrollworld .hsw-frag-2{width:3px;height:3px;right:130px;top:-37svh;opacity:calc(var(--hsw-copy-2,0) * .4);transform:translateY(calc((1 - var(--hsw-copy-2,0)) * 18px));}
-hero-scrollworld .hsw-frag-3{width:4px;height:4px;right:34px;top:-30svh;opacity:calc(var(--hsw-copy-2,0) * .35);transform:translateY(calc((1 - var(--hsw-copy-2,0)) * 12px));}
-hero-scrollworld .hsw-frag-4{width:2px;height:2px;right:100px;top:-24svh;opacity:calc(var(--hsw-copy-2,0) * .45);transform:translateY(calc((1 - var(--hsw-copy-2,0)) * 20px));}
-hero-scrollworld .hsw-focus{position:absolute;width:7px;height:7px;right:158px;top:-42svh;border-radius:50%;background:#7EA2FF;box-shadow:0 0 10px 2px rgba(126,162,255,.5);opacity:calc(var(--hsw-copy-2,0) * .8);transform:translateY(calc((1 - var(--hsw-copy-2,0)) * 16px)) scale(calc(.7 + var(--hsw-copy-2,0) * .3));}
-/* -- Scene 3 / CONNECT — 4 nodes, 2 short low-opacity connections (not a
-   mesh — only some pairs linked), upper-right, clear of the headline. */
-hero-scrollworld .hsw-node-svg{position:absolute;right:12px;top:-42svh;width:190px;height:130px;overflow:visible;opacity:var(--hsw-copy-4,0);transform:translateY(calc((1 - var(--hsw-copy-4,0)) * 14px));}
-hero-scrollworld .hsw-node-svg circle{fill:rgba(255,255,255,.6);}
-hero-scrollworld .hsw-node-svg .hsw-node-core{fill:#7EA2FF;}
-hero-scrollworld .hsw-node-svg line{stroke:rgba(126,162,255,.42);stroke-width:1;stroke-dasharray:100;stroke-dashoffset:calc((1 - var(--hsw-copy-4,0)) * 100);}
-/* -- Scene 4 / PROTECT — exactly one resolved-ring symbol (Option C: simple
-   circular resolved-data structure), upper-right, restrained. */
-hero-scrollworld .hsw-symbol-svg{position:absolute;right:26px;top:-40svh;width:104px;height:104px;opacity:calc(var(--hsw-copy-6,0) * .8);transform:translateY(calc((1 - var(--hsw-copy-6,0)) * 16px)) scale(calc(.88 + var(--hsw-copy-6,0) * .12));}
-hero-scrollworld .hsw-symbol-svg circle{fill:none;}
-hero-scrollworld .hsw-symbol-ring-outer{stroke:rgba(255,255,255,.32);stroke-width:1;}
-hero-scrollworld .hsw-symbol-ring-inner{stroke:#7EA2FF;stroke-width:1.4;}
-hero-scrollworld .hsw-symbol-tick{stroke:rgba(255,255,255,.4);stroke-width:1.4;stroke-linecap:round;}
-hero-scrollworld .hsw-symbol-core{fill:#7EA2FF;opacity:.85;}
+/* Scene 2 / DISCOVER's upper-right focus dot (.hsw-focus) was removed per
+   request — object-layer-02 is now an empty placeholder, same as Scene 4/6's
+   object-layer-03/-04. */
+/* Scene 2's camera-focus-style corner bracket (.hsw-focus-bracket) was
+   removed per request, quality bar not met — no replacement planned. */
+/* Scene 4 / CONNECT's upper-right floating object (glass sphere + shield
+   emblem, orbit rings; assets/hero/object-03) was removed per request —
+   object-layer-03 is back to an empty placeholder, same as Scene 2/6's
+   object-layer-02/-04. */
 hero-scrollworld .hsw-skip{z-index:4;opacity:var(--hsw-skip,1);}
 /* Carousel navigation — right edge of the Hero viewport only, pinned with
    the rest of the stage. 4 nav items, one per Scene today (Scenes 3/5
@@ -326,23 +390,25 @@ hero-scrollworld [data-hsw-dot="4"] .hsw-dot-fill{opacity:var(--hsw-dot-4,0);tra
 hero-scrollworld .hsw-reduced{display:none;}
 @media (max-width:1023px){
   hero-scrollworld .hsw-copy-text{font-size:42px;letter-spacing:-1.2px;}
+  hero-scrollworld .hsw-copy-eyebrow{font-size:12px;letter-spacing:2px;margin-bottom:8px;}
   hero-scrollworld .hsw-dots{right:18px;gap:13px;}
   hero-scrollworld .hsw-ov-row{gap:18px;}
   hero-scrollworld .hsw-ov-panel{width:min(150px,34vw);padding:12px 14px;}
+  hero-scrollworld .hsw-signal-grid{width:148px;height:64px;}
+  hero-scrollworld .hsw-signal-target{width:16px;height:16px;}
   hero-scrollworld .hsw-ov-panel-brand{font-size:10px;letter-spacing:1.5px;}
   hero-scrollworld .hsw-ov-panel-idx-num{font-size:15px;}
   hero-scrollworld .hsw-ov-panel-div{margin:9px 0 8px;}
   hero-scrollworld .hsw-object-01{width:min(196px,21vw);}
   hero-scrollworld .hsw-object-02{width:min(148px,16vw);top:-28svh;}
   /* Scene-specific Floating Objects — reduced count/scale on tablet, per
-     Section 14: drop the two dimmest fragments, shrink the rest. */
-  hero-scrollworld .hsw-trace-dot-b,hero-scrollworld .hsw-frag-3,hero-scrollworld .hsw-frag-4{display:none;}
-  hero-scrollworld .hsw-node-svg{width:150px;height:104px;top:-34svh;}
-  hero-scrollworld .hsw-symbol-svg{width:82px;height:82px;top:-32svh;}
+     Section 14: drop the dimmest trace dot. */
+  hero-scrollworld .hsw-trace-dot-b{display:none;}
 }
 @media (max-width:767px){
   hero-scrollworld .hsw-copy{bottom:calc(13% + env(safe-area-inset-bottom,0px) + 24px);padding:0 20px;}
   hero-scrollworld .hsw-copy-text{font-size:28px;line-height:1.32;letter-spacing:-.6px;}
+  hero-scrollworld .hsw-copy-eyebrow{font-size:11px;letter-spacing:1.5px;margin-bottom:6px;}
   hero-scrollworld .hsw-ov-panel{display:none;}
   hero-scrollworld .hsw-object{display:none;}
   hero-scrollworld .hsw-dots{right:10px;gap:11px;}
@@ -351,7 +417,7 @@ hero-scrollworld .hsw-reduced{display:none;}
      .hsw-object rule just above: hidden on mobile so Main Copy + the
      existing Transparent Frame's negative space stay uncluttered
      (Section 14's mobile priority list has no room for these). */
-  hero-scrollworld .hsw-trace-layer,hero-scrollworld .hsw-frag,hero-scrollworld .hsw-focus,hero-scrollworld .hsw-node-svg,hero-scrollworld .hsw-symbol-svg{display:none;}
+  hero-scrollworld .hsw-trace-layer{display:none;}
 }
 @media (prefers-reduced-motion:reduce){
   hero-scrollworld{height:auto;}
@@ -361,6 +427,162 @@ hero-scrollworld .hsw-reduced{display:none;}
 html[data-hsw-mode="reduced"] hero-scrollworld{height:auto;}
 html[data-hsw-mode="reduced"] hero-scrollworld .hsw-stage,html[data-hsw-mode="reduced"] hero-scrollworld .hsw-skip{display:none;}
 html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;position:relative;width:100%;min-height:100vh;min-height:100svh;}
+/* ===== Coordinate Focus HUD (additive-only) =====
+   Independent front/overlay layer — see hero-coord-hud.js for the
+   enter/leave lifecycle (reuses the existing --hsw-copy-N vars
+   hero-scrollworld.js already maintains, one per Scene; no new scroll/rAF
+   loop). Does not touch any existing Hero rule above. All JS-driven values
+   below are CSS custom properties written on <html> (--s2h-<id>-*), never
+   inline styles on these template-authored nodes — same workaround
+   hero-scrollworld.js's own file-header comment documents for the DC
+   template runtime's style-resync behavior (its --hsw-* vars use the same
+   technique for the same reason). Each .hsw-s2hud-gate's
+   opacity:var(--hsw-copy-N,0) is a hard visibility gate, independent of the
+   JS timeline state, so no instance can ever linger visible once its own
+   Scene is not active (Section 11's guarantee).
+   Four independent instances share the structural classes below
+   (.hsw-s2hud-bracket etc. — same shape, different size); only their
+   position/size/CSS-var-namespace differ, via the [data-hsw-s2hud="…"]
+   attribute selector blocks further down:
+     - "cube" (Scene 2, primary): Scene 2's central data cube.
+     - "crystal" (Scene 2, secondary): the small crystal shard, upper-left.
+     - "obj01"/"obj02" (Scene 1, added on request): the two existing
+       floating .hsw-object-01/-02 elements.
+   Two different anchoring techniques, per target type:
+     - "cube"/"crystal" are fixed points baked into Scene 2's background
+       image (nothing to track live — the image itself never moves), so
+       their left/top are a static two-axis calc() per viewport size/aspect
+       ratio (replicates object-fit:cover's crop math against Scene 2's
+       objectPosition, '57% 53%' desktop/tablet — see
+       CONFIG.scenes[1].objectPosition in hero-scrollworld.js). "cube" uses
+       the cube's own measured ~53.3%/44.9% position within the served
+       1024x576 image — the same verified formula a prior, since-removed
+       Scene 2 focus-bracket attempt used for this exact purpose (see the
+       "quality bar not met" comment above); only the positioning math is
+       reused, the visuals/motion below are new and deliberately more
+       restrained. "crystal" uses the same formula against that shard's own
+       measured ~18.9%/23.3% position (brightness-weighted centroid of the
+       same asset, same measurement method as the cube). Both also clamp to
+       a minimum on-screen inset via max() — needed because a raw formula
+       result can go off-screen (negative) at portrait/near-square tablet
+       widths, where the image crops much more aggressively; confirmed via
+       measurement (e.g. "crystal" at 768x1024 without the clamp: -256px).
+     - "obj01"/"obj02" are real, separately-animating <img> elements (their
+       own entrance translate/rotate + the existing --hsw-copy-1-driven
+       ease/tablet-resize), so a static formula would drift out of alignment
+       — these instead read left/top from --s2h-obj0N-x/-y, plain
+       viewport-px values hero-coord-hud.js re-measures every tick via
+       getBoundingClientRect() on the actual element (see that file's
+       updateTrack()) and writes to <html>, same safe pattern as every other
+       dynamic value here — object-01/-02's own styling is never touched. */
+/* z-index:6 (not 3): the Scene 1 gate frames .hsw-object-01/-02, which live
+   inside .hsw-copy (z-index:5) — a lower z-index here let the cube images'
+   own bright pixels paint over parts of the HUD (confirmed visually: the
+   label text was getting partially occluded). Scene 2's targets are baked
+   into the background image (z-index:1) so this has no effect there; 6
+   still stays below front-layer-01's z-index:10 (see that rule's comment)
+   and clear of .hsw-dots/.hsw-skip's z-index:4, neither of which this HUD's
+   geometry ever reaches anyway. */
+hero-scrollworld .hsw-s2hud-gate{position:absolute;inset:0;z-index:6;pointer-events:none;}
+hero-scrollworld [data-hsw-s2hud-gate="1"]{opacity:var(--hsw-copy-1,0);}
+hero-scrollworld [data-hsw-s2hud-gate="2"]{opacity:var(--hsw-copy-2,0);}
+hero-scrollworld .hsw-s2hud-anchor{position:absolute;width:0;height:0;}
+hero-scrollworld .hsw-s2hud-label{position:absolute;text-align:center;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);white-space:nowrap;}
+/* Four independent corner brackets (not a full rectangle) — Section 1.
+   Each moves in from a small outward offset via translate only (no
+   scale/zoom — Section 3 forbids dramatic scale motion), sharing one
+   progress var per instance so all four of that instance stay in lockstep. */
+hero-scrollworld .hsw-s2hud-bracket{position:absolute;}
+hero-scrollworld .hsw-s2hud-bracket-tl{border-top:1px solid rgba(255,255,255,.82);border-left:1px solid rgba(255,255,255,.82);}
+hero-scrollworld .hsw-s2hud-bracket-tr{border-top:1px solid rgba(255,255,255,.82);border-right:1px solid rgba(255,255,255,.82);}
+hero-scrollworld .hsw-s2hud-bracket-bl{border-bottom:1px solid rgba(255,255,255,.82);border-left:1px solid rgba(255,255,255,.82);}
+hero-scrollworld .hsw-s2hud-bracket-br{border-bottom:1px solid rgba(255,255,255,.82);border-right:1px solid rgba(255,255,255,.82);}
+/* Target Point — Section 4: the only HUD element using the dark-primary
+   accent; brackets/connector stay white/off-white/neutral. */
+hero-scrollworld .hsw-s2hud-target{position:absolute;left:0;top:0;width:0;height:0;}
+hero-scrollworld .hsw-s2hud-target-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.38);}
+hero-scrollworld .hsw-s2hud-target-dot{position:absolute;border-radius:50%;background:#7EA2FF;box-shadow:0 0 6px 1px rgba(126,162,255,.55);}
+/* Connector — Section 5/6: SVG path, thin (1px) stroke, draws in via
+   stroke-dashoffset, never a div border. Dash length is set per instance
+   below to match that instance's own path geometry. */
+hero-scrollworld .hsw-s2hud-connector{position:absolute;left:0;top:0;overflow:visible;}
+hero-scrollworld .hsw-s2hud-connector-path{stroke:rgba(255,255,255,.5);stroke-width:1;fill:none;}
+/* Coordinate readout — Section 7/8: generic HUD data only, tabular-nums
+   required so digits don't shift width while resolving. */
+hero-scrollworld .hsw-s2hud-coord{position:absolute;display:flex;flex-direction:column;gap:4px;font-family:"Pretendard",sans-serif;font-weight:600;letter-spacing:.08em;color:rgba(255,255,255,.82);font-variant-numeric:tabular-nums;white-space:nowrap;}
+hero-scrollworld .hsw-s2hud-coord-line{display:inline-flex;gap:6px;align-items:baseline;}
+hero-scrollworld .hsw-s2hud-coord-tag{color:rgba(255,255,255,.42);font-weight:700;letter-spacing:.1em;}
+/* -- "cube" instance — primary, larger scale ---------------------------- */
+hero-scrollworld [data-hsw-s2hud="cube"]{--s2h-dw:max(100vw,177.7778svh);--s2h-dh:max(100svh,56.25vw);left:max(90px,calc((100vw - var(--s2h-dw)) * .57 + var(--s2h-dw) * .5332));top:max(50px,calc((100svh - var(--s2h-dh)) * .53 + var(--s2h-dh) * .4488));opacity:var(--s2h-cube-anchor-op,0);}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-label{left:-58px;top:-82px;width:116px;font-size:9px;opacity:var(--s2h-cube-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-bracket{width:14px;height:14px;opacity:var(--s2h-cube-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-bracket-tl{left:-58px;top:-58px;transform:translate(calc(-8px * (1 - var(--s2h-cube-br-t,0))),calc(-8px * (1 - var(--s2h-cube-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-bracket-tr{right:-58px;top:-58px;transform:translate(calc(8px * (1 - var(--s2h-cube-br-t,0))),calc(-8px * (1 - var(--s2h-cube-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-bracket-bl{left:-58px;bottom:-58px;transform:translate(calc(-8px * (1 - var(--s2h-cube-br-t,0))),calc(8px * (1 - var(--s2h-cube-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-bracket-br{right:-58px;bottom:-58px;transform:translate(calc(8px * (1 - var(--s2h-cube-br-t,0))),calc(8px * (1 - var(--s2h-cube-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-target{opacity:var(--s2h-cube-tg-op,0);transform:scale(var(--s2h-cube-tg-s,.6));}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-target-ring{left:-8px;top:-8px;width:16px;height:16px;}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-target-dot{left:-3px;top:-3px;width:6px;height:6px;}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-connector-path{stroke-dasharray:164;stroke-dashoffset:var(--s2h-cube-conn-off,164);}
+hero-scrollworld [data-hsw-s2hud="cube"] .hsw-s2hud-coord{left:158px;top:14px;font-size:12px;opacity:var(--s2h-cube-coord-op,0);}
+/* -- "crystal" instance — secondary, small crystal shard upper-left,
+   smaller scale throughout (matches the object's own small size) -------- */
+hero-scrollworld [data-hsw-s2hud="crystal"]{--s2h-dw:max(100vw,177.7778svh);--s2h-dh:max(100svh,56.25vw);left:max(64px,calc((100vw - var(--s2h-dw)) * .57 + var(--s2h-dw) * .1890));top:max(40px,calc((100svh - var(--s2h-dh)) * .53 + var(--s2h-dh) * .2332));opacity:var(--s2h-crystal-anchor-op,0);}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-label{left:-40px;top:-56px;width:80px;font-size:8px;opacity:var(--s2h-crystal-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-bracket{width:10px;height:10px;opacity:var(--s2h-crystal-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-bracket-tl{left:-30px;top:-30px;transform:translate(calc(-6px * (1 - var(--s2h-crystal-br-t,0))),calc(-6px * (1 - var(--s2h-crystal-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-bracket-tr{right:-30px;top:-30px;transform:translate(calc(6px * (1 - var(--s2h-crystal-br-t,0))),calc(-6px * (1 - var(--s2h-crystal-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-bracket-bl{left:-30px;bottom:-30px;transform:translate(calc(-6px * (1 - var(--s2h-crystal-br-t,0))),calc(6px * (1 - var(--s2h-crystal-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-bracket-br{right:-30px;bottom:-30px;transform:translate(calc(6px * (1 - var(--s2h-crystal-br-t,0))),calc(6px * (1 - var(--s2h-crystal-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-target{opacity:var(--s2h-crystal-tg-op,0);transform:scale(var(--s2h-crystal-tg-s,.6));}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-target-ring{left:-6px;top:-6px;width:12px;height:12px;}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-target-dot{left:-2.5px;top:-2.5px;width:5px;height:5px;}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-connector-path{stroke-dasharray:98;stroke-dashoffset:var(--s2h-crystal-conn-off,98);}
+hero-scrollworld [data-hsw-s2hud="crystal"] .hsw-s2hud-coord{left:96px;top:6px;font-size:10.5px;opacity:var(--s2h-crystal-coord-op,0);}
+/* -- "obj01" instance — Scene 1, the larger front-layer-01 cube (~322px on
+   screen at desktop) — live-tracked, see file-header comment ------------- */
+hero-scrollworld [data-hsw-s2hud="obj01"]{left:var(--s2h-obj01-x,50%);top:var(--s2h-obj01-y,50%);opacity:var(--s2h-obj01-anchor-op,0);}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-label{left:-50px;top:-74px;width:100px;font-size:9px;opacity:var(--s2h-obj01-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-bracket{width:13px;height:13px;opacity:var(--s2h-obj01-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-bracket-tl{left:-50px;top:-50px;transform:translate(calc(-7px * (1 - var(--s2h-obj01-br-t,0))),calc(-7px * (1 - var(--s2h-obj01-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-bracket-tr{right:-50px;top:-50px;transform:translate(calc(7px * (1 - var(--s2h-obj01-br-t,0))),calc(-7px * (1 - var(--s2h-obj01-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-bracket-bl{left:-50px;bottom:-50px;transform:translate(calc(-7px * (1 - var(--s2h-obj01-br-t,0))),calc(7px * (1 - var(--s2h-obj01-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-bracket-br{right:-50px;bottom:-50px;transform:translate(calc(7px * (1 - var(--s2h-obj01-br-t,0))),calc(7px * (1 - var(--s2h-obj01-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-target{opacity:var(--s2h-obj01-tg-op,0);transform:scale(var(--s2h-obj01-tg-s,.6));}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-target-ring{left:-7px;top:-7px;width:14px;height:14px;}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-target-dot{left:-2.5px;top:-2.5px;width:5px;height:5px;}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-connector-path{stroke-dasharray:105;stroke-dashoffset:var(--s2h-obj01-conn-off,105);}
+hero-scrollworld [data-hsw-s2hud="obj01"] .hsw-s2hud-coord{left:100px;top:16px;font-size:11.5px;opacity:var(--s2h-obj01-coord-op,0);}
+/* -- "obj02" instance — Scene 1, the smaller object-02 cube (~232px on
+   screen at desktop) — live-tracked, see file-header comment ------------- */
+hero-scrollworld [data-hsw-s2hud="obj02"]{left:var(--s2h-obj02-x,50%);top:var(--s2h-obj02-y,50%);opacity:var(--s2h-obj02-anchor-op,0);}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-label{left:-38px;top:-58px;width:76px;font-size:8px;opacity:var(--s2h-obj02-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-bracket{width:11px;height:11px;opacity:var(--s2h-obj02-br-op,0);}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-bracket-tl{left:-36px;top:-36px;transform:translate(calc(-6px * (1 - var(--s2h-obj02-br-t,0))),calc(-6px * (1 - var(--s2h-obj02-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-bracket-tr{right:-36px;top:-36px;transform:translate(calc(6px * (1 - var(--s2h-obj02-br-t,0))),calc(-6px * (1 - var(--s2h-obj02-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-bracket-bl{left:-36px;bottom:-36px;transform:translate(calc(-6px * (1 - var(--s2h-obj02-br-t,0))),calc(6px * (1 - var(--s2h-obj02-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-bracket-br{right:-36px;bottom:-36px;transform:translate(calc(6px * (1 - var(--s2h-obj02-br-t,0))),calc(6px * (1 - var(--s2h-obj02-br-t,0))));}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-target{opacity:var(--s2h-obj02-tg-op,0);transform:scale(var(--s2h-obj02-tg-s,.6));}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-target-ring{left:-6px;top:-6px;width:12px;height:12px;}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-target-dot{left:-2px;top:-2px;width:4px;height:4px;}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-connector-path{stroke-dasharray:109;stroke-dashoffset:var(--s2h-obj02-conn-off,109);}
+hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;font-size:10.5px;opacity:var(--s2h-obj02-coord-op,0);}
+/* Tablet — Section 13: reuse the existing 1023px breakpoint, scale each
+   whole assembly uniformly around its own fixed anchor point rather than
+   hand-tuning a second set of offsets. */
+@media (max-width:1023px){
+  hero-scrollworld .hsw-s2hud-anchor{transform:scale(.8);}
+}
+/* Mobile — Section 13: hidden, consistent with every other Scene-specific
+   decorative HUD object in this file (.hsw-object, .hsw-trace-layer,
+   .hsw-ov-panel/.hsw-signal-panel all already go display:none at this same
+   767px breakpoint — see "Section 14's mobile priority list has no room for
+   these" comment above) — the safest way to guarantee zero overlap with
+   Hero copy/CTA/nav on the narrowest screens, per Section 13's own
+   "shorten the connector" allowance taken to its safest extreme. */
+@media (max-width:767px){
+  hero-scrollworld .hsw-s2hud-gate{display:none;}
+}
 </style>
 </helmet>
 
@@ -401,10 +623,97 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
 
     <div class="hsw-scrim" aria-hidden="true"></div>
 
-    <div class="hsw-copy" data-hsw-copy="1"><div class="hsw-object-layer" data-om-label="object-layer-01" aria-hidden="true"><img class="hsw-object hsw-object-01" data-om-label="object-01" src="assets/hero/object-01.png" alt=""><img class="hsw-object hsw-object-02" data-om-label="object-02" src="assets/hero/object-02.png" alt=""></div><div class="hsw-trace-layer" data-om-label="trace-layer-01" aria-hidden="true"><span class="hsw-trace-dot hsw-trace-dot-a"></span><span class="hsw-trace-dot hsw-trace-dot-b"></span></div><div class="hsw-ov-row" data-om-label="front-layer-01"><h1 class="hsw-copy-text"><blur-reveal manual>보이지 않는 곳에도,<br>디지털 흔적은 남습니다.</blur-reveal></h1><div class="hsw-ov-panel" data-om-label="transparent-frame-01" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">01</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div><div class="hsw-ov-row" data-om-label="transparent-frame-01-01"><div class="hsw-ov-panel" data-om-label="transparent-frame-01" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">01</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div></div>
-    <div class="hsw-copy" data-hsw-copy="2"><div class="hsw-object-layer" data-om-label="object-layer-02" aria-hidden="true"><span class="hsw-focus"></span><span class="hsw-frag hsw-frag-1"></span><span class="hsw-frag hsw-frag-2"></span><span class="hsw-frag hsw-frag-3"></span><span class="hsw-frag hsw-frag-4"></span></div><div class="hsw-ov-row" data-om-label="front-layer-02"><p class="hsw-copy-text"><blur-reveal manual>수많은 기록 속,<br>숨겨진 가치를 발견합니다.</blur-reveal></p><div class="hsw-ov-panel" data-om-label="transparent-frame-02" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">02</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div></div>
-    <div class="hsw-copy" data-hsw-copy="4"><div class="hsw-object-layer" data-om-label="object-layer-03" aria-hidden="true"><svg class="hsw-node-svg" viewBox="0 0 190 130" fill="none"><line x1="24" y1="100" x2="95" y2="40"></line><line x1="95" y1="40" x2="165" y2="78"></line><circle cx="24" cy="100" r="3"></circle><circle class="hsw-node-core" cx="95" cy="40" r="4"></circle><circle cx="165" cy="78" r="3"></circle><circle cx="140" cy="15" r="2.5"></circle></svg></div><div class="hsw-ov-row" data-om-label="front-layer-03"><p class="hsw-copy-text"><blur-reveal manual>흩어진 조각이 모여,<br>진실에 더 가까이.</blur-reveal></p><div class="hsw-ov-panel" data-om-label="transparent-frame-03" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">03</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div></div>
-    <div class="hsw-copy" data-hsw-copy="6"><div class="hsw-object-layer" data-om-label="object-layer-04" aria-hidden="true"><svg class="hsw-symbol-svg" viewBox="0 0 104 104" fill="none"><circle class="hsw-symbol-ring-outer" cx="52" cy="52" r="40"></circle><circle class="hsw-symbol-ring-inner" cx="52" cy="52" r="30"></circle><line class="hsw-symbol-tick" x1="88" y1="40" x2="95" y2="37"></line><line class="hsw-symbol-tick" x1="44" y1="14" x2="40" y2="7"></line><line class="hsw-symbol-tick" x1="18" y1="62" x2="10" y2="64"></line><line class="hsw-symbol-tick" x1="48" y1="88" x2="45" y2="96"></line><circle class="hsw-symbol-core" cx="52" cy="52" r="2.5"></circle></svg></div><div class="hsw-ov-row" data-om-label="front-layer-04"><p class="hsw-copy-text"><blur-reveal manual>안전하게 지켜내는 기술,<br>그 중심에 UROCK이 있습니다.</blur-reveal></p><div class="hsw-ov-panel" data-om-label="transparent-frame-04" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">04</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div></div>
+    <!-- Coordinate Focus HUD — additive-only overlay. See hero-coord-hud.js
+         for the enter/leave lifecycle and CSS above (search "Coordinate
+         Focus HUD") for styling/positioning. Purely decorative: aria-hidden
+         + pointer-events:none throughout.
+         Scene 1 gate — "obj01"/"obj02", live-tracked onto the existing
+         floating cubes, play/reset together with Scene 1. -->
+    <div class="hsw-s2hud-gate" data-hsw-s2hud-gate="1" aria-hidden="true">
+      <div class="hsw-s2hud-anchor" data-hsw-s2hud="obj01" data-hsw-s2hud-scene="1" data-s2hud-track=".hsw-object-01" data-s2hud-final-lat="36.3504" data-s2hud-final-lon="127.3845">
+        <span class="hsw-s2hud-label" data-s2hud-label>TARGET LOCK</span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tr"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-bl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-br"></span>
+        <span class="hsw-s2hud-target">
+          <span class="hsw-s2hud-target-ring"></span>
+          <span class="hsw-s2hud-target-dot"></span>
+        </span>
+        <svg class="hsw-s2hud-connector" width="140" height="45" viewBox="0 0 140 45" fill="none">
+          <path class="hsw-s2hud-connector-path" d="M0 0 L20 22 L95 22"></path>
+        </svg>
+        <div class="hsw-s2hud-coord">
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LAT</span> <span data-s2hud-lat>36.3504</span>&deg; N</span>
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LON</span> <span data-s2hud-lon>127.3845</span>&deg; E</span>
+        </div>
+      </div>
+      <div class="hsw-s2hud-anchor" data-hsw-s2hud="obj02" data-hsw-s2hud-scene="1" data-s2hud-track=".hsw-object-02" data-s2hud-final-lat="35.1595" data-s2hud-final-lon="129.0756">
+        <span class="hsw-s2hud-label" data-s2hud-label>TARGET LOCK</span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tr"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-bl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-br"></span>
+        <span class="hsw-s2hud-target">
+          <span class="hsw-s2hud-target-ring"></span>
+          <span class="hsw-s2hud-target-dot"></span>
+        </span>
+        <svg class="hsw-s2hud-connector" width="150" height="45" viewBox="0 0 150 45" fill="none">
+          <path class="hsw-s2hud-connector-path" d="M0 0 L18 20 L100 20"></path>
+        </svg>
+        <div class="hsw-s2hud-coord">
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LAT</span> <span data-s2hud-lat>35.1595</span>&deg; N</span>
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LON</span> <span data-s2hud-lon>129.0756</span>&deg; E</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 2 gate — "cube" (primary, the central data cube) and
+         "crystal" (secondary, the small crystal shard upper-left) — both
+         play/reset together with Scene 2. -->
+    <div class="hsw-s2hud-gate" data-hsw-s2hud-gate="2" aria-hidden="true">
+      <div class="hsw-s2hud-anchor" data-hsw-s2hud="cube" data-hsw-s2hud-scene="2" data-s2hud-final-lat="37.5665" data-s2hud-final-lon="126.9780">
+        <span class="hsw-s2hud-label" data-s2hud-label>TARGET LOCK</span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tr"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-bl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-br"></span>
+        <span class="hsw-s2hud-target">
+          <span class="hsw-s2hud-target-ring"></span>
+          <span class="hsw-s2hud-target-dot"></span>
+        </span>
+        <svg class="hsw-s2hud-connector" width="220" height="70" viewBox="0 0 220 70" fill="none">
+          <path class="hsw-s2hud-connector-path" d="M0 0 L26 30 L150 30"></path>
+        </svg>
+        <div class="hsw-s2hud-coord">
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LAT</span> <span data-s2hud-lat>37.5665</span>&deg; N</span>
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LON</span> <span data-s2hud-lon>126.9780</span>&deg; E</span>
+        </div>
+      </div>
+      <div class="hsw-s2hud-anchor" data-hsw-s2hud="crystal" data-hsw-s2hud-scene="2" data-s2hud-final-lat="35.8714" data-s2hud-final-lon="128.6014">
+        <span class="hsw-s2hud-label" data-s2hud-label>TARGET LOCK</span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-tr"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-bl"></span>
+        <span class="hsw-s2hud-bracket hsw-s2hud-bracket-br"></span>
+        <span class="hsw-s2hud-target">
+          <span class="hsw-s2hud-target-ring"></span>
+          <span class="hsw-s2hud-target-dot"></span>
+        </span>
+        <svg class="hsw-s2hud-connector" width="140" height="45" viewBox="0 0 140 45" fill="none">
+          <path class="hsw-s2hud-connector-path" d="M0 0 L16 18 L90 18"></path>
+        </svg>
+        <div class="hsw-s2hud-coord">
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LAT</span> <span data-s2hud-lat>35.8714</span>&deg; N</span>
+          <span class="hsw-s2hud-coord-line"><span class="hsw-s2hud-coord-tag">LON</span> <span data-s2hud-lon>128.6014</span>&deg; E</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hsw-copy" data-hsw-copy="1"><div class="hsw-object-layer" data-om-label="object-layer-01" aria-hidden="true"><img class="hsw-object hsw-object-01" data-om-label="object-01" src="assets/hero/object-01.webp" alt=""><img class="hsw-object hsw-object-02" data-om-label="object-02" src="assets/hero/object-02.webp" alt=""></div><div class="hsw-trace-layer" data-om-label="trace-layer-01" aria-hidden="true"><span class="hsw-trace-dot hsw-trace-dot-a"></span><span class="hsw-trace-dot hsw-trace-dot-b"></span></div><div class="hsw-ov-row" data-om-label="front-layer-01"><div class="hsw-copy-head"><p class="hsw-copy-eyebrow"><blur-reveal manual>TRACE</blur-reveal></p><h1 class="hsw-copy-text"><blur-reveal manual>보이지 않는 곳에도,<br>디지털 흔적은 남습니다.</blur-reveal></h1></div><div class="hsw-ov-panel" data-om-label="transparent-frame-01" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">01</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div></div>
+    <div class="hsw-copy" data-hsw-copy="2"><div class="hsw-object-layer" data-om-label="object-layer-02" aria-hidden="true"></div><div class="hsw-ov-row" data-om-label="front-layer-02"><div class="hsw-copy-head"><p class="hsw-copy-eyebrow"><blur-reveal manual>DISCOVER</blur-reveal></p><p class="hsw-copy-text"><blur-reveal manual>수많은 기록 속,<br>숨겨진 가치를 발견합니다.</blur-reveal></p></div><div class="hsw-ov-panel" data-om-label="transparent-frame-02" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">02</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div><div class="hsw-ov-row" data-om-label="transparent-frame-02-01"><div class="hsw-ov-panel hsw-signal-panel" data-om-label="transparent-frame-02" aria-hidden="true"><div class="hsw-signal-grid"><span class="hsw-signal-line hsw-signal-line-v" style="left:32%;"></span><span class="hsw-signal-line hsw-signal-line-v" style="left:56%;"></span><span class="hsw-signal-line hsw-signal-line-v" style="left:80%;"></span><span class="hsw-signal-line hsw-signal-line-h" style="top:50%;"></span><span class="hsw-signal-dot" style="left:8%;top:20%;"></span><span class="hsw-signal-dot" style="left:20%;top:20%;"></span><span class="hsw-signal-dot hsw-signal-dot-bright" style="left:32%;top:20%;"></span><span class="hsw-signal-dot" style="left:44%;top:20%;"></span><span class="hsw-signal-dot" style="left:56%;top:20%;"></span><span class="hsw-signal-dot hsw-signal-dot-bright" style="left:68%;top:20%;"></span><span class="hsw-signal-dot" style="left:80%;top:20%;"></span><span class="hsw-signal-dot" style="left:92%;top:20%;"></span><span class="hsw-signal-dot" style="left:8%;top:50%;"></span><span class="hsw-signal-dot hsw-signal-dot-bright" style="left:20%;top:50%;"></span><span class="hsw-signal-dot" style="left:32%;top:50%;"></span><span class="hsw-signal-dot hsw-signal-dot-bright" style="left:44%;top:50%;"></span><span class="hsw-signal-dot" style="left:56%;top:50%;"></span><span class="hsw-signal-target" style="left:68%;top:50%;"><span class="hsw-signal-target-core"></span></span><span class="hsw-signal-dot" style="left:80%;top:50%;"></span><span class="hsw-signal-dot" style="left:92%;top:50%;"></span><span class="hsw-signal-dot" style="left:8%;top:80%;"></span><span class="hsw-signal-dot" style="left:20%;top:80%;"></span><span class="hsw-signal-dot hsw-signal-dot-bright" style="left:32%;top:80%;"></span><span class="hsw-signal-dot" style="left:44%;top:80%;"></span><span class="hsw-signal-dot" style="left:56%;top:80%;"></span><span class="hsw-signal-dot hsw-signal-dot-bright" style="left:68%;top:80%;"></span><span class="hsw-signal-dot" style="left:80%;top:80%;"></span><span class="hsw-signal-dot hsw-signal-dot-bright" style="left:92%;top:80%;"></span></div></div></div></div>
+    <div class="hsw-copy" data-hsw-copy="4"><div class="hsw-object-layer" data-om-label="object-layer-03" aria-hidden="true"></div><div class="hsw-ov-row" data-om-label="front-layer-03"><div class="hsw-copy-head"><p class="hsw-copy-eyebrow"><blur-reveal manual>CONNECT</blur-reveal></p><p class="hsw-copy-text"><blur-reveal manual>흩어진 조각이 모여,<br>진실에 더 가까이.</blur-reveal></p></div><div class="hsw-ov-panel" data-om-label="transparent-frame-03" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">03</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div></div>
+    <div class="hsw-copy" data-hsw-copy="6"><div class="hsw-object-layer" data-om-label="object-layer-04" aria-hidden="true"></div><div class="hsw-ov-row" data-om-label="front-layer-04"><div class="hsw-copy-head"><p class="hsw-copy-eyebrow"><blur-reveal manual>PROTECT</blur-reveal></p><p class="hsw-copy-text"><blur-reveal manual>안전하게 지켜내는 기술,<br>그 중심에 UROCK이 있습니다.</blur-reveal></p></div><div class="hsw-ov-panel" data-om-label="transparent-frame-04" aria-hidden="true"><div class="hsw-ov-panel-top"><span class="hsw-ov-panel-brand">UROCK</span><span class="hsw-ov-panel-idx"><span class="num hsw-ov-panel-idx-num">04</span> / 04</span></div><span class="hsw-ov-panel-div"></span><span class="hsw-ov-panel-marker"></span></div></div></div>
 
     <a href="#quickmenu" class="hsw-skip" data-hsw-skip aria-label="다음 섹션으로 이동" style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%) scale(1.2);display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px;color:rgba(255,255,255,.62);text-decoration:none;cursor:pointer;transform-origin:bottom center;transition:color .2s ease, text-shadow .2s ease, filter .2s ease;border-radius:16px;" style-hover="color:#FAFAFA;text-shadow:0 0 14px rgba(250,250,250,.55);filter:drop-shadow(0 0 10px rgba(250,250,250,.35));">
       <span style="font-size:14px;font-weight:300;letter-spacing:1.5px;">SKIP</span>
@@ -434,10 +743,10 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
     <img src="assets/hero/hero-scene-01.webp" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;">
     <div class="hsw-scrim" aria-hidden="true"></div>
     <div style="position:relative;max-width:1240px;margin:0 auto;padding:150px 32px 90px;min-height:100vh;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;gap:34px;color:#fff;">
-      <h1 style="margin:0;font-size:44px;line-height:1.28;letter-spacing:-1.4px;font-weight:800;">보이지 않는 곳에도,<br>디지털 흔적은 남습니다.</h1>
-      <p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">수많은 기록 속,<br>숨겨진 가치를 발견합니다.</p>
-      <p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">흩어진 조각이 모여,<br>진실에 더 가까이.</p>
-      <p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">안전하게 지켜내는 기술,<br>그 중심에 UROCK이 있습니다.</p>
+      <div class="hsw-copy-head"><p class="hsw-copy-eyebrow">TRACE</p><h1 style="margin:0;font-size:44px;line-height:1.28;letter-spacing:-1.4px;font-weight:800;">보이지 않는 곳에도,<br>디지털 흔적은 남습니다.</h1></div>
+      <div class="hsw-copy-head"><p class="hsw-copy-eyebrow">DISCOVER</p><p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">수많은 기록 속,<br>숨겨진 가치를 발견합니다.</p></div>
+      <div class="hsw-copy-head"><p class="hsw-copy-eyebrow">CONNECT</p><p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">흩어진 조각이 모여,<br>진실에 더 가까이.</p></div>
+      <div class="hsw-copy-head"><p class="hsw-copy-eyebrow">PROTECT</p><p style="margin:0;font-size:22px;line-height:1.5;letter-spacing:-.6px;font-weight:700;color:#DCE6FF;">안전하게 지켜내는 기술,<br>그 중심에 UROCK이 있습니다.</p></div>
     </div>
   </div>
 
@@ -695,7 +1004,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
       <sc-for list="{{ gateCards }}" as="g" hint-placeholder-count="2">
         <div class="cursor-hover-card" style="{{ g.cardStyle }}" style-hover="color:#7DA4FF;border-color:#93B0F8;background:var(--tint);box-shadow:0 14px 34px rgba(98,140,245,.14)">
           <div style="padding:16px 16px 0;flex:none;">
-            <div style="position:relative;height:236px;border-radius:16px;background:linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%), radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), url('uploads/dark-01.png') center/cover no-repeat, #151320;">
+            <div style="position:relative;height:236px;border-radius:16px;background:linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%), radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), url('uploads/dark-01.webp') center/cover no-repeat, #151320;">
               <sc-if value="{{ g.image }}" hint-placeholder-val="">
                 <img src="{{ g.image }}" loading="lazy" alt="{{ g.name }}" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;transform:scale(1.2) translateY(26px);">
               </sc-if>
@@ -752,7 +1061,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
               </div>
               <div aria-hidden="true" style="{{ reportStyle }}">
                 <div style="position:relative;height:100%;max-width:100%;aspect-ratio:2380 / 3368;border-radius:1.2cqh;overflow:hidden;background:#FFFFFF;box-shadow:0 4cqh 9cqh rgba(0,0,0,.5);">
-                  <img src="assets/cert-report-ko.png" alt="데이터 완전삭제 증명서" style="display:block;width:100%;height:100%;object-fit:contain;">
+                  <img src="assets/cert-report-ko.webp" alt="데이터 완전삭제 증명서" style="display:block;width:100%;height:100%;object-fit:contain;">
                   <span style="{{ stampStyle }}">
                     <span class="ms" style="font-size:2.6cqh;">task_alt</span>확인 완료
                   </span>
@@ -839,7 +1148,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
                 </div>
               </div>
             </div>
-            <img src="assets/monitor-frame-sm.png" alt="" aria-hidden="true" style="position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;">
+            <img src="assets/monitor-frame-sm.webp" alt="" aria-hidden="true" style="position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;">
           </div>
         </div>
 
@@ -897,7 +1206,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
   <!-- ── 03 M-SecuManager ── -->
 
 </section>
-  </div><div style="box-sizing: border-box; position: relative; background-image:url('assets/bg-consulting.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"><div style="position: absolute; inset: 0; background: rgba(21,19,32,.4); pointer-events: none; padding-top: 0px; padding-bottom: 0px"></div><section id="consulting" style="position: relative; max-width: 1240px; margin: 0 auto; padding: 160px 32px 90px; padding-top: 171px; padding-bottom: 176px" data-om-label="Consulting">
+  </div><div style="box-sizing: border-box; position: relative; background-image:url('assets/bg-consulting.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"><div style="position: absolute; inset: 0; background: rgba(21,19,32,.4); pointer-events: none; padding-top: 0px; padding-bottom: 0px"></div><section id="consulting" style="position: relative; max-width: 1240px; margin: 0 auto; padding: 160px 32px 90px; padding-top: 171px; padding-bottom: 176px" data-om-label="Consulting">
   <div style="display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start;">
     <div style="display:flex;flex-direction:column;align-items:flex-start;gap:36px;">
       <div data-focus-head="1" style="display:flex;flex-direction:column;gap:26px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ headOpacity }};filter:{{ headBlur }};transform:{{ headShift }};">
@@ -967,17 +1276,17 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
     <div style="margin-top:-20px;">
       <!-- world map -->
       <div style="position:relative;width:100%;aspect-ratio:1024/567;border-radius:16px;background:transparent;">
-        <img src="assets/global-map-dots-lite.png" width="1200" height="665" loading="eager" decoding="async" fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;image-rendering:auto;" alt="Global Footprint Map">
+        <img src="assets/global-map-dots-lite.webp" width="1200" height="665" loading="eager" decoding="async" fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;image-rendering:auto;" alt="Global Footprint Map">
         <sc-for list="{{ countries }}" as="c" hint-placeholder-count="5">
           <div style="{{ c.lineStyle }}"></div>
         </sc-for>
         <sc-for list="{{ countries }}" as="c" hint-placeholder-count="5">
-          <div style="{{ c.wrapStyle }}" style-focus="box-shadow:0 0 0 2px rgba(126,162,255,.7);border-radius:50%;" tabIndex="0" onClick="{{ c.onClick }}" onKeyDown="{{ c.onKeyDown }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" onFocus="{{ c.onEnter }}" onBlur="{{ c.onLeave }}">
+          <div style="{{ c.wrapStyle }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}">
             <span style="{{ c.glowStyle }}"></span>
             <span class="geo-ripple" style="{{ c.rippleStyle }}"></span>
             <span class="geo-dot" style="{{ c.dotStyle }}"></span>
           </div>
-          <div style="{{ c.labelStyle }}" onClick="{{ c.onClick }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}">{{ c.nameText }}
+          <div style="{{ c.labelStyle }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}">{{ c.nameText }}
             <div style="{{ c.tooltipStyle }}">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
                 <span style="{{ c.flagStyle }}"></span>
@@ -1017,8 +1326,8 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
   <div style="display:flex;justify-content:center;">
 <div ref="{{ logoRef }}" style="position:relative;width:76%;">
       <div aria-hidden="true" style="position:absolute;left:50%;top:50%;width:118%;height:150%;transform:translate(-50%,-50%);pointer-events:none;z-index:2;mix-blend-mode:screen;background:radial-gradient(ellipse at center,rgba(126,162,255,.42) 0%,rgba(98,140,245,.18) 40%,rgba(98,140,245,0) 70%);filter:blur(10px);animation:geoGlow 5.5s ease-in-out infinite;"></div>
-      <img src="assets/clients-logos-6x5.png" width="1400" height="578" loading="eager" decoding="async" style="display:block;width:100%;height:auto;" alt="국내 주요 고객사 로고">
-      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;mix-blend-mode:screen;-webkit-mask-image:url('assets/clients-logos-6x5.png');mask-image:url('assets/clients-logos-6x5.png');-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;">
+      <img src="assets/clients-logos-6x5.webp" width="1400" height="578" loading="eager" decoding="async" style="display:block;width:100%;height:auto;" alt="국내 주요 고객사 로고">
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;mix-blend-mode:screen;-webkit-mask-image:url('assets/clients-logos-6x5.webp');mask-image:url('assets/clients-logos-6x5.webp');-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;">
         <div key="{{ logoPlayKey }}" style="position:absolute;top:-60%;left:-35%;width:30%;height:220%;transform:rotate(-45deg);animation:logoScan 2.2s linear 3;{{ logoAnimStyle }}">
           <div style="position:absolute;top:0;left:0;width:33.3%;height:100%;background:linear-gradient(90deg,rgba(126,162,255,0) 0%,rgba(126,162,255,.6) 25%,rgba(255,255,255,.9) 50%,rgba(126,162,255,.6) 75%,rgba(126,162,255,0) 100%);filter:brightness(1.6);"></div>
           <div style="position:absolute;top:0;left:56.3%;width:45%;height:100%;background:linear-gradient(90deg,rgba(126,162,255,0) 0%,rgba(126,162,255,.7) 20%,rgba(255,255,255,1) 50%,rgba(126,162,255,.7) 80%,rgba(126,162,255,0) 100%);filter:brightness(1.6);"></div>
@@ -1032,7 +1341,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
 
 
 <!-- ===== CTA + FOOTER ===== -->
-<section id="news" style="position:relative;background:#111111 url('assets/news-bg.png') center/cover no-repeat;padding:90px 32px;border:none;" data-om-label="Newsroom">
+<section id="news" style="position:relative;background:#111111 url('assets/news-bg.webp') center/cover no-repeat;padding:90px 32px;border:none;" data-om-label="Newsroom">
   <div style="position: absolute; inset: 0; background: rgba(10,10,20,.35);"></div>
   <div style="position:relative;max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:26px;">
     <div data-focus-head-news="1" style="display:flex;flex-direction:column;gap:10px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ nHeadOpacity }};filter:{{ nHeadBlur }};transform:{{ nHeadShift }};">
@@ -1235,7 +1544,7 @@ html[data-hsw-mode="reduced"] hero-scrollworld .hsw-reduced{display:block;positi
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', country: null, lang: 'KO', scrolled: false, theme: 'light', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1 };
+  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', lang: 'KO', scrolled: false, theme: 'light', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1 };
 
   openQuick = (tab, i) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ quickModal: { tab: tab, idx: i } }); };
   closeQuick = () => this.setState({ quickModal: null });
@@ -1271,6 +1580,16 @@ class Component extends DCLogic {
   };
   _stopDfasTimer = () => {
     if (this._dfasTimer) { clearInterval(this._dfasTimer); this._dfasTimer = null; }
+  };
+
+  _startGeoAuto = () => {
+    if (this._autoTip) return;
+    this._autoTip = setInterval(() => {
+      this.setState(s => ({ autoIdx: (s.autoIdx + 1) % this._countryCount }));
+    }, 3000);
+  };
+  _stopGeoAuto = () => {
+    if (this._autoTip) { clearInterval(this._autoTip); this._autoTip = null; }
   };
 
   dfasSectionRef = (el) => {
@@ -1352,7 +1671,7 @@ class Component extends DCLogic {
     };
     const vidStyle = (fit, extra) => Object.assign({ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: fit, display: 'block' }, extra || {});
     const vid = (src, fit, extra, id) => h('video', { key: 'v', src, ref: mediaRef(id), autoPlay: true, muted: true, loop: true, playsInline: true, preload: id === activeId ? 'auto' : 'metadata', 'aria-hidden': true, style: vidStyle(fit, extra) });
-    const bg = h('img', { key: 'bg', src: 'uploads/dark-01.png', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } });
+    const bg = h('img', { key: 'bg', src: 'uploads/dark-01.webp', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } });
     const grad = h('div', { key: 'grad', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%)' } });
     const goBar = h('div', { key: 'sb', style: { position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '78%', maxWidth: '320px', top: '38%', height: '38px', borderRadius: '10px', background: 'rgba(21,19,32,.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,.25)', display: 'flex', alignItems: 'center', padding: '0 12px', gap: '8px', overflow: 'hidden', zIndex: 2 } },
       h('span', { className: 'ms', style: { fontSize: '17px', color: '#7EA2FF' } }, 'search'),
@@ -1425,7 +1744,7 @@ class Component extends DCLogic {
     const h = React.createElement;
     const H = (opts && opts.height) || 176;
     return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#151320', border: '1px solid rgba(255,255,255,.1)' } },
-      h('img', { key: 'bg', src: 'uploads/dark-01.png', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      h('img', { key: 'bg', src: 'uploads/dark-01.webp', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
       h('div', { key: 'grad', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%)' } }),
       h('video', { key: 'v', src: 'uploads/dfas_section_card_discovery-4d47c0da.webm', autoPlay: true, muted: true, loop: true, playsInline: true, 'aria-label': name, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', display: 'block', transform: 'scale(1.1)' } }),
       this.scanLine('scan'));
@@ -1435,7 +1754,7 @@ class Component extends DCLogic {
     const h = React.createElement;
     const H = (opts && opts.height) || 176;
     return h('div', { key: k, style: { position: 'relative', width: '100%', height: typeof H === 'number' ? H + 'px' : H, borderRadius: '16px', overflow: 'hidden', background: '#151320', border: '1px solid rgba(255,255,255,.1)' } },
-      h('img', { key: 'bg', src: 'uploads/dark-01.png', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      h('img', { key: 'bg', src: 'uploads/dark-01.webp', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
       h('div', { key: 'grad', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%)' } }),
       h('video', { key: 'v', src: 'uploads/dfas_section_card_go-bc0f4e97.webm', autoPlay: true, muted: true, loop: true, playsInline: true, 'aria-label': name, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
       h('div', { key: 'sb', style: { position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '78%', maxWidth: '320px', top: '38%', height: '38px', borderRadius: '10px', background: 'rgba(21,19,32,.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,.25)', display: 'flex', alignItems: 'center', padding: '0 12px', gap: '8px', overflow: 'hidden', zIndex: 2 } },
@@ -1635,9 +1954,7 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this._onScrollRaf, { passive: true });
     requestAnimationFrame(() => this._onScroll && this._onScroll());
     this._initParallax();
-    this._autoTip = setInterval(() => {
-      this.setState(s => ({ autoIdx: (s.autoIdx + 1) % this._countryCount }));
-    }, 3000);
+    this._startGeoAuto();
     this._onCursorMove = (e) => {
       if (this.state.cursorVisible) this.setState({ cursorX: e.clientX, cursorY: e.clientY });
     };
@@ -1760,7 +2077,7 @@ class Component extends DCLogic {
     window.removeEventListener('mousemove', this._onCursorMove);
     document.removeEventListener('mouseover', this._onCursorOver);
     document.removeEventListener('mouseout', this._onCursorOut);
-    if (this._autoTip) clearInterval(this._autoTip);
+    this._stopGeoAuto();
     if (this._lottieAnim) { this._lottieAnim.destroy(); this._lottieAnim = null; }
     (this._seqTimers || []).forEach(clearTimeout);
     if (this._monObs) { this._monObs.disconnect(); this._monObs = null; }
@@ -1776,7 +2093,7 @@ class Component extends DCLogic {
   };
 
   renderVals() {
-    const { quickTab, country, lang, scrolled, theme, dfasSel, dfasOS, dfasPaused, gateSel, hoverCountry, autoIdx, headOn } = this.state;
+    const { quickTab, lang, scrolled, theme, dfasSel, dfasOS, dfasPaused, gateSel, hoverCountry, autoIdx, headOn } = this.state;
     const isDark = theme === 'dark';
     const headOpacity = headOn ? 1 : 0.25;
     const headBlur = headOn ? 'blur(0px)' : 'blur(2.5px)';
@@ -1817,12 +2134,12 @@ class Component extends DCLogic {
       { icon: 'school', title: '사건 · 분쟁 전문 분석', desc: '자체 대응이 어려운 사건 · 분쟁의 디지털 자료를 전문가가 분석합니다.', link: '추천 보기', img: './assets/quick/situ-06.webp' },
     ];
     const role = [
-      { icon: 'fact_check', iconImg: './assets/quick-icons/audit.png', title: '내부감사 · 준법', desc: '퇴사자·임직원 PC 활동 조사 및 관리', link: '추천 보기' },
-      { icon: 'shield_person', iconImg: './assets/quick-icons/security.png', title: '정보보안', desc: 'PC 보안 위험 점검 및 진단', link: '추천 보기' },
-      { icon: 'dns', iconImg: './assets/quick-icons/it-infra.png', title: '연구소 · 제조 보안', desc: '폐쇄망 PC·스마트기기 흔적 점검', link: '추천 보기' },
-      { icon: 'travel_explore', iconImg: './assets/quick-icons/investigation.png', title: '수사 · 공공', desc: 'PC·폐쇄망 디지털 자료 수집·분석', link: '추천 보기' },
-      { icon: 'diversity_3', iconImg: './assets/quick-icons/consulting.png', title: '총무 · 자산관리', desc: '스마트기기 완전삭제 및 이력 관리', link: '추천 보기' },
-      { icon: 'gavel', iconImg: './assets/quick-icons/legal.png', title: '법무 · 전문가', desc: '사건·분쟁 디지털 자료 분석 및 보고', link: '추천 보기' },
+      { icon: 'fact_check', iconImg: './assets/quick-icons/audit.webp', title: '내부감사 · 준법', desc: '퇴사자·임직원 PC 활동 조사 및 관리', link: '추천 보기' },
+      { icon: 'shield_person', iconImg: './assets/quick-icons/security.webp', title: '정보보안', desc: 'PC 보안 위험 점검 및 진단', link: '추천 보기' },
+      { icon: 'dns', iconImg: './assets/quick-icons/it-infra.webp', title: '연구소 · 제조 보안', desc: '폐쇄망 PC·스마트기기 흔적 점검', link: '추천 보기' },
+      { icon: 'travel_explore', iconImg: './assets/quick-icons/investigation.webp', title: '수사 · 공공', desc: 'PC·폐쇄망 디지털 자료 수집·분석', link: '추천 보기' },
+      { icon: 'diversity_3', iconImg: './assets/quick-icons/consulting.webp', title: '총무 · 자산관리', desc: '스마트기기 완전삭제 및 이력 관리', link: '추천 보기' },
+      { icon: 'gavel', iconImg: './assets/quick-icons/legal.webp', title: '법무 · 전문가', desc: '사건·분쟁 디지털 자료 분석 및 보고', link: '추천 보기' },
     ];
     const S = {
       'DFAS Pro One': { note: '현장 수집부터 분석 · 보고까지 통합 포렌식', href: '#solutions' },
@@ -1885,8 +2202,8 @@ class Component extends DCLogic {
       qmGlyph: qmSrc ? qmSrc.icon : '',
       qmIconIsImg: !!(qmSrc && qmSrc.iconImg),
       qmIconIsGlyph: !!(qmSrc && !qmSrc.iconImg),
-      qmSolutions: qmRec ? qmRec.sol.map(n => ({ name: n, isPIllust: n === 'M-SecuManager P', isGIllust: n === 'M-SecuManager G', noIllust: n !== 'M-SecuManager P' && n !== 'M-SecuManager G', note: (S[n] || {}).note || '', os: OS[n] || '', hasOs: !!OS[n], tags: TAGS[n] || '', href: (S[n] || {}).href || '#solutions', slotId: 'qm-sol-' + n.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase(), img: ({ 'DFAS Discovery': './assets/dfas-discovery-thumb.png', 'DFAS Edge': './assets/dfas-edge-thumb.png', 'DFAS Pro One': './assets/dfas-pro-one-thumb.png', 'GateManager': './assets/gatemanager-thumb-glow.png', 'GateManager Pro': './assets/gatemanager-pro-thumb-glow.png', 'M-SecuManager P': './assets/msecumanager-p-thumb.png', 'M-SecuManager S': './assets/msecumanager-s-thumb.png', 'M-SecuManager G': './assets/msecumanager-g-thumb.png', 'DFAS Go': './assets/dfas-go-thumb-v2-glow.png' })[n] || '' })) : [],
-      qmConsulting: qmRec ? qmRec.con.map((n, i) => ({ name: n, note: (CS[n] || {}).note || '', tags: (CS[n] || {}).tags || '', slotId: 'qm-con-' + i + '-' + encodeURIComponent(n), img: ({ '디지털 포렌식 분석 서비스': './assets/consult-forensic-analysis-thumb.png', '안심삭제 서비스': './assets/service-safe-erase.png', '정보보안 교육': './assets/consult-security-training-thumb-v2-glow.png', '보안진단 서비스': './assets/consult-security-audit-thumb-v4-glow.png' })[n] || '' })) : [],
+      qmSolutions: qmRec ? qmRec.sol.map(n => ({ name: n, isPIllust: n === 'M-SecuManager P', isGIllust: n === 'M-SecuManager G', noIllust: n !== 'M-SecuManager P' && n !== 'M-SecuManager G', note: (S[n] || {}).note || '', os: OS[n] || '', hasOs: !!OS[n], tags: TAGS[n] || '', href: (S[n] || {}).href || '#solutions', slotId: 'qm-sol-' + n.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase(), img: ({ 'DFAS Discovery': './assets/dfas-discovery-thumb.webp', 'DFAS Edge': './assets/dfas-edge-thumb.webp', 'DFAS Pro One': './assets/dfas-pro-one-thumb.webp', 'GateManager': './assets/gatemanager-thumb-glow.webp', 'GateManager Pro': './assets/gatemanager-pro-thumb-glow.webp', 'M-SecuManager P': './assets/msecumanager-p-thumb.webp', 'M-SecuManager S': './assets/msecumanager-s-thumb.webp', 'M-SecuManager G': './assets/msecumanager-g-thumb.webp', 'DFAS Go': './assets/dfas-go-thumb-v2-glow.webp' })[n] || '' })) : [],
+      qmConsulting: qmRec ? qmRec.con.map((n, i) => ({ name: n, note: (CS[n] || {}).note || '', tags: (CS[n] || {}).tags || '', slotId: 'qm-con-' + i + '-' + encodeURIComponent(n), img: ({ '디지털 포렌식 분석 서비스': './assets/consult-forensic-analysis-thumb.webp', '안심삭제 서비스': './assets/service-safe-erase.webp', '정보보안 교육': './assets/consult-security-training-thumb-v2-glow.webp', '보안진단 서비스': './assets/consult-security-audit-thumb-v4-glow.webp' })[n] || '' })) : [],
       qmHasConsult: !!(qmRec && qmRec.con.length),
       qmCols: (qmRec && qmRec.con.length) ? '1fr 1fr' : '1fr',
       qmSolCols: (qmRec && qmRec.con.length) ? '1fr' : '1fr 1fr',
@@ -1895,17 +2212,17 @@ class Component extends DCLogic {
 
     // ── 01 DFAS ──
     const dfasProducts = [
-      { id: 'edge', name: 'DFAS Edge', logo: 'uploads/DFAS%20Edge_white_AI.png', icon: 'memory', listSub: '온디바이스 AI 포렌식', badge: '2026 4분기 출시예정', eyebrow: 'RECORD · DIGITAL FORENSICS',
+      { id: 'edge', name: 'DFAS Edge', logo: 'uploads/DFAS%20Edge_white_AI.webp', icon: 'memory', listSub: '온디바이스 AI 포렌식', badge: '2026 4분기 출시예정', eyebrow: 'RECORD · DIGITAL FORENSICS',
         desc: ['공개된 연구 방법론과 성능 평가를 기반으로 신뢰할 수 있는 AI 기술을 제공합니다.', '엣지 AI 디바이스에 SLM·NPU를 탑재해 폐쇄망·오프라인 현장에서도 100% 독립 운영되는 차세대 포렌식 솔루션입니다.'] },
-      { id: 'proone', name: 'DFAS Pro One', logo: 'uploads/DFAS%20Pro_white_one.png', icon: 'devices', listSub: '폐쇄망 환경에서도 작동하는 현장형 OS 통합 포렌식', eyebrow: 'RECORD · DIGITAL FORENSICS', hasOS: true,
+      { id: 'proone', name: 'DFAS Pro One', logo: 'uploads/DFAS%20Pro_white_one.webp', icon: 'devices', listSub: '폐쇄망 환경에서도 작동하는 현장형 OS 통합 포렌식', eyebrow: 'RECORD · DIGITAL FORENSICS', hasOS: true,
         os: { win: { desc: ['네트워크 사용이 어려운 현장에서도 Windows와 macOS 데이터를 안정적으로 수집·분석할 수 있습니다.', '현장형 OS 통합 포렌식 에이전트로, 서버 연동 또는 단독 실행이 모두 가능합니다.'] },
               mac: { desc: ['macOS 환경에 최적화된 수집 엔진으로 APFS 볼륨과 통합 로그(Unified Log)를 폐쇄망 현장에서 정밀 분석합니다.', '서버 연동 또는 단독 실행이 모두 가능합니다.'] } } },
-      { id: 'discovery', name: 'DFAS Discovery', logo: 'uploads/DFAS%20Discovery_white.png', icon: 'fact_check', listSub: '원격 증거 수집 · 통합 분석 및 보고서 생성', eyebrow: 'RECORD · DIGITAL FORENSICS',
+      { id: 'discovery', name: 'DFAS Discovery', logo: 'uploads/DFAS%20Discovery_white.webp', icon: 'fact_check', listSub: '원격 증거 수집 · 통합 분석 및 보고서 생성', eyebrow: 'RECORD · DIGITAL FORENSICS',
         desc: ['여러 사업장과 원격지 PC의 데이터를 수집하고 통합 분석합니다.', '조사 대상과 케이스 관리부터 결과 조회, 보고서 생성까지 하나의 흐름으로 운영할 수 있습니다.'],
         tags: ['#통합 조회', '#타임라인 분석', '#에이전트 관리', '#케이스 관리', '#보고서 생성'] },
-      { id: 'go', name: 'DFAS Go', logo: 'uploads/DFAS%20Go_white.png', icon: 'travel_explore', listSub: '보안진단 · 리스크 관리 · 자연어 리스크 탐지', eyebrow: 'RECORD · DIGITAL FORENSICS',
+      { id: 'go', name: 'DFAS Go', logo: 'uploads/DFAS%20Go_white.webp', icon: 'travel_explore', listSub: '보안진단 · 리스크 관리 · 자연어 리스크 탐지', eyebrow: 'RECORD · DIGITAL FORENSICS',
         desc: ['자연어 검색으로 사내 리스크 징후를 신속하게 수집·분석합니다.', '보안 진단과 리스크 관리를 하나의 흐름으로 연결합니다.'] },
-      { id: 'arc', name: 'DFAS Arc', logo: 'uploads/DFAS%20Arc_white.png', icon: 'inventory_2', listSub: '문서 보안등급 분류 · 기밀 탐지 AI 아카이빙', eyebrow: 'RECORD · DIGITAL FORENSICS',
+      { id: 'arc', name: 'DFAS Arc', logo: 'uploads/DFAS%20Arc_white.webp', icon: 'inventory_2', listSub: '문서 보안등급 분류 · 기밀 탐지 AI 아카이빙', eyebrow: 'RECORD · DIGITAL FORENSICS',
         desc: ['문서의 보안등급을 자동 분류하고 기밀을 탐지해 안전하게 아카이빙합니다.', 'AI 기반 분류로 방대한 문서를 체계적으로 관리합니다.'] },
     ];
     this._dfasCount = dfasProducts.length;
@@ -1941,8 +2258,8 @@ class Component extends DCLogic {
 
     // ── 02 GateManager ──
     const gateData = [
-      { id: 'gm', name: 'Gate Manager', logo: 'uploads/gatemanager_white.png', descLine1: '출입구 현장에서 앱 설치나 설정 변경 없이 파악합니다.', descLine2: '특정 시간대의 촬영·녹음 여부를 신속히 탐지하여 정보 보안 위협 발생 시 현장에서 빠르게 대응할 수 있습니다.', icon: 'videocam', noteIcon: 'dns', noteTitle: '현장 보안 담당자용', noteSub: '실제 분석을 위한 에이전트 · 서버 연동 또는 단독 실행 가능', image: 'uploads/card_gm.png' },
-      { id: 'gmpro', name: 'Gate Manager Pro', logo: 'uploads/gatemanager_white.png', badge: 'uploads/gatemanager_pro_asset.png', descLine1: '현장 방문 없이, 사무실에서 전체 현장을 한눈에 조회합니다.', descLine2: '전용 웹 매니저를 제공하여 여러 Gate에서 수집된 탐지 결과를 한눈에 관리·모니터링할 수 있습니다.', icon: 'hub', noteIcon: 'hub', noteTitle: '중앙 보안 관리자용', noteSub: '중앙 관리형 매니저 · 에이전트에서 분석된 결과를 중앙에서 관리', image: 'uploads/card_gm_pro.png' },
+      { id: 'gm', name: 'Gate Manager', logo: 'uploads/gatemanager_white.webp', descLine1: '출입구 현장에서 앱 설치나 설정 변경 없이 파악합니다.', descLine2: '특정 시간대의 촬영·녹음 여부를 신속히 탐지하여 정보 보안 위협 발생 시 현장에서 빠르게 대응할 수 있습니다.', icon: 'videocam', noteIcon: 'dns', noteTitle: '현장 보안 담당자용', noteSub: '실제 분석을 위한 에이전트 · 서버 연동 또는 단독 실행 가능', image: 'uploads/card_gm.webp' },
+      { id: 'gmpro', name: 'Gate Manager Pro', logo: 'uploads/gatemanager_white.webp', badge: 'uploads/gatemanager_pro_asset.webp', descLine1: '현장 방문 없이, 사무실에서 전체 현장을 한눈에 조회합니다.', descLine2: '전용 웹 매니저를 제공하여 여러 Gate에서 수집된 탐지 결과를 한눈에 관리·모니터링할 수 있습니다.', icon: 'hub', noteIcon: 'hub', noteTitle: '중앙 보안 관리자용', noteSub: '중앙 관리형 매니저 · 에이전트에서 분석된 결과를 중앙에서 관리', image: 'uploads/card_gm_pro.webp' },
     ];
     const gateCards = gateData.map(g => ({
       ...g,
@@ -2034,9 +2351,8 @@ class Component extends DCLogic {
     this._countryCount = countryData.length;
     const mapAsp = 567 / 1024; // px-height/px-width factor of the map image (fixed aspect-ratio box)
     const countries = countryData.map((c, i) => {
-      const on = i === country;
       const hovered = hoverCountry === i || (hoverCountry === null && autoIdx === i);
-      const emphasized = on || hovered;
+      const emphasized = hovered;
       // keep tooltips to the right of the label, but flip inward when they'd overflow the map's right edge
       const tipLeft = false;
       const tipY = c.y + c.dy;
@@ -2052,9 +2368,7 @@ class Component extends DCLogic {
         ...c,
         nameText: isEn ? c.en : c.ko,
         altNameText: isEn ? c.ko : c.en,
-        onClick: () => this.setState({ country: i }),
         onEnter: setHover(i), onLeave: setHover(null),
-        onKeyDown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.setState({ country: i }); } },
         wrapStyle: 'position:absolute;left:' + c.x + '%;top:' + c.y + '%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);cursor:pointer;z-index:' + (hovered ? 200 : 100) + ';outline:none;',
         lineStyle: 'position:absolute;left:' + c.x + '%;top:' + c.y + '%;width:' + lineLen + '%;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.65),rgba(255,255,255,.15));transform-origin:left center;transform:rotate(' + angle + 'deg);pointer-events:none;z-index:1;',
         labelStyle: 'position:absolute;left:' + (c.x + c.dx) + '%;top:' + (c.y + c.dy) + '%;transform:translate(' + (c.dx >= 0 ? '6px' : 'calc(-100% - 6px)') + ',-50%);font-size:13px;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);white-space:nowrap;cursor:pointer;z-index:' + (hovered ? 200 : 100) + ';transition:color .2s;',
@@ -2074,46 +2388,43 @@ class Component extends DCLogic {
         tooltipStyle: 'position:absolute;top:0;' + (tipLeft ? 'right:calc(100% + 12px);' : 'left:calc(100% + 12px);') + 'text-align:left;font-weight:400;white-space:normal;width:min(' + ((c.partners || []).length > 6 ? 320 : 250) + 'px,74vw);padding:16px 18px;border-radius:14px;background:rgba(20,22,40,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.03);box-shadow:0 12px 30px rgba(0,0,0,.4);opacity:' + (hovered ? 1 : 0) + ';transform:' + (hovered ? 'translateY(0) scale(1)' : 'translateY(4px) scale(.98)') + ';pointer-events:none;transition:opacity .4s ease-in-out,transform .4s ease-in-out;z-index:30;',
       };
     });
-    const active = countryData[country] || countryData[0];
-    const flagGrad = (f) => 'width:40px;height:28px;border-radius:5px;flex:none;background:linear-gradient(135deg,' + f[0] + ' 0 50%,' + f[1] + ' 50% 100%);box-shadow:0 2px 8px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);';
-
     const partners = ['SAMSUNG', 'LG', 'SK', '국세청', '경찰청', '대검찰청', 'KB금융', '현대', '한국전력', '국방부', 'NAVER', 'KT', '우리은행', '금융감독원', '한국은행', 'POSCO', 'LOTTE', 'CJ'];
 
     const news = [
       { cat: '전시회', group: '전시회', date: '2025.06', title: '국제 보안 엑스포 2025 참가, DFAS Edge 신제품 공개', desc: '국제 보안 엑스포 2025에서 DFAS Edge 신제품을 최초 공개했습니다.', tags: ['#전시회', '#DFAS'], icon: 'storefront', bg: 'linear-gradient(135deg,#628CF5,#4663AE)', href: '#news', slotStyle: '' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2026.08', title: "유락, 엔비디아 지원 '엔업' 선정…AI 디지털 포렌식 선도", desc: "유락이 엔비디아 스타트업 지원 프로그램 '엔업'에 선정됐습니다.", tags: ['#유락소식', '#AI'], icon: 'campaign', bg: "url('assets/news-urock-nup.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-nvidia-nup.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2026.07', title: '유락, 인도 4개 주 실증 확보…현장형 AI 포렌식으로 글로벌 공략', desc: '유락이 인도 4개 주에서 현장형 AI 포렌식 실증 기회를 확보했습니다.', tags: ['#유락소식', '#글로벌'], icon: 'public', bg: "url('assets/news-urock-india.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-india-press-release.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2026.07', title: '[N2 인터뷰] 유봉석 유락 대표 “증거는 현장에 있다…AI 포렌식으로 데이터 리스크 관리 시대 연다”', desc: '유봉석 대표가 AI 포렌식과 데이터 리스크 관리 비전을 소개했습니다.', tags: ['#유락소식', '#인터뷰'], icon: 'record_voice_over', bg: "url('assets/news-urock-ceo.png') center center/cover no-repeat", href: 'https://urock.kr/html/page/news-ceo-interview.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2026.07', title: '“보안 외주 인력 디지털 포렌식으로 상시 점검해야”', desc: '외주 인력의 데이터 취급을 디지털 포렌식으로 상시 점검할 필요성을 제시했습니다.', tags: ['#유락소식', '#보안'], icon: 'policy', bg: "url('assets/news-urock-zdnet.png') center center/cover no-repeat", href: 'https://urock.kr/html/page/news-zdnet-privacy-audit.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.10', title: 'YTN ‘최강기업’ 방송 출연', bg: "url('assets/news-urock-ytn.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ytn-choegang.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.09', title: '사이버 위험관리 보험업계 실무자 간담회 참석', bg: "url('assets/news-urock-briefing.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-cyber-insurance-briefing.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.08', title: '오만 AL THABAT과 MOU 체결', bg: "url('assets/news-urock-mou.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-oman-al-thabat-mou.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.07', title: '유락 AiLAB 개소', bg: "url('assets/news-urock-ailab.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ailab-opening.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.06', title: '안심삭제 서비스 오픈', bg: "url('assets/news-urock-deletion.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-secure-deletion-service.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.06', title: '‘2025년도 스케일업 팁스’ 선정', bg: "url('assets/news-urock-scaleup.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-scaleup-tips.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.03', title: '‘2025 초격차 스타트업 1000+ 프로젝트’ 선정', bg: "url('assets/news-urock-startup.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-startup-1000.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2025.02', title: "네이버 클라우드 포함 12개 기업과 '중동 진출을 위한 상호 협력 협약서' 체결", bg: "url('assets/news-urock-naver.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-naver-cloud-mou.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.11', title: '인도 정보보안회사 SiberSentinel과 보안 솔루션 파트너 계약 체결', bg: "url('assets/news-urock-siber.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-sibersentinel-partner.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.09', title: 'Series A 15억 투자 유치', bg: "url('assets/news-urock-default.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-series-a-investment.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.06', title: '‘창업도약 패키지(일반형)’ 선정', bg: "url('assets/news-urock-default.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-startup-package.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.06', title: '‘K-Startup 해외진출고도화’ 선정', bg: "url('assets/news-urock-default.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-kstartup-overseas.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.05', title: '‘한국형 보안 모델 해외 타당성 조사 지원’ 선정', bg: "url('assets/news-urock-kisa.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ksecurity-model.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.04', title: '정보보호 전문 인력 양성 교육(K-Shield)', bg: "url('assets/news-urock-kisa.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-kshield-education.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.04', title: '‘K-security 스타트업 글로벌 챌린지 프로그램’ 선정', bg: "url('assets/news-urock-kisa.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ksecurity-challenge.html', slotStyle: 'display:none;' },
-      { cat: 'UROCK소식', group: '유락소식', date: '2024.01', title: '네오드림스와 M-SecuManager 파트너십 체결', bg: "url('assets/news-urock-neo.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-neodreams-partnership.html', slotStyle: 'display:none;' },
-      { cat: '제품 소식', group: '제품소식', date: '2025.11', title: 'DFAS, 상표 등록', bg: "url('assets/news-urock-dfas-trademark.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-dfas-trademark.html', slotStyle: 'display:none;' },
-      { cat: '제품 소식', group: '제품소식', date: '2024.12', title: 'GateManager, 벤처나라 조달상품 지정', bg: "url('assets/news-urock-gm.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-gatemanager-venture-nara.html', slotStyle: 'display:none;' },
-      { cat: '제품 소식', group: '제품소식', date: '2024.11', title: 'DFAS Pro Win, 정보보호시스템 신속확인 인증 획득', bg: "url('assets/news-urock-dfas-cert.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-dfas-pro-rapid-cert.html', slotStyle: 'display:none;' },
-      { cat: '제품 소식', group: '제품소식', date: '2024.11', title: 'GateManager, PCT 국제 특허 출원 완료', bg: "url('assets/news-urock-gm.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-gatemanager-pct.html', slotStyle: 'display:none;' },
-      { cat: '제품 소식', group: '제품소식', date: '2024.10', title: '모바일 보안 파일 유출 탐지 기술 특허 등록', bg: "url('assets/news-urock-mobile-patent.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-mobile-leak-patent.html', slotStyle: 'display:none;' },
-      { cat: '제품 소식', group: '제품소식', date: '2024.10', title: '이노비즈(TECH-INNOVATIVE SME) 기술혁신형 중소기업 인증 획득', bg: "url('assets/news-urock-innobiz.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-innobiz-cert.html', slotStyle: 'display:none;' },
-      { cat: '전시회', group: '전시회', date: '2025.11', title: '2025 KDFS 참가', bg: "url('assets/news-urock-kdfs.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-kdfs-2025.html', slotStyle: 'display:none;' },
-      { cat: '전시회', group: '전시회', date: '2025.10', title: '일본 SEECAT 2025 참가', bg: "url('assets/news-urock-seecat.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-seecat-2025.html', slotStyle: 'display:none;' },
-      { cat: '전시회', group: '전시회', date: '2025.09', title: '제5회 개인정보보호의 날 ‘개인정보 보호기술’ 전시회 참가', bg: "url('assets/news-urock-privacy.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-privacy-tech-exhibition.html', slotStyle: 'display:none;' },
-      { cat: '전시회', group: '전시회', date: '2025.02', title: '사우디아라비아 전시회 2025 LEAP 참가', bg: "url('assets/news-urock-leap.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-leap-2025.html', slotStyle: 'display:none;' },
-      { cat: '전시회', group: '전시회', date: '2024.10', title: '국제치안산업대전 2024 참가', bg: "url('assets/news-urock-police-expo.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-police-security-expo-2024.html', slotStyle: 'display:none;' },
-      { cat: '전시회', group: '전시회', date: '2024.07', title: '인도 국제 보안 전시회 (India Homeland Security Expo) 참가', bg: "url('assets/news-urock-india-expo.png') center/cover no-repeat", href: 'https://urock.kr/html/page/news-india-homeland-expo.html', slotStyle: 'display:none;' },
-      { cat: '블로그', group: '블로그', date: '2026.08', title: 'AI 디지털 포렌식 전문기업, 유락', bg: "url('assets/news-urock-blog-ai.png') center/cover no-repeat", href: 'https://urock.kr/html/page/blog-urock-ai-forensics-company.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2026.08', title: "유락, 엔비디아 지원 '엔업' 선정…AI 디지털 포렌식 선도", desc: "유락이 엔비디아 스타트업 지원 프로그램 '엔업'에 선정됐습니다.", tags: ['#유락소식', '#AI'], icon: 'campaign', bg: "url('assets/news-urock-nup.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-nvidia-nup.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2026.07', title: '유락, 인도 4개 주 실증 확보…현장형 AI 포렌식으로 글로벌 공략', desc: '유락이 인도 4개 주에서 현장형 AI 포렌식 실증 기회를 확보했습니다.', tags: ['#유락소식', '#글로벌'], icon: 'public', bg: "url('assets/news-urock-india.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-india-press-release.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2026.07', title: '[N2 인터뷰] 유봉석 유락 대표 “증거는 현장에 있다…AI 포렌식으로 데이터 리스크 관리 시대 연다”', desc: '유봉석 대표가 AI 포렌식과 데이터 리스크 관리 비전을 소개했습니다.', tags: ['#유락소식', '#인터뷰'], icon: 'record_voice_over', bg: "url('assets/news-urock-ceo.webp') center center/cover no-repeat", href: 'https://urock.kr/html/page/news-ceo-interview.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2026.07', title: '“보안 외주 인력 디지털 포렌식으로 상시 점검해야”', desc: '외주 인력의 데이터 취급을 디지털 포렌식으로 상시 점검할 필요성을 제시했습니다.', tags: ['#유락소식', '#보안'], icon: 'policy', bg: "url('assets/news-urock-zdnet.webp') center center/cover no-repeat", href: 'https://urock.kr/html/page/news-zdnet-privacy-audit.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.10', title: 'YTN ‘최강기업’ 방송 출연', bg: "url('assets/news-urock-ytn.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ytn-choegang.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.09', title: '사이버 위험관리 보험업계 실무자 간담회 참석', bg: "url('assets/news-urock-briefing.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-cyber-insurance-briefing.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.08', title: '오만 AL THABAT과 MOU 체결', bg: "url('assets/news-urock-mou.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-oman-al-thabat-mou.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.07', title: '유락 AiLAB 개소', bg: "url('assets/news-urock-ailab.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ailab-opening.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.06', title: '안심삭제 서비스 오픈', bg: "url('assets/news-urock-deletion.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-secure-deletion-service.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.06', title: '‘2025년도 스케일업 팁스’ 선정', bg: "url('assets/news-urock-scaleup.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-scaleup-tips.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.03', title: '‘2025 초격차 스타트업 1000+ 프로젝트’ 선정', bg: "url('assets/news-urock-startup.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-startup-1000.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2025.02', title: "네이버 클라우드 포함 12개 기업과 '중동 진출을 위한 상호 협력 협약서' 체결", bg: "url('assets/news-urock-naver.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-naver-cloud-mou.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.11', title: '인도 정보보안회사 SiberSentinel과 보안 솔루션 파트너 계약 체결', bg: "url('assets/news-urock-siber.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-sibersentinel-partner.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.09', title: 'Series A 15억 투자 유치', bg: "url('assets/news-urock-default.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-series-a-investment.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.06', title: '‘창업도약 패키지(일반형)’ 선정', bg: "url('assets/news-urock-default.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-startup-package.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.06', title: '‘K-Startup 해외진출고도화’ 선정', bg: "url('assets/news-urock-default.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-kstartup-overseas.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.05', title: '‘한국형 보안 모델 해외 타당성 조사 지원’ 선정', bg: "url('assets/news-urock-kisa.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ksecurity-model.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.04', title: '정보보호 전문 인력 양성 교육(K-Shield)', bg: "url('assets/news-urock-kisa.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-kshield-education.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.04', title: '‘K-security 스타트업 글로벌 챌린지 프로그램’ 선정', bg: "url('assets/news-urock-kisa.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-ksecurity-challenge.html', slotStyle: 'display:none;' },
+      { cat: 'UROCK소식', group: '유락소식', date: '2024.01', title: '네오드림스와 M-SecuManager 파트너십 체결', bg: "url('assets/news-urock-neo.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-neodreams-partnership.html', slotStyle: 'display:none;' },
+      { cat: '제품 소식', group: '제품소식', date: '2025.11', title: 'DFAS, 상표 등록', bg: "url('assets/news-urock-dfas-trademark.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-dfas-trademark.html', slotStyle: 'display:none;' },
+      { cat: '제품 소식', group: '제품소식', date: '2024.12', title: 'GateManager, 벤처나라 조달상품 지정', bg: "url('assets/news-urock-gm.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-gatemanager-venture-nara.html', slotStyle: 'display:none;' },
+      { cat: '제품 소식', group: '제품소식', date: '2024.11', title: 'DFAS Pro Win, 정보보호시스템 신속확인 인증 획득', bg: "url('assets/news-urock-dfas-cert.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-dfas-pro-rapid-cert.html', slotStyle: 'display:none;' },
+      { cat: '제품 소식', group: '제품소식', date: '2024.11', title: 'GateManager, PCT 국제 특허 출원 완료', bg: "url('assets/news-urock-gm.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-gatemanager-pct.html', slotStyle: 'display:none;' },
+      { cat: '제품 소식', group: '제품소식', date: '2024.10', title: '모바일 보안 파일 유출 탐지 기술 특허 등록', bg: "url('assets/news-urock-mobile-patent.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-mobile-leak-patent.html', slotStyle: 'display:none;' },
+      { cat: '제품 소식', group: '제품소식', date: '2024.10', title: '이노비즈(TECH-INNOVATIVE SME) 기술혁신형 중소기업 인증 획득', bg: "url('assets/news-urock-innobiz.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-innobiz-cert.html', slotStyle: 'display:none;' },
+      { cat: '전시회', group: '전시회', date: '2025.11', title: '2025 KDFS 참가', bg: "url('assets/news-urock-kdfs.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-kdfs-2025.html', slotStyle: 'display:none;' },
+      { cat: '전시회', group: '전시회', date: '2025.10', title: '일본 SEECAT 2025 참가', bg: "url('assets/news-urock-seecat.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-seecat-2025.html', slotStyle: 'display:none;' },
+      { cat: '전시회', group: '전시회', date: '2025.09', title: '제5회 개인정보보호의 날 ‘개인정보 보호기술’ 전시회 참가', bg: "url('assets/news-urock-privacy.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-privacy-tech-exhibition.html', slotStyle: 'display:none;' },
+      { cat: '전시회', group: '전시회', date: '2025.02', title: '사우디아라비아 전시회 2025 LEAP 참가', bg: "url('assets/news-urock-leap.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-leap-2025.html', slotStyle: 'display:none;' },
+      { cat: '전시회', group: '전시회', date: '2024.10', title: '국제치안산업대전 2024 참가', bg: "url('assets/news-urock-police-expo.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-police-security-expo-2024.html', slotStyle: 'display:none;' },
+      { cat: '전시회', group: '전시회', date: '2024.07', title: '인도 국제 보안 전시회 (India Homeland Security Expo) 참가', bg: "url('assets/news-urock-india-expo.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/news-india-homeland-expo.html', slotStyle: 'display:none;' },
+      { cat: '블로그', group: '블로그', date: '2026.08', title: 'AI 디지털 포렌식 전문기업, 유락', bg: "url('assets/news-urock-blog-ai.webp') center/cover no-repeat", href: 'https://urock.kr/html/page/blog-urock-ai-forensics-company.html', slotStyle: 'display:none;' },
     ];
     news.forEach((n, i) => {
       n.imgId = 'news-img-' + i;
@@ -2197,7 +2508,7 @@ class Component extends DCLogic {
       stopPropagation: (e) => e.stopPropagation(),
       msecuItems, mcqCardsRef: this.mcqCardsRef, lottieRef: this.lottieRef, ...this.reportPhases(),
       consultingStats, consultArc, consultUp: this.rotateConsult(1), consultDown: this.rotateConsult(-1), stats, partners, news,
-      countries, active, statsRef: this.statsRef, logoRef: this.logoRef,
+      countries, statsRef: this.statsRef, logoRef: this.logoRef,
       newsTabItems, newsFiltered, newsScrollRef, newsPrev: newsScrollBy(-1), newsNext: newsScrollBy(1),
       newsPrevDisabled: !this.state.newsScrolled, newsNextDisabled: !this.state.newsMoreRight, newsLeftFadeStyle, newsRightFadeStyle,
       fabDash: (2 * Math.PI * 27).toFixed(1),
@@ -2206,7 +2517,6 @@ class Component extends DCLogic {
       scrollTop: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
       logoAnimStyle: 'animation-play-state:' + (this.state.logoInView ? 'running' : 'paused') + ';',
       logoPlayKey: this.state.logoPlayKey,
-      activeFlagStyle: flagGrad(active.flag),
       lang, langLabel: lang, toggleLang: () => this.setState({ lang: lang === 'KO' ? 'EN' : 'KO' }),
       theme, isDark,
       toggleTheme: this.toggleTheme,
