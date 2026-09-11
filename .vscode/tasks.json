@@ -1,0 +1,65 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Claude 3개 켜기",
+      "dependsOn": ["Claude CLI 1", "Claude CLI 2", "Claude CLI 3"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Claude CLI 1",
+      "type": "process",
+      "command": "cmd.exe",
+      "args": ["/c", "start", "Claude 1", "cmd.exe", "/k", "claude"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared",
+        "echo": false,
+        "showReuseMessage": false,
+        "close": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Claude CLI 2",
+      "type": "process",
+      "command": "cmd.exe",
+      "args": ["/c", "start", "Claude 2", "cmd.exe", "/k", "claude"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared",
+        "echo": false,
+        "showReuseMessage": false,
+        "close": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Claude CLI 3",
+      "type": "process",
+      "command": "cmd.exe",
+      "args": ["/c", "start", "Claude 3", "cmd.exe", "/k", "claude"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared",
+        "echo": false,
+        "showReuseMessage": false,
+        "close": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

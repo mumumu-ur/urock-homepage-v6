@@ -130,6 +130,25 @@
       if (!this._done || !this._chars) { this._pendingReveal = on; return; }
       this._show(on);
     }
+    // Additive-only, opt-in: snaps every char straight back to its hidden
+    // starting look with no transition (unlike revealChars(false), which
+    // animates), then forces a reflow so a revealChars(true) called right
+    // after this correctly animates FROM this hidden state instead of the
+    // two calls collapsing into a no-op (setting a transitioned property
+    // twice in the same tick, with no paint in between, only ever animates
+    // to the last value written — see callers, e.g. hero-scrollworld.js's
+    // Scene 1 Dot-replay, which needs a clean hidden->revealed replay each
+    // click, not the char's already-revealed state persisting through it).
+    resetHidden() {
+      if (!this._chars) { this._pendingReveal = false; return; }
+      this._chars.forEach((sp) => {
+        sp.style.transition = 'none';
+        sp.style.opacity = '0';
+        sp.style.filter = 'blur(12px)';
+        sp.style.transform = 'translateY(10px)';
+      });
+      void this.offsetWidth; // force reflow — see comment above
+    }
     disconnectedCallback() { if (this._io) this._io.disconnect(); }
   }
 

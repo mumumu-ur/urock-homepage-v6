@@ -177,6 +177,42 @@
   var root = document.documentElement;
   function setVar(name, value) { root.style.setProperty(name, value); }
 
+  // ---------------------------------------------------------------------
+  // Splash gate (on request) — Scene 1's object-01/-02 entrance and its
+  // copy's blur-reveal both used to start the instant this element mounted
+  // /_tick()'d, entirely independent of splash-loader.js's overlay: on a
+  // typical load the splash (which blocks scroll but not CSS animations or
+  // this file's own JS) was still up while both finished underneath it, so
+  // a visitor only ever saw the *already-settled* end frame once it lifted
+  // — never the motion. Same class of problem hero-coord-hud.js's own
+  // gateOpen already solved for the Coordinate HUD (see that file); this
+  // mirrors it here for the two things that live in THIS file: object-01/
+  // -02's CSS `animation` (see html[data-hero-splash-gate="open"] in
+  // index.html — the animation itself stays paused via
+  // `animation-play-state` until that attribute appears) and Scene 1's
+  // blur-reveal trigger in _applyState() below. Every other Scene's copy/
+  // panel/object motion is untouched: they only ever reveal after the
+  // visitor scrolls, which is physically impossible while the splash's own
+  // `overflow:hidden` is in effect, so they were already correctly gated
+  // by construction.
+  var heroSplashGateOpen = (function () {
+    var splashEl = document.getElementById('splash-loader');
+    return window.__urockSplashLoaded === true || !splashEl || splashEl.getAttribute('data-done') === 'true';
+  })();
+  if (heroSplashGateOpen) root.setAttribute('data-hero-splash-gate', 'open');
+  else {
+    window.addEventListener('urock:splash-loaded', function onSplashLoaded() {
+      window.removeEventListener('urock:splash-loaded', onSplashLoaded);
+      heroSplashGateOpen = true;
+      root.setAttribute('data-hero-splash-gate', 'open');
+      // Re-run every active instance's own tick so Scene 1's blur-reveal
+      // (gated inline in _applyState() below) picks up the now-open gate
+      // immediately, the same frame the CSS entrance starts, rather than
+      // waiting for the next incidental scroll/resize event.
+      instances.forEach(function (inst) { if (inst._active) inst._tick(); });
+    }, { once: true });
+  }
+
   class HeroScrollWorldElement extends HTMLElement {
     connectedCallback() {
       if (this._done) return;
@@ -201,6 +237,12 @@
       this._blobUrls = new Map(); // transition index -> blob url currently in use
       this._videoFail = new Map(); // transition index -> consecutive-bad-seek count
       this._lastOpacity = new Map(); // dedupe key -> last written value
+      // Right-panel "slide in from off-screen right" entrance (on request):
+      // which Scene's hold segment last had its panel entrance played, so
+      // _applyState() can detect a fresh arrival (null on init -> Scene 1's
+      // very first _tick() below counts as an arrival too, i.e. plays on
+      // page load same as every later Scene). See _playPanelEnter().
+      this._lastActiveSceneN = null;
 
       this.stage = this.querySelector('[data-hsw-stage]');
       this.reducedEl = this.querySelector('[data-hsw-reduced]');
@@ -424,6 +466,145 @@
       // a "not blurred yet" state in, whether observed mid-scroll or after.
       window.scrollTo({ top: targetY, behavior: 'auto' });
       this._tick();
+      // Explicit, unconditional panel-entrance replay for whichever Scene
+      // this Dot targets — every click "reloads" it (on request), including
+      // a repeat click on the Scene you're already on, which _applyState()'s
+      // own arrival check (state.idx === 0 only, now that every other Scene
+      // slides its panel in via CSS instead — see that comment) wouldn't
+      // catch on its own. Harmless to call after _tick() even for Scene 1
+      // (whose arrival check above may have *also* just fired): _playPanelEnter()
+      // cancels any in-flight instance of itself before starting a new one.
+      this._lastActiveSceneN = n;
+      this._playPanelEnter(n);
+      this._playObjectEnter(n);
+      // Scene 1 only (on request) — its own separate replay for the text
+      // and the top-left cube (object-02); see _replayScene1Entry()'s own
+      // comment for why these two specifically need dedicated handling
+      // instead of reusing _playPanelEnter/_playObjectEnter's machinery.
+      // Scoped strictly to n === 1: no other Scene's Dot click is touched.
+      if (n === 1) this._replayScene1Entry();
+    }
+
+    // -- Scene 1 Dot-click replay: text + the top-left cube (object-02) ---
+    // On request, scoped to Scene 1 only — every other Scene already
+    // replays correctly via _playPanelEnter/_playObjectEnter above, which
+    // both use the Web Animations API (a fresh Animation instance per
+    // call, trivially replayable). Scene 1's object-01/-02 are different:
+    // they're a plain CSS `animation` gated behind `animation-play-state`
+    // (see html[data-hero-splash-gate="open"] .hsw-object-01/-02 in
+    // index.html — added so they wait for the splash overlay to actually
+    // lift before ever playing), which a WAAPI call on the same element
+    // would just fight rather than replay. Restarting a CSS `animation` is
+    // instead the standard "set animation:none, force a reflow, clear the
+    // override" trick: with animation:none the box snaps to its plain
+    // (non-animated) computed style — the off-screen `translate:60vw -60vh`
+    // this rule already sets stays in effect either way, so this never
+    // flashes the settled position first — then clearing it lets the
+    // cascade's `animation` declaration re-apply as if freshly connected,
+    // and animation-play-state is already `running` (the splash gate is
+    // long open by the time a Dot is clickable) so it starts immediately.
+    // object-01 is deliberately left alone (only object-02 was asked for).
+    // Text: blur-reveal's revealChars(true) only animates on a hidden ->
+    // shown transition, and Scene 1's copy is already fully revealed by
+    // the time its Dot is clickable — calling it again with no state
+    // change is a no-op. resetHidden() (see blur-reveal.js) snaps back to
+    // hidden with no transition first so the revealChars(true) right after
+    // has a real hidden state to animate from, i.e. an actual replay
+    // rather than nothing visibly happening.
+    _replayScene1Entry() {
+      var cube = this.querySelector('.hsw-object-02');
+      if (cube) {
+        cube.style.animation = 'none';
+        void cube.offsetWidth; // force reflow — see comment above
+        cube.style.animation = '';
+      }
+      var brEls = this.copyReveal[1];
+      if (brEls && brEls.length) {
+        brEls.forEach(function (b) { if (b.resetHidden) b.resetHidden(); });
+        brEls.forEach(function (b) { b.revealChars(true); });
+      }
+      // Coordinate Focus HUD (on request) — hero-coord-hud.js is a
+      // deliberately separate, independent file (see its own file-header
+      // comment: "does NOT touch hero-scrollworld.js"), so this reaches it
+      // the same way splash-loader.js already does — a plain window event,
+      // not a direct call into its internals. Without this, a repeat click
+      // on Scene 1's own Dot replayed the cube + text above but left the
+      // "TARGET LOCK"/lat-lon readout frozen at its already-locked value:
+      // hero-coord-hud.js's own trigger is edge-detected off --hsw-copy-1
+      // crossing its reveal threshold, which doesn't change value on a
+      // same-Scene re-click, so nothing there ever re-fired on its own.
+      window.dispatchEvent(new CustomEvent('urock:hero-scene1-replay'));
+    }
+
+    // -- right-panel entrance: slide up from off-screen below --------------
+    // Web Animations API, not a CSS `animation` on the rule itself (unlike
+    // object-01/-02's page-load-only corner entrance above, which only
+    // ever needs to run once) — every call here makes a *new* Animation
+    // instance, so replaying is just "call this again", no reflow-forcing
+    // class-toggle trick needed. Animates the standalone `translate`
+    // property (not `transform`), which composes independently of and
+    // never fights the panel's own live --hsw-copy-N-ty-driven `transform:
+    // translateY(...)` (same "leftmost/independent-property = doesn't
+    // disturb existing motion" principle object-01/-02 use, just via a
+    // separate CSS property here instead of a prepended transform term).
+    // Ends at `translate: 0 0` with fill:'forwards', which is inert forever
+    // after (0 0 is that property's own initial value) — so there's no
+    // handoff moment to get wrong, unlike animating `transform` itself
+    // would have been.
+    _playPanelEnter(n) {
+      var copyEl = this.copyEls[n];
+      if (!copyEl) return;
+      var panel = copyEl.querySelector('.hsw-ov-panel');
+      if (!panel || !panel.animate) return;
+      if (panel.__hswEnterAnim) panel.__hswEnterAnim.cancel();
+      panel.__hswEnterAnim = panel.animate(
+        [{ translate: '0 60vh' }, { translate: '0 0' }],
+        { duration: 750, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' }
+      );
+    }
+
+    // -- Scene 3/4's text-top object entrance: slide in from off-screen
+    // left ------------------------------------------------------------
+    // Only Scenes copy=4 (object-03) and copy=6 (object-04) are meant to
+    // use this — copyEl.querySelector('.hsw-object') resolves to whichever
+    // is actually present (they share the base .hsw-object class; each
+    // Scene only ever contains one *of these two*). Neither Scene is
+    // segIdx 0, so — unlike _playPanelEnter, which Scene 1 alone still
+    // needs for natural on-load motion — natural scroll entry is fully
+    // covered by the CSS translateX(calc((1 - var(--hsw-copy-N,0)) *
+    // -60vw)) term on .hsw-object-03/-04 (see index.html); this only
+    // exists to replay that same motion for the instant-jump Dot-click
+    // case, same reasoning as _playPanelEnter just above (including the
+    // standalone `translate` property so it composes with, never fights,
+    // the object's own live transform).
+    // n === 1 explicitly excluded (bugfix): Scene 1 does NOT "simply no-op"
+    // here the way this comment used to claim — copyEls[1] also carries
+    // .hsw-object-01/-02, which ALSO match the bare .hsw-object selector,
+    // so this was silently firing a stray WAAPI translate on object-01 on
+    // every Scene 1 Dot click. Object-01/-02 already have their own
+    // correct entrance system (a gated CSS `animation` — see
+    // html[data-hero-splash-gate="open"] and _replayScene1Entry() above),
+    // and confirmed via hsw-object-01.getAnimations() that this stray call
+    // was landing a *second*, WAAPI-driven Animation instance alongside
+    // the real one — harmless to the eye (both end at translate:0 0) but a
+    // real bug once something else starts depending on that element's
+    // Animation list: hero-coord-hud.js's whenLanded() (obj01's Coordinate
+    // HUD instance tracks object-01) waits on *every* Animation currently
+    // on the tracked element, so this stray one made that wait's timing
+    // depend on exactly when _playObjectEnter happened to run relative to
+    // it — the actual cause of the Scene 1 Dot-replay's flaky/no-show
+    // coordinate counting reported and fixed here.
+    _playObjectEnter(n) {
+      if (n === 1) return;
+      var copyEl = this.copyEls[n];
+      if (!copyEl) return;
+      var obj = copyEl.querySelector('.hsw-object');
+      if (!obj || !obj.animate) return;
+      if (obj.__hswEnterAnim) obj.__hswEnterAnim.cancel();
+      obj.__hswEnterAnim = obj.animate(
+        [{ translate: '-60vw 0' }, { translate: '0 0' }],
+        { duration: 750, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' }
+      );
     }
 
     // -- visual application ----------------------------------------------
@@ -450,6 +631,26 @@
         var n = seg.scene.n;
         sceneOpacity[n] = 1;
         dotActive[n] = 1;
+        // Panel entrance replay — Scene 1 (state.idx === 0) ONLY here.
+        // Every other Scene's panel now slides in purely via CSS, driven
+        // by the same --hsw-copy-N progress that already fades its opacity
+        // in (see the .hsw-ov-panel translateX comment in index.html) —
+        // that keeps the slide in lockstep with the text actually revealing
+        // as the visitor scrolls, on request, instead of a fixed-duration
+        // animation racing ahead of or lagging a slow/fast scroll. Scene 1
+        // has no such ramp to piggyback on (its --hsw-copy-1 is forced to 1
+        // immediately below, no preceding Transition to ease in from — see
+        // that comment), so it alone still needs a real, JS-triggered
+        // entrance to get any visible motion at all on first load. Fires
+        // once per genuine arrival (not every tick spent dwelling in
+        // Scene 1); _scrollToScene() separately, unconditionally replays
+        // this for whichever Scene's Dot was clicked (see its own comment)
+        // so every Scene still gets the replay-on-click behavior, even the
+        // ones that rely on the CSS-driven slide for natural scroll entry.
+        if (state.idx === 0 && this._lastActiveSceneN !== n) {
+          this._playPanelEnter(n);
+        }
+        this._lastActiveSceneN = n;
         if (seg.scene.copy) {
           var ease = CONFIG.copyEase;
           // Segment 0 (Scene 1) has no preceding Transition to crossfade
@@ -566,7 +767,13 @@
         // crossing of the "visible" threshold, not every frame.
         var brEls = this.copyReveal[cn];
         if (brEls && brEls.length) {
-          var revealed = op > 0.02;
+          // Scene 1 only (cn === 1, the segIdx-0 Scene with no scroll ease
+          // to gate it naturally): hold off revealing until the splash
+          // gate opens — see the heroSplashGateOpen comment above. Every
+          // other Scene's `op` can't even reach 0.02 until the visitor has
+          // scrolled, which the splash already makes impossible, so this
+          // condition is a no-op for them.
+          var revealed = op > 0.02 && (cn !== 1 || heroSplashGateOpen);
           if (revealed !== this.copyRevealed[cn]) {
             this.copyRevealed[cn] = revealed;
             for (var bi = 0; bi < brEls.length; bi++) brEls[bi].revealChars(revealed);
