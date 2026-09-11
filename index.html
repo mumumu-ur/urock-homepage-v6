@@ -828,7 +828,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </helmet>
 
 <!-- ===== NAV ===== -->
-<header class="{{ gnbClass }}" onMouseLeave="{{ closeSnb }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 76px; display: flex; align-items: center; justify-content: center; background: {{ navBg }}; backdrop-filter: blur(12px); border-bottom: 1px solid {{ navBorder }}; color: {{ navText }}; transition: background .3s ease, border-color .3s ease, color .3s ease">
+<header class="{{ gnbClass }}" onMouseLeave="{{ closeSnb }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 76px; display: flex; align-items: center; justify-content: center; background: {{ navBg }}; backdrop-filter: {{ navBlur }}; -webkit-backdrop-filter: {{ navBlur }}; border-bottom: 1px solid {{ navBorder }}; color: {{ navText }}; transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease">
   <div style="width:100%;max-width:1680px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
     <a href="#top" style="display:flex;align-items:center;gap:10px;flex-shrink:0;"><span style="position:relative;display:inline-block;height:26px;width:81px;"><img src="assets/UROCK_white.svg" alt="UROCK" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoWhiteOpacity }};transition:opacity .3s;"><img src="assets/UROCK_navy.svg" alt="" aria-hidden="true" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoNavyOpacity }};transition:opacity .3s;"></span></a>
     <nav style="display:flex;align-items:center;justify-content:center;gap:32px;flex:1;">
@@ -2954,7 +2954,7 @@ class Component extends DCLogic {
       closeSnb: this.closeSnb,
       closeSnbNow: this.closeSnbNow,
       navSolClass: this.state.snbOpen ? 'ur-gnb-link is-on' : 'ur-gnb-link',
-      gnbClass: 'ur-gnb' + (this.state.snbOpen ? ' is-open' : '') + (scrolled && !isDark && !this.state.snbOpen ? ' is-light' : ''),
+      gnbClass: 'ur-gnb' + (this.state.snbOpen ? ' is-open' : ''),
       snbDfasRight: [
         { name: 'DFAS Edge', icon: 'usb', href: '#dfas', hasBadge: true, badge: 'AI', badgeClass: 'ur-snb-chip ur-snb-chip-ai', desc: '현장 기기 분석 최소화 복제 및 사전 이미징(Write Blocker) 활용 워크플로우', tags: ['#대면분석', '#초경량화', '#Write-Blocker'] },
         { name: 'DFAS Go', icon: 'smartphone', href: '#dfas', hasBadge: false, badge: '', badgeClass: '', desc: '비전공자도 내 PC 위험 요인을 점검하고 신속·직관적인 리스크 리포트를 생성합니다', tags: ['#보안진단', '#리스크탐지', '#보고서'] },
@@ -2970,15 +2970,15 @@ class Component extends DCLogic {
         { name: 'Gate Manager', icon: 'photo_camera', href: '#gm', desc: '연구실 및 보안 구역 출입 시 모바일 카메라·녹음 기능을 탐지해 불법 촬영을 차단합니다', tags: ['#현장탐지', '#불법촬영탐지', '#출입구보안'] },
         { name: 'Gate Manager Pro', icon: 'wifi', href: '#gm', desc: '게이트 연결 기반 원격 모니터링 매니저로 여러 현장을 동시 관리하고 로그 리포트를 생성합니다', tags: ['#원격모니터링', '#다중게이트관리', '#로그리포트생성'] },
       ],
-      // GNB background/text stay constant regardless of scroll (on request —
-      // previously faded from transparent-over-Hero to opaque on scroll;
-      // now always the opaque appearance). Only navBorder still reacts to
-      // `scrolled`, so scrolling adds just the bottom line, nothing else.
-      logoWhiteOpacity: (this.state.snbOpen || isDark) ? 1 : 0,
-      logoNavyOpacity: (!this.state.snbOpen && !isDark) ? 1 : 0,
-      navBg: this.state.snbOpen ? 'rgba(21,19,32,.96)' : (isDark ? 'rgba(24,22,34,.9)' : 'rgba(255,255,255,.92)'),
-      navBorder: this.state.snbOpen ? 'rgba(255,255,255,.08)' : (scrolled ? (isDark ? 'rgba(255,255,255,.1)' : '#EDEDED') : 'rgba(255,255,255,0)'),
-      navText: this.state.snbOpen ? '#fff' : (isDark ? '#FAFAFA' : '#1A1A1A'),
+      // GNB chrome (fill + blur + bottom line) stays hidden at the top of
+      // the page. Once scrolling starts — or the SNB mega-menu is open —
+      // it uses the same scene-panel glass as .hsw-ov-panel.
+      logoWhiteOpacity: 1,
+      logoNavyOpacity: 0,
+      navBg: (scrolled || this.state.snbOpen) ? 'rgba(255,255,255,.05)' : 'rgba(255,255,255,0)',
+      navBorder: (scrolled || this.state.snbOpen) ? 'rgba(255,255,255,.1)' : 'rgba(255,255,255,0)',
+      navBlur: (scrolled || this.state.snbOpen) ? 'blur(9.6px)' : 'blur(0px)',
+      navText: '#FFFFFF',
       cursorStyle: {
         position: 'fixed', left: this.state.cursorX + 'px', top: this.state.cursorY + 'px',
         transform: 'translate(-50%,-50%) scale(' + (this.state.cursorVisible ? 1 : 0.5) + ')',
