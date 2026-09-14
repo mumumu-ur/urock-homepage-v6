@@ -149,14 +149,20 @@
    DFAS, 회사소개 under Edge/Go, 뉴스 under M-SecuManager, 고객지원 under
    GateManager. 1depth labels are not links; 2depth product names are
    labels; 3depth items stay the clickable #B7CCFF links. */
-.ur-ft-map { display: flex; gap: 480px; padding: 48px 0; align-items: flex-start; }
+.ur-ft-map { display: flex; gap: 373px; padding: 48px 0; align-items: flex-start; }
 .ur-ft-info { flex: 1.2 1 0%; min-width: 0; }
 .ur-ft-nav { flex: 4 1 0%; min-width: 0; display: flex; flex-direction: column; gap: 48px; }
 .ur-ft-group { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-.ur-ft-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.ur-ft-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; }
+/* Solutions row (DFAS/M-SecuManager/GateManager): distributes the three
+   groups evenly across the row (space-between) instead of stretching four
+   equal grid tracks — DFAS's own two sub-lists stay grouped together via
+   ur-ft-dfas-group's own small internal gap. */
+.ur-ft-row-sol { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; }
+.ur-ft-dfas-group { display: flex; align-items: flex-start; gap: 40px; }
 .ur-ft-d1 { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: fit-content; margin: 0; font-size: 14px; font-weight: 700; color: #8b90a5; cursor: default; white-space: nowrap; }
 .ur-ft-d1::after { content: ""; width: 16px; height: 2px; border-radius: 1px; background: currentColor; }
-.ur-ft-d2 { margin: 0; font-size: 14px; font-weight: 700; color: #FAFAFA; cursor: default; white-space: nowrap; }
+.ur-ft-d2 { margin: 0; font-size: 14px; font-weight: 700; color: #8b90a5; cursor: default; white-space: nowrap; }
 .ur-ft-d2-ghost { visibility: hidden; pointer-events: none; user-select: none; }
 .ur-ft-d3 { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
 .ur-ft-d3 a { font-size: 14px; font-weight: 500; color: #B7CCFF; white-space: nowrap; }
@@ -170,10 +176,12 @@
 .ur-ft-note { display: inline-flex; align-items: center; height: 16px; padding: 0 6px; margin-left: 6px; border-radius: 5px; background: rgba(255,255,255,.08); font-size: 10px; font-weight: 700; letter-spacing: -.1px; color: #9AA0AC; white-space: nowrap; vertical-align: middle; }
 @media (max-width: 1239px) {
   .ur-ft-map { flex-direction: column; gap: 40px; }
-  .ur-ft-row { grid-template-columns: repeat(2, 1fr); }
+  .ur-ft-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ur-ft-row-sol { flex-wrap: wrap; gap: 24px 40px; }
 }
 @media (max-width: 767px) {
-  .ur-ft-row { grid-template-columns: repeat(2, 1fr); }
+  .ur-ft-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ur-ft-dfas-group { flex-wrap: wrap; }
 }
 </style>
 <style>
@@ -1753,7 +1761,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
       <div class="ur-ft-info" style="display:flex;flex-direction:column;gap:18px;">
         <img src="assets/UROCK_white.svg" alt="UROCK" style="height:32px;align-self:flex-start;">
         <p style="font-size:14px;line-height:1.7;color:#8b90a5;">AI 디지털 포렌식 전문기업</p>
-        <p style="font-size:13px;line-height:1.7;color:#8b90a5;">대표자명 유봉석<br>경기 성남시 수정구 대왕판교로 815<br>기업지원허브 <span class="num">467</span>호, B<span class="num">102</span>호</p>
+        <p style="font-size:13px;line-height:1.7;color:#8b90a5;">대표자명 유봉석<br><span style="white-space:nowrap;">서울시 송파구 정의로 67, <span class="num">8</span>층 <span class="num">802</span>호 (MK타워)</span></p>
         <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;font-size:13px;line-height:1.5;color:#8b90a5;">
           <span style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap;"><span style="color:#6b7085;">E</span><span>hello@urock.kr</span></span>
           <span style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap;"><span style="color:#6b7085;">T</span><span class="num">070-8670-9016</span></span>
@@ -1763,25 +1771,27 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
       <div class="ur-ft-nav">
         <div class="ur-ft-group">
           <p class="ur-ft-d1">솔루션</p>
-          <div class="ur-ft-row">
-            <div>
-              <p class="ur-ft-d2">DFAS</p>
-              <div class="ur-ft-d3">
-                <a href="#dfas">DFAS Pro One</a>
-                <div class="ur-ft-os">
-                  <a href="#dfas">Windows</a>
-                  <a href="#dfas">Mac</a>
-                  <a href="#dfas" class="ur-ft-soon">Linux <span class="ur-ft-note">출시예정</span></a>
+          <div class="ur-ft-row-sol">
+            <div class="ur-ft-dfas-group">
+              <div>
+                <p class="ur-ft-d2">DFAS</p>
+                <div class="ur-ft-d3">
+                  <a href="#dfas">DFAS Pro One</a>
+                  <div class="ur-ft-os">
+                    <a href="#dfas">Windows</a>
+                    <a href="#dfas">Mac</a>
+                    <a href="#dfas" class="ur-ft-soon">Linux <span class="ur-ft-note">출시예정</span></a>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <p class="ur-ft-d2 ur-ft-d2-ghost" aria-hidden="true">DFAS</p>
-              <div class="ur-ft-d3">
-                <a href="#dfas">DFAS Edge</a>
-                <a href="#dfas">DFAS Go</a>
-                <a href="#dfas">DFAS Discovery</a>
-                <a href="#dfas">DFAS Arc</a>
+              <div class="ur-ft-dfas-rest">
+                <p class="ur-ft-d2 ur-ft-d2-ghost" aria-hidden="true">DFAS</p>
+                <div class="ur-ft-d3">
+                  <a href="#dfas">DFAS Edge</a>
+                  <a href="#dfas">DFAS Go</a>
+                  <a href="#dfas">DFAS Discovery</a>
+                  <a href="#dfas">DFAS Arc</a>
+                </div>
               </div>
             </div>
             <div>
