@@ -1,7 +1,8 @@
 /* UROCK Design System — Color Tokens
  * Format: R, G, B channels for use with rgb(var(--token))
  * Line tokens use full rgb()/rgba() values.
- * Light mode in :root — dark mode in .dark
+ * Dark tokens live on :root (and .dark) so the site stays dark even when
+ * the browser prefers light. Light :root values above are overridden here.
  */
 
 :root {
@@ -94,8 +95,8 @@
   --color-soft-green-light: rgba(223, 250, 251, 0.4);
 }
 
-/* ── Dark mode ── */
-.dark {
+/* ── Dark mode (always-on; ignores prefers-color-scheme) ── */
+:root, .dark {
   --color-primary-01: 126, 162, 255;   /* #7EA2FF */
   --color-primary-02: 21, 19, 32;      /* #151320 */
 

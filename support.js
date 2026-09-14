@@ -1368,13 +1368,15 @@
     const live = /* @__PURE__ */ new Map();
     let designDocMode = null;
     let canvasStyleEl = null;
-    let appTheme = "light";
+    let appTheme = "dark";
     try {
       const ds = doc.documentElement.dataset.theme;
-      appTheme = ds === "dark" || ds === "light" ? ds : new URLSearchParams(doc.defaultView?.location.search ?? "").get(
-        "theme"
-      ) === "dark" ? "dark" : "light";
+      const q = new URLSearchParams(doc.defaultView?.location.search ?? "").get("theme");
+      if (ds === "dark" || ds === "light") appTheme = ds;
+      else if (q === "dark" || q === "light") appTheme = q;
+      else appTheme = "dark";
     } catch {
+      appTheme = "dark";
     }
     function applyCanvasBg() {
       if (!canvasStyleEl) return;

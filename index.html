@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html class="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<script>
+(function(){
+  document.documentElement.classList.add('dark');
+  try { localStorage.setItem('urock-theme', 'dark'); } catch (e) {}
+})();
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -169,12 +176,13 @@
 @font-face{font-family:"Spoqa";src:url("fonts/SpoqaHanSansNeo-Regular.otf") format("opentype");font-weight:400;font-display:swap;}
 @font-face{font-family:"Spoqa";src:url("fonts/SpoqaHanSansNeo-Medium.otf") format("opentype");font-weight:500;font-display:swap;}
 @font-face{font-family:"Spoqa";src:url("fonts/SpoqaHanSansNeo-Bold.otf") format("opentype");font-weight:700;font-display:swap;}
-:root{--navy:rgb(32,29,48);/* bg-00 (dark) #201D30 */--navy2:#151320;--pri:#628CF5;--pri2:#4978EB;--blue-04:#4663AE;--card:#FFFFFF;--page:#F9F9F9;--ink:#1A1A1A;--sub:#767676;--line:rgba(237,237,237,.3);--tint:#F7F9FE;--btint:#EFF4FE;--dfasact:#B9C8EF;--bd:rgba(233,235,248,.3);}
+:root{color-scheme:dark;--navy:rgb(32,29,48);/* bg-00 (dark) #201D30 */--navy2:#151320;--pri:#7EA2FF;--pri2:#7DA4FF;--blue-04:#4663AE;--card:#201D30;--page:#181622;--ink:#FAFAFA;--sub:#A7ADB5;--line:rgba(237,237,237,.06);--tint:#32304A;--btint:#293B67;--dfasact:#32406E;--bd:rgba(58,70,112,.3);}
 .dark{--pri:#7EA2FF;--pri2:#7DA4FF;--card:#201D30;--page:#181622;--ink:#FAFAFA;--sub:#A7ADB5;--line:rgba(237,237,237,.06);--tint:#32304A;--btint:#293B67;--dfasact:#32406E;--bd:rgba(58,70,112,.3);}
 @keyframes dfasSwapA{0%{opacity:0;transform:translateY(10px);filter:blur(3px)}100%{opacity:1;transform:none;filter:blur(0)}}
 @keyframes dfasSwapB{0%{opacity:0;transform:translateY(10px);filter:blur(3px)}100%{opacity:1;transform:none;filter:blur(0)}}
 @keyframes dfasDiscXfade{0%{opacity:1}16%{opacity:1}20%{opacity:0}96%{opacity:0}100%{opacity:1}}
 *{margin:0;padding:0;box-sizing:border-box;}
+html{color-scheme:dark;}
 body{font-family:"Pretendard",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;background:var(--page);transition:background .3s ease,color .3s ease;}
 a{color:inherit;text-decoration:none;}
 a:hover{color:var(--pri2);}
@@ -241,7 +249,7 @@ a:hover{color:var(--pri2);}
 .ur-intro-copy{position:relative;max-width:1240px;margin:0 auto;padding:96px 32px 132px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;}
 </style>
 <script>
-(function(){try{var t=localStorage.getItem('urock-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}})();
+(function(){document.documentElement.classList.add('dark');try{localStorage.setItem('urock-theme','dark');}catch(e){}})();
 </script>
 <style>.ur-chip-purple{border-radius:7px !important;height:auto !important;padding:4px 10px !important;line-height:normal !important;border-width:0 !important;} .ur-chip-blue{border-radius:6px !important;height:auto !important;padding:4px 10px !important;line-height:normal !important;border-width:0 !important;} image-slot[id^="msecu-img-"]::part(frame){background:transparent !important;} image-slot[id^="msecu-img-"]::part(ring){display:none !important;}</style>
 <style>
@@ -1947,7 +1955,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', lang: 'KO', scrolled: false, theme: 'light', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1, snbOpen: false };
+  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', lang: 'KO', scrolled: false, theme: 'dark', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1, snbOpen: false };
 
   openQuick = (tab, i) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ quickModal: { tab: tab, idx: i } }); };
   closeQuick = () => this.setState({ quickModal: null });
@@ -2320,8 +2328,8 @@ class Component extends DCLogic {
     this._mounted = true;
     this._imgRetryTimer = setInterval(this._retryBrokenImages, 1200);
     window.addEventListener('load', this._retryBrokenImages);
-    const dark = document.documentElement.classList.contains('dark');
-    if (dark !== (this.state.theme === 'dark')) this.setState({ theme: dark ? 'dark' : 'light' });
+    document.documentElement.classList.add('dark');
+    if (this.state.theme !== 'dark') this.setState({ theme: 'dark' });
     this._onScroll = () => {
       const s = window.scrollY > 60;
       const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -2509,9 +2517,9 @@ class Component extends DCLogic {
   }
 
   toggleTheme = () => {
-    const dark = document.documentElement.classList.toggle('dark');
-    try { localStorage.setItem('urock-theme', dark ? 'dark' : 'light'); } catch (e) {}
-    this.setState({ theme: dark ? 'dark' : 'light' });
+    document.documentElement.classList.add('dark');
+    try { localStorage.setItem('urock-theme', 'dark'); } catch (e) {}
+    if (this.state.theme !== 'dark') this.setState({ theme: 'dark' });
   };
 
   renderVals() {
