@@ -85,7 +85,14 @@
 .cursor-hover-card:hover .modal-card-chevron { color: #7DA4FF !important; }
 @keyframes skipDownNudge { 0% { transform: rotate(-90deg) translateX(5px); opacity: 0 } 30% { opacity: 1 } 70% { opacity: 1 } 100% { transform: rotate(-90deg) translateX(-5px); opacity: 0 } }
 .ur-gnb { overflow: visible; }
-.ur-gnb-link { position: relative; display: inline-flex; align-items: center; height: 76px; font-size: 16px; font-weight: 600; letter-spacing: -.2px; color: inherit; transition: color .2s ease; }
+/* header's own background/blur live on ::before, not on the header element
+   itself: header directly carrying backdrop-filter turns it into a filter
+   boundary that swallows the nested .ur-snb dropdown's own backdrop-filter
+   (verified — nesting backdrop-filter inside a backdrop-filtered ancestor
+   renders no blur in Chromium/WebKit). Moving it to a pseudo-element keeps
+   the same glass bar without header itself becoming that boundary. */
+.ur-gnb::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--nav-bg); backdrop-filter: var(--nav-blur); -webkit-backdrop-filter: var(--nav-blur); border-bottom: 1px solid var(--nav-border); transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease; pointer-events: none; }
+.ur-gnb-link { position: relative; display: inline-flex; align-items: center; height: 76px; font-size: 16px; font-weight: 600; letter-spacing: -.2px; color: inherit; cursor: default; transition: color .2s ease; }
 .ur-gnb-link::after { content: ""; position: absolute; left: 50%; bottom: 18px; width: 18px; height: 2px; border-radius: 2px; background: currentColor; transform: translateX(-50%) scaleX(0); transform-origin: center; transition: transform .2s ease; }
 .ur-gnb-link:hover { color: inherit; opacity: .88; }
 .ur-gnb-link.is-on::after { transform: translateX(-50%) scaleX(1); }
@@ -95,27 +102,27 @@
 .ur-gnb-btn-pri { background: var(--pri); color: #fff; }
 .ur-gnb-btn-pri:hover { background: #7DA4FF; color: #fff; }
 .ur-gnb-div { width: 1px; height: 14px; background: currentColor; opacity: .28; flex: none; }
-.ur-snb { position: absolute; top: calc(100% - 4px); left: 24px; right: 24px; z-index: 2; padding: 28px 32px 32px; border-radius: 24px; background: #151320; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 28px 64px rgba(0,0,0,.42); }
+.ur-snb { position: absolute; top: calc(100% - 4px); left: 24px; right: 24px; z-index: 2; padding: 28px 32px 32px; border-radius: 20px; background: var(--nav-bg, rgba(255,255,255,.05)); border: 1px solid rgba(237,237,237,.05); box-shadow: 0 24px 32px 0 rgba(15,15,15,.03), 0 7px 10px 0 rgba(15,15,15,.02), 0 3px 5px 0 rgba(15,15,15,.01), 0 2px 2px 0 rgba(15,15,15,.01); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 .ur-snb-grid { display: grid; grid-template-columns: 1.45fr 1fr .92fr; gap: 0; align-items: start; }
 .ur-snb-col { min-width: 0; padding: 0 28px; }
 .ur-snb-col:first-child { padding-left: 4px; }
 .ur-snb-col:last-child { padding-right: 4px; }
 .ur-snb-col + .ur-snb-col { border-left: 1px solid rgba(255,255,255,.08); }
-.ur-snb-kicker { font-size: 12px; font-weight: 700; letter-spacing: .4px; color: #7DA4FF; }
-.ur-snb-sub { margin-top: 4px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,.46); }
+.ur-snb-kicker { font-size: 16px; font-weight: 500; letter-spacing: -.5px; line-height: 1.36; color: #fff; }
+.ur-snb-sub { margin-top: 2px; font-size: 14px; font-weight: 500; letter-spacing: -.5px; line-height: 1.48; color: #8B90A5; }
 .ur-snb-split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; margin-top: 18px; }
 .ur-snb-list { display: flex; flex-direction: column; gap: 6px; margin-top: 18px; }
 .ur-snb-item { display: flex; align-items: flex-start; gap: 12px; padding: 8px 8px 8px 6px; border-radius: 12px; color: inherit; transition: background-color .18s ease; }
 .ur-snb-item:hover { background: rgba(255,255,255,.04); color: inherit; }
-.ur-snb-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.06); color: #96B2F8; overflow: clip; }
+.ur-snb-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 11px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.3); backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); color: #FFFFFF; overflow: clip; }
 .ur-snb-icon .ms { font-size: 18px; width: 18px; height: 18px; }
 .ur-snb-body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .ur-snb-title { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .ur-snb-name { font-size: 14px; font-weight: 700; letter-spacing: -.2px; color: #FAFAFA; }
 .ur-snb-item:hover .ur-snb-name { color: #93B0F8; }
-.ur-snb-desc { font-size: 12px; font-weight: 500; line-height: 1.45; color: rgba(255,255,255,.5); }
+.ur-snb-desc { font-size: 12px; font-weight: 500; line-height: 1.45; color: #8B90A5; }
 .ur-snb-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.ur-snb-tag { font-size: 11px; font-weight: 600; color: #81A3F7; }
+.ur-snb-tag { font-size: 11px; font-weight: 600; color: #93B0F8; }
 .ur-snb-chip { display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 6px; font-size: 10px; font-weight: 700; letter-spacing: -.1px; white-space: nowrap; }
 .ur-snb-chip-os { background: rgba(255,255,255,.1); color: rgba(255,255,255,.78); }
 .ur-snb-chip-ai { background: rgba(17,188,199,.18); color: #6DE7EF; }
@@ -123,6 +130,7 @@
 .ur-snb-chip-proto { background: rgba(192,143,255,.18); color: #C08FFF; }
 .ur-snb-chip-kiosk { background: rgba(17,188,199,.18); color: #6DE7EF; }
 .ur-snb-branch { margin: 2px 0 0 18px; padding-left: 18px; border-left: 1px solid rgba(255,255,255,.12); display: flex; flex-direction: column; gap: 2px; }
+.ur-snb-branch .ur-snb-item { align-items: center; }
 @media (max-width: 1239px) {
   .ur-snb { left: 12px; right: 12px; padding: 22px 18px 24px; }
   .ur-snb-grid { grid-template-columns: 1fr; gap: 22px; }
@@ -141,22 +149,25 @@
    DFAS, 회사소개 under Edge/Go, 뉴스 under M-SecuManager, 고객지원 under
    GateManager. 1depth labels are not links; 2depth product names are
    labels; 3depth items stay the clickable #B7CCFF links. */
-.ur-ft-map { display: flex; gap: 24px; padding: 48px 0; align-items: flex-start; }
+.ur-ft-map { display: flex; gap: 480px; padding: 48px 0; align-items: flex-start; }
 .ur-ft-info { flex: 1.2 1 0%; min-width: 0; }
 .ur-ft-nav { flex: 4 1 0%; min-width: 0; display: flex; flex-direction: column; gap: 48px; }
 .ur-ft-group { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .ur-ft-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.ur-ft-d1 { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: fit-content; margin: 0; font-size: 14px; font-weight: 700; color: #C7CBDA; cursor: default; }
+.ur-ft-d1 { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: fit-content; margin: 0; font-size: 14px; font-weight: 700; color: #8b90a5; cursor: default; white-space: nowrap; }
 .ur-ft-d1::after { content: ""; width: 16px; height: 2px; border-radius: 1px; background: currentColor; }
-.ur-ft-d2 { margin: 0; font-size: 14px; font-weight: 700; color: #FAFAFA; cursor: default; }
+.ur-ft-d2 { margin: 0; font-size: 14px; font-weight: 700; color: #FAFAFA; cursor: default; white-space: nowrap; }
 .ur-ft-d2-ghost { visibility: hidden; pointer-events: none; user-select: none; }
 .ur-ft-d3 { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
-.ur-ft-d3 a { font-size: 14px; font-weight: 500; color: #B7CCFF; }
+.ur-ft-d3 a { font-size: 14px; font-weight: 500; color: #B7CCFF; white-space: nowrap; }
 .ur-ft-d3 a:hover { color: #DCE6FF; }
 .ur-ft-os { display: flex; flex-direction: column; gap: 6px; margin: 2px 0 4px; padding-left: 12px; border-left: 1px solid rgba(255,255,255,.1); }
-.ur-ft-os a { font-size: 13px; font-weight: 500; color: #B7CCFF; }
+.ur-ft-os a { font-size: 13px; font-weight: 500; color: #FFFFFF; white-space: nowrap; }
 .ur-ft-os a:hover { color: #DCE6FF; }
-.ur-ft-note { font-size: 11px; font-weight: 600; color: #959799; margin-left: 6px; }
+.ur-ft-os a.ur-ft-soon,
+.ur-ft-os a.ur-ft-soon:hover,
+.ur-ft-os a.ur-ft-soon:active { color: #8b90a5; }
+.ur-ft-note { display: inline-flex; align-items: center; height: 16px; padding: 0 6px; margin-left: 6px; border-radius: 5px; background: rgba(255,255,255,.08); font-size: 10px; font-weight: 700; letter-spacing: -.1px; color: #9AA0AC; white-space: nowrap; vertical-align: middle; }
 @media (max-width: 1239px) {
   .ur-ft-map { flex-direction: column; gap: 40px; }
   .ur-ft-row { grid-template-columns: repeat(2, 1fr); }
@@ -836,15 +847,15 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </helmet>
 
 <!-- ===== NAV ===== -->
-<header class="{{ gnbClass }}" onMouseLeave="{{ closeSnb }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 76px; display: flex; align-items: center; justify-content: center; background: {{ navBg }}; backdrop-filter: {{ navBlur }}; -webkit-backdrop-filter: {{ navBlur }}; border-bottom: 1px solid {{ navBorder }}; color: {{ navText }}; transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease">
+<header class="{{ gnbClass }}" onMouseLeave="{{ closeSnb }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 76px; display: flex; align-items: center; justify-content: center; color: {{ navText }}; --nav-bg: {{ navBg }}; --nav-blur: {{ navBlur }}; --nav-border: {{ navBorder }}">
   <div style="width:100%;max-width:1680px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
     <a href="#top" style="display:flex;align-items:center;gap:10px;flex-shrink:0;"><span style="position:relative;display:inline-block;height:26px;width:81px;"><img src="assets/UROCK_white.svg" alt="UROCK" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoWhiteOpacity }};transition:opacity .3s;"><img src="assets/UROCK_navy.svg" alt="" aria-hidden="true" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoNavyOpacity }};transition:opacity .3s;"></span></a>
     <nav style="display:flex;align-items:center;justify-content:center;gap:32px;flex:1;">
-      <a href="#solutions" class="{{ navSolClass }}" onMouseEnter="{{ openSnb }}">솔루션</a>
-      <a href="#consulting" class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">컨설팅</a>
-      <a href="#footer" class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">회사소개</a>
-      <a href="#news" class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">뉴스 · 블로그</a>
-      <a href="#footer" class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">고객지원</a>
+      <span class="{{ navSolClass }}" onMouseEnter="{{ openSnb }}">솔루션</span>
+      <span class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">컨설팅</span>
+      <span class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">회사소개</span>
+      <span class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">뉴스 · 블로그</span>
+      <span class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">고객지원</span>
     </nav>
     <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
       <button onClick="{{ toggleLang }}" class="ur-gnb-ghost"><span class="ms" style="font-size:18px;width:18px;height:18px;">language</span>{{ langLabel }}</button>
@@ -871,7 +882,6 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                     <span class="ur-snb-chip ur-snb-chip-os">Linux</span>
                   </span>
                   <span class="ur-snb-desc">인터넷이 끊긴 현장에서도 완벽하게 작동하는 온디바이스 AI 통합 솔루션</span>
-                  <span class="ur-snb-tags"><span class="ur-snb-tag">#리눅스포렌식</span><span class="ur-snb-tag">#입수유형분석</span><span class="ur-snb-tag">#올인원</span></span>
                 </span>
               </a>
               <div class="ur-snb-branch">
@@ -879,14 +889,12 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                   <span class="ur-snb-icon"><span class="ms">desktop_windows</span></span>
                   <span class="ur-snb-body">
                     <span class="ur-snb-title"><span class="ur-snb-name">DFAS Pro Win</span></span>
-                    <span class="ur-snb-desc">인터넷이 끊긴 현장에서도 완벽하게 작동하는 온디바이스 AI 통합 솔루션</span>
                   </span>
                 </a>
                 <a href="#dfas" class="ur-snb-item" onClick="{{ closeSnbNow }}">
                   <span class="ur-snb-icon"><span class="ms">laptop_mac</span></span>
                   <span class="ur-snb-body">
                     <span class="ur-snb-title"><span class="ur-snb-name">DFAS Pro Mac</span></span>
-                    <span class="ur-snb-desc">인터넷이 끊긴 현장에서도 완벽하게 작동하는 온디바이스 AI 통합 솔루션</span>
                   </span>
                 </a>
                 <a href="#dfas" class="ur-snb-item" onClick="{{ closeSnbNow }}">
@@ -896,7 +904,6 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                       <span class="ur-snb-name">DFAS Pro Linux</span>
                       <span class="ur-snb-chip ur-snb-chip-new">신제품출시</span>
                     </span>
-                    <span class="ur-snb-desc">인터넷이 끊긴 현장에서도 완벽하게 작동하는 온디바이스 AI 통합 솔루션</span>
                   </span>
                 </a>
               </div>
@@ -911,9 +918,6 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                       <sc-if value="{{ p.hasBadge }}" hint-placeholder-val=""><span class="{{ p.badgeClass }}">{{ p.badge }}</span></sc-if>
                     </span>
                     <span class="ur-snb-desc">{{ p.desc }}</span>
-                    <span class="ur-snb-tags">
-                      <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="3"><span class="ur-snb-tag">{{ t }}</span></sc-for>
-                    </span>
                   </span>
                 </a>
               </sc-for>
@@ -933,9 +937,6 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                     <sc-if value="{{ p.hasBadge }}" hint-placeholder-val=""><span class="{{ p.badgeClass }}">{{ p.badge }}</span></sc-if>
                   </span>
                   <span class="ur-snb-desc">{{ p.desc }}</span>
-                  <span class="ur-snb-tags">
-                    <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="2"><span class="ur-snb-tag">{{ t }}</span></sc-for>
-                  </span>
                 </span>
               </a>
             </sc-for>
@@ -951,9 +952,6 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                 <span class="ur-snb-body">
                   <span class="ur-snb-title"><span class="ur-snb-name">{{ p.name }}</span></span>
                   <span class="ur-snb-desc">{{ p.desc }}</span>
-                  <span class="ur-snb-tags">
-                    <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="3"><span class="ur-snb-tag">{{ t }}</span></sc-for>
-                  </span>
                 </span>
               </a>
             </sc-for>
@@ -1773,7 +1771,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                 <div class="ur-ft-os">
                   <a href="#dfas">Windows</a>
                   <a href="#dfas">Mac</a>
-                  <a href="#dfas">Linux <span class="ur-ft-note">출시예정</span></a>
+                  <a href="#dfas" class="ur-ft-soon">Linux <span class="ur-ft-note">출시예정</span></a>
                 </div>
               </div>
             </div>
@@ -1955,7 +1953,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', lang: 'KO', scrolled: false, theme: 'dark', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1, snbOpen: false };
+  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', lang: 'KO', scrolled: false, theme: 'dark', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1, snbOpen: false, headerOverLight: false };
 
   openQuick = (tab, i) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ quickModal: { tab: tab, idx: i } }); };
   closeQuick = () => this.setState({ quickModal: null });
@@ -2368,6 +2366,20 @@ class Component extends DCLogic {
         const v = rr.top < window.innerHeight * 0.8 && rr.bottom > window.innerHeight * 0.12;
         if (v !== this.state[key]) next[key] = v;
       });
+      // Header/SNB glass tint adapts to whatever section sits directly under
+      // the fixed 76px header band: sections don't opt into the dark tint
+      // (the default, matching this page's all-dark content today), only
+      // into the light one, by carrying data-nav-theme="light" — so a future
+      // light-background section just needs that attribute to flip the
+      // header/.ur-snb background to the navy plate below for white
+      // text/icons to stay legible on it.
+      const lightEls = document.querySelectorAll('[data-nav-theme="light"]');
+      let overLight = false;
+      for (const el of lightEls) {
+        const lr = el.getBoundingClientRect();
+        if (lr.top < 76 && lr.bottom > 0) { overLight = true; break; }
+      }
+      if (overLight !== this.state.headerOverLight) next.headerOverLight = overLight;
       if (Object.keys(next).length) this.setState(next);
     };
     // Coalesce to at most once per animation frame (native 'scroll' events can
@@ -2970,8 +2982,8 @@ class Component extends DCLogic {
         { name: 'DFAS Arc', icon: 'memory', href: '#dfas', hasBadge: false, badge: '', badgeClass: '', desc: '사내 저장 문서 자동 분류 및 검출 · 개인정보/보안등급 관리', tags: ['#AI분류체계', '#보안등급관리'] },
       ],
       snbMcq: [
-        { name: 'M-SecuManager P', icon: 'folder', href: '#mcq', hasBadge: true, badge: '프로토', badgeClass: 'ur-snb-chip ur-snb-chip-proto', desc: '소규모 기관 관리 및 현장 방문 삭제에 최적화된 휴대용 삭제 솔루션', tags: ['#입수유형분석', '#초경량화완전삭제'] },
-        { name: 'M-SecuManager S', icon: 'point_of_sale', href: '#mcq', hasBadge: true, badge: '키오스크', badgeClass: 'ur-snb-chip ur-snb-chip-kiosk', desc: '현지 기관 장비 내 서버 연결로 보안 지속 안정성과 동시 삭제 작업을 지원합니다', tags: ['#대용량보안삭제', '#대면서비스관리', '#동시완전삭제'] },
+        { name: 'M-SecuManager P', icon: 'folder', href: '#mcq', hasBadge: true, badge: '3,5포트', badgeClass: 'ur-snb-chip ur-snb-chip-proto', desc: '소규모 기관 관리 및 현장 방문 삭제에 최적화된 휴대용 삭제 솔루션', tags: ['#입수유형분석', '#초경량화완전삭제'] },
+        { name: 'M-SecuManager S', icon: 'point_of_sale', href: '#mcq', hasBadge: true, badge: '21포트', badgeClass: 'ur-snb-chip ur-snb-chip-kiosk', desc: '현지 기관 장비 내 서버 연결로 보안 지속 안정성과 동시 삭제 작업을 지원합니다', tags: ['#대용량보안삭제', '#대면서비스관리', '#동시완전삭제'] },
         { name: 'M-SecuManager G', icon: 'tablet_mac', href: '#mcq', hasBadge: true, badge: '키오스크', badgeClass: 'ur-snb-chip ur-snb-chip-kiosk', desc: '거점형 키오스크로 임직원 자율 반납 현장에서 자체 수행합니다', tags: ['#임직원셀프', '#보안완전삭제기능'] },
       ],
       snbGm: [
@@ -2983,8 +2995,8 @@ class Component extends DCLogic {
       // it uses the same scene-panel glass as .hsw-ov-panel.
       logoWhiteOpacity: 1,
       logoNavyOpacity: 0,
-      navBg: (scrolled || this.state.snbOpen) ? 'rgba(255,255,255,.05)' : 'rgba(255,255,255,0)',
-      navBorder: (scrolled || this.state.snbOpen) ? 'rgba(255,255,255,.1)' : 'rgba(255,255,255,0)',
+      navBg: (scrolled || this.state.snbOpen) ? (this.state.headerOverLight ? 'rgba(32,29,48,.92)' : 'rgba(255,255,255,.05)') : 'rgba(255,255,255,0)',
+      navBorder: (scrolled || this.state.snbOpen) ? (this.state.headerOverLight ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.1)') : 'rgba(255,255,255,0)',
       navBlur: (scrolled || this.state.snbOpen) ? 'blur(9.6px)' : 'blur(0px)',
       navText: '#FFFFFF',
       cursorStyle: {
