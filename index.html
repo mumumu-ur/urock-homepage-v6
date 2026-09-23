@@ -42,10 +42,10 @@
   #splash-loader .splash-pct{font:700 13px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Pretendard,sans-serif;letter-spacing:2px;color:rgba(255,255,255,.62);font-variant-numeric:tabular-nums;}
   @media (max-width:480px){#splash-loader .splash-inner{width:min(200px,72vw);gap:22px;}}
 </style>
-<noscript><style>#splash-loader{display:none!important}</style></noscript>
+<noscript><style>#splash-loader{display:none}</style></noscript>
 <script src="./splash-loader.js"></script>
 <x-dc>
-<div style="{{ cursorStyle }}" aria-hidden="true">
+<div class="ur-hover-cursor" style="{{ cursorStyle }}" aria-hidden="true">
   <div style="position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,rgba(98,140,245,.5) 0%,rgba(98,140,245,0) 70%);filter:blur(7px);pointer-events:none;"></div>
   <svg width="56" height="56" viewBox="0 0 72 72" fill="none" style="position:relative;display:block;">
     <circle cx="36" cy="36" r="34" fill="rgba(38,35,63,.6)"></circle>
@@ -66,23 +66,20 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script src="./hero-coord-hud.js"></script>
 <style>
-.dfas-pager-group:hover .dfas-pause-btn { border-color: var(--pri) !important; background: var(--btint) !important; color: var(--pri2) !important; }
-.qg-tab-off:hover { color: #7DA4FF !important; }
-.dfas-row-off:hover { background-color: #46436B !important; border-color: rgba(147, 176, 248, 0.6) !important; }
+/* .geo-dot's animation is baked into dotStyle (computed per-render in the
+   script below) and always present inline, so this stays !important to
+   beat it regardless of hover/emphasis state. */
 @media (prefers-reduced-motion: reduce) {
   .geo-ripple { display: none; }
   .geo-dot { animation: none !important; opacity: 1; }
 }
 .news-scroll::-webkit-scrollbar { display: none; }
 .news-scroll { scrollbar-width: none; }
-.news-nav-btn:disabled { opacity:.35; cursor:default !important; pointer-events:none; background:rgba(255,255,255,.04) !important; border-color:rgba(255,255,255,.12) !important; color:rgba(255,255,255,.45) !important; }
-.cursor-hover-card, .cursor-hover-card * { cursor: none !important; }
-.cursor-hover-card .cursor-exclude, .cursor-hover-card .cursor-exclude * { cursor: pointer !important; }
-.arrow-cta { transition: color 200ms, transform 200ms, gap 200ms; }
-.cursor-hover-card:hover .arrow-cta, .quick-card:hover .arrow-cta, .arrow-cta:hover { color: #DCE6FF !important; transform: translateX(4px); }
-.cursor-hover-card:hover .arrow-cta-text, .quick-card:hover .arrow-cta-text, .arrow-cta-text:hover { transform: none; gap: 9px !important; }
-.modal-card-chevron { color: var(--sub) !important; font-weight:300; font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; transition: color 200ms ease; }
-.cursor-hover-card:hover .modal-card-chevron { color: #7DA4FF !important; }
+.news-nav-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.25); color: #fff; cursor: pointer; transition: all .2s; }
+.news-nav-btn:disabled { opacity:.35; cursor:default; pointer-events:none; background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.12); color:rgba(255,255,255,.45); }
+.arrow-cta { color: #B7CCFF; transition: color 200ms, transform 200ms, gap 200ms; }
+.arrow-cta-text { gap: 5px; }
+.modal-card-chevron { color: #7DA4FF; font-weight:300; font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; transition: color 200ms ease; }
 @keyframes skipDownNudge { 0% { transform: rotate(-90deg) translateX(5px); opacity: 0 } 30% { opacity: 1 } 70% { opacity: 1 } 100% { transform: rotate(-90deg) translateX(-5px); opacity: 0 } }
 .ur-gnb { overflow: visible; }
 /* header's own background/blur live on ::before, not on the header element
@@ -94,14 +91,26 @@
 .ur-gnb::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--nav-bg); backdrop-filter: var(--nav-blur); -webkit-backdrop-filter: var(--nav-blur); border-bottom: 1px solid var(--nav-border); transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease; pointer-events: none; }
 .ur-gnb-link { position: relative; display: inline-flex; align-items: center; height: 76px; font-size: 16px; font-weight: 600; letter-spacing: -.2px; color: inherit; cursor: default; transition: color .2s ease; }
 .ur-gnb-link::after { content: ""; position: absolute; left: 50%; bottom: 18px; width: 18px; height: 2px; border-radius: 2px; background: currentColor; transform: translateX(-50%) scaleX(0); transform-origin: center; transition: transform .2s ease; }
-.ur-gnb-link:hover { color: inherit; opacity: .88; }
 .ur-gnb-link.is-on::after { transform: translateX(-50%) scaleX(1); }
 .ur-gnb-ghost { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; color: inherit; padding: 0; }
-.ur-gnb-ghost:hover { color: inherit; opacity: .82; }
 .ur-gnb-btn { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px; border-radius: 10px; font-size: 14px; font-weight: 600; letter-spacing: -.2px; white-space: nowrap; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
 .ur-gnb-btn-pri { background: var(--pri); color: #fff; }
-.ur-gnb-btn-pri:hover { background: #7DA4FF; color: #fff; }
 .ur-gnb-div { width: 1px; height: 14px; background: currentColor; opacity: .28; flex: none; }
+.ur-global-tags, .ur-global-panel { display: none; }
+.ur-dfas-mstrip { display: none; }
+.ur-gnb-burger { display: none; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: none; border: none; color: inherit; cursor: pointer; padding: 0; flex: none; }
+.ur-gnb-burger:hover { background: rgba(255,255,255,.08); }
+.ur-gnb-burger .ms { font-size: 24px; }
+.ur-mnav { position: absolute; top: 100%; left: 0; right: 0; z-index: 2; display: flex; flex-direction: column; padding: 4px 24px 24px; background: rgba(21,19,32,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(237,237,237,.08); box-shadow: 0 24px 32px 0 rgba(15,15,15,.2); height: calc(100svh - 76px); overflow-y: auto; }
+.ur-mnav-link { display: flex; align-items: center; height: 54px; font-size: 17px; font-weight: 600; color: #FAFAFA; border-bottom: 1px solid rgba(255,255,255,.08); flex: none; }
+.ur-mnav-link:hover { color: #93B0F8; }
+.ur-mnav-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 20px; flex: none; }
+.ur-mnav-actions .ur-gnb-ghost { color: #FAFAFA; }
+/* Mobile-only scroll-progress line, bottom edge of the GNB — replaces the
+   scroll-to-top FAB's circular progress ring on narrow screens where the
+   FAB is hidden (see .ur-fab in the 767px block below). Hidden by default
+   so tablet/desktop are untouched. */
+.ur-scroll-line { display: none; position: absolute; left: 0; bottom: 0; height: 3px; background: var(--pri); pointer-events: none; }
 .ur-snb { position: absolute; top: calc(100% - 4px); left: 24px; right: 24px; z-index: 2; padding: 28px 32px 32px; border-radius: 20px; background: var(--nav-bg, rgba(255,255,255,.05)); border: 1px solid rgba(237,237,237,.05); box-shadow: 0 24px 32px 0 rgba(15,15,15,.03), 0 7px 10px 0 rgba(15,15,15,.02), 0 3px 5px 0 rgba(15,15,15,.01), 0 2px 2px 0 rgba(15,15,15,.01); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 .ur-snb-grid { display: grid; grid-template-columns: 1.45fr 1fr .92fr; gap: 0; align-items: start; }
 .ur-snb-col { min-width: 0; padding: 0 28px; }
@@ -138,9 +147,29 @@
   .ur-snb-col + .ur-snb-col { border-left: none; border-top: 1px solid rgba(255,255,255,.08); padding-top: 18px; }
   .ur-snb-split { grid-template-columns: 1fr 1fr; }
 }
+/* GNB — the nav row and the header's inner padding/gap live here (not
+   inline) so the 1023px/767px overrides below can beat them via source
+   order instead of !important. */
+.ur-gnb-nav { display: flex; align-items: center; justify-content: center; gap: 32px; flex: 1; }
+.ur-gnb > div { padding: 0 40px; gap: 24px; }
 @media (max-width: 1023px) {
   .ur-snb { display: none; }
   .ur-gnb-extra { display: none; }
+  .ur-gnb-nav { display: none; }
+  .ur-gnb-burger { display: flex; }
+  .ur-gnb > div { padding-left: 24px; padding-right: 24px; }
+}
+@media (max-width: 767px) {
+  .ur-gnb > div { padding-left: 16px; padding-right: 16px; gap: 12px; }
+  .ur-mnav { padding-left: 16px; padding-right: 16px; border-bottom: none; }
+  .ur-mnav-link { border-bottom: none; }
+  .ur-mnav-actions { margin-top: auto; }
+  .ur-mnav-actions .ur-gnb-ghost .ms { display: none; }
+  .ur-fab { display: none; }
+  .ur-scroll-line { display: block; }
+}
+@media (max-width: 480px) {
+  .ur-gnb-cta-top { display: none; }
 }
 /* Footer sitemap: company info is a flex sibling of .ur-ft-nav.
    Row 1 is 솔루션 (1depth) with four columns under it — DFAS tree,
@@ -166,12 +195,9 @@
 .ur-ft-d2-ghost { visibility: hidden; pointer-events: none; user-select: none; }
 .ur-ft-d3 { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
 .ur-ft-d3 a { font-size: 14px; font-weight: 500; color: #B7CCFF; white-space: nowrap; }
-.ur-ft-d3 a:hover { color: #DCE6FF; }
 .ur-ft-os { display: flex; flex-direction: column; gap: 6px; margin: 2px 0 4px; padding-left: 12px; border-left: 1px solid rgba(255,255,255,.1); }
 .ur-ft-os a { font-size: 13px; font-weight: 500; color: #FFFFFF; white-space: nowrap; }
-.ur-ft-os a:hover { color: #DCE6FF; }
 .ur-ft-os a.ur-ft-soon,
-.ur-ft-os a.ur-ft-soon:hover,
 .ur-ft-os a.ur-ft-soon:active { color: #8b90a5; }
 .ur-ft-note { display: inline-flex; align-items: center; height: 16px; padding: 0 6px; margin-left: 6px; border-radius: 5px; background: rgba(255,255,255,.08); font-size: 10px; font-weight: 700; letter-spacing: -.1px; color: #9AA0AC; white-space: nowrap; vertical-align: middle; }
 @media (max-width: 1239px) {
@@ -181,7 +207,391 @@
 }
 @media (max-width: 767px) {
   .ur-ft-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ur-ft-dfas-group { flex-wrap: wrap; }
+}
+/* DFAS/GM/MCQ section titles — centered by default (desktop/tablet); the
+   align-items/text-align and the description paragraph's margin:auto live
+   here (not inline) specifically so the 767px override below can beat them
+   at equal specificity via source order instead of !important. */
+.ur-sol-head { align-items: center; text-align: center; }
+.ur-sol-desc { margin: 0 auto; }
+/* Consulting — these live here (not inline) so the 767px/1023px overrides
+   below can beat them via source order instead of !important; the
+   .ur-consult-card slot transforms below stay !important since c.style is
+   recomputed inline on every render (see the comment further down). */
+#consulting { padding: 160px 32px 90px; padding-top: 171px; padding-bottom: 176px; }
+.ur-consult-grid { grid-template-columns: .85fr 1.15fr; gap: 64px; }
+.ur-consult-stats { gap: 28px; }
+.ur-consult-stat-item { width: 96px; }
+.ur-consult-title { font-size: 44px; letter-spacing: -1.6px; }
+.ur-consult-visual { min-height: 520px; }
+.ur-consult-arc { position: absolute; top: -130px; left: 0; width: 100%; height: 780px; overflow: hidden; }
+.ur-consult-nav { position: absolute; right: 0; top: 50%; transform: translateY(-50%); flex-direction: column; gap: 10px; z-index: 5; }
+.ur-consult-desc-desktop { display: block; }
+.ur-consult-desc-mobile { display: none; }
+/* Bullet dot only ever paints when this class is actually visible (mobile
+   only, see the 767px block below) — display:none elsewhere means no box,
+   so no ::before either. Safe to declare unconditionally. */
+.ur-consult-desc-mobile::before { content: "• "; }
+/* Consulting section — mobile composition. Stacks the two-column grid and
+   turns the desktop vertical card "arc" (absolutely-positioned cards whose
+   transform is computed per-render in consultArc, five petal slots keyed
+   off consultOffset) into a compact horizontal peeking-card strip.
+   c.slotName (set alongside c.style there) exposes which petal slot a
+   card currently occupies as data-consult-slot, so only active/near-a/
+   near-b need a repositioned transform here (!important — inline style
+   otherwise wins); far-a/far-b keep their original large vertical dy
+   offset, which alone pushes them outside the shorter mobile arc height
+   below, so no explicit hide is needed for those two. */
+@media (max-width: 767px) {
+  #consulting { padding: 64px 24px 56px; }
+  .ur-consult-desc-desktop { display: none; }
+  .ur-consult-desc-mobile { display: block; }
+  /* Title text group — left-align on mobile only; tablet/desktop keep the
+     centered layout inherited from the grandparent's text-align:center. */
+  .ur-consult-head { align-self: stretch; text-align: left; }
+  .ur-consult-grid { grid-template-columns: 1fr; gap: 40px; }
+  .ur-consult-stats { gap: 12px; }
+  .ur-consult-stat-item { width: 84px; }
+  .ur-consult-title { font-size: 32px; letter-spacing: -1px; }
+  .ur-consult-visual { min-height: 0; }
+  /* Card size bumped x1.3 (on request) — was 190/196/112/118. */
+  .ur-consult-arc { position: relative; top: 0; left: 0; width: 100%; height: 247px; overflow: hidden; }
+  /* Desktop's arc spreads the 5 slots vertically (dy) with a small
+     horizontal pull (dx) toward the right-anchored active card — a
+     sideways parabola. Mobile mirrors that but on the other axis: dx is
+     now the spread (left/right) and dy is the small pull, drawing the
+     parabola downward instead. Anchored by margin (half of the fixed
+     255x146 box) rather than a translate(-50%,-50%) in the same
+     transform as the slide/rotate/scale, matching how the desktop petals
+     avoid stacking a percentage-translate into that chain. */
+  .ur-consult-card { left: 50% !important; right: auto !important; top: 50% !important; margin: -73px 0 0 -127.5px !important; width: 255px !important; height: 146px !important; }
+  .ur-consult-card[data-consult-slot="active"] { transform: translate(0, 0) rotate(0deg) scale(1) !important; opacity: 1 !important; filter: none !important; z-index: 10 !important; }
+  /* near-a/near-b previously peeked in at full card width (255px) offset
+     only ±153px, which always bled past the arc's own edges and cut the
+     title text mid-character. Shrinking them (scale .66/.4) so the offset
+     needed for a visible slide still mostly fits inside the 342px-wide
+     arc — the outer sliver of near/far cards still gets cropped by the
+     arc's overflow:hidden, same as desktop crops its own far petals, but
+     the per-card text is hidden below whenever a card isn't active, so a
+     cropped edge is just a plain image corner, never a cut-off word. */
+  .ur-consult-card[data-consult-slot="near-a"] { transform: translate(-118px, 14px) rotate(10deg) scale(.66) !important; opacity: .8 !important; filter: blur(.5px) !important; z-index: 2 !important; }
+  .ur-consult-card[data-consult-slot="near-b"] { transform: translate(118px, 14px) rotate(-10deg) scale(.66) !important; opacity: .8 !important; filter: blur(.5px) !important; z-index: 2 !important; }
+  .ur-consult-card[data-consult-slot="far-a"] { transform: translate(-155px, 38px) rotate(18deg) scale(.4) !important; opacity: .5 !important; filter: blur(1px) !important; z-index: 1 !important; }
+  .ur-consult-card[data-consult-slot="far-b"] { transform: translate(155px, 38px) rotate(-18deg) scale(.4) !important; opacity: .5 !important; filter: blur(1px) !important; z-index: 1 !important; }
+  .ur-consult-card:not([data-consult-slot="active"]) .ur-consult-card-text { opacity: 0 !important; }
+  .ur-consult-nav { position: static; transform: none; flex-direction: row-reverse; justify-content: center; margin-top: 18px; gap: 16px; }
+  .ur-consult-nav-btn .ms { transform: rotate(90deg); }
+}
+/* Quick/Solutions/MCQ/Global/Partners/Newsroom — grid-template-columns,
+   side padding and gap live here (not inline) so the tablet/mobile
+   overrides below can beat them via source order instead of !important. */
+.ur-quick-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ur-quick-tab { height: 38px; padding: 0 22px; font-size: 14px; white-space: nowrap; }
+#solutions { padding-left: 32px; padding-right: 32px; }
+.ur-mcq-mock { width: 90%; height: 594px; margin-top: -78px; }
+.ur-mcq-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.ur-mcq-arrow { display: inline-flex; }
+#global { padding: 96px 32px; }
+.ur-partners-sec { padding: 88px 32px; gap: 44px; }
+#news { padding: 90px 32px; }
+/* ===== Tablet (<=1023px) — scale down desktop grids/paddings without yet
+   restacking to a single column; the 767px tier below handles the mobile
+   restack. Mirrors the tablet/mobile two-tier split already used for the
+   Hero, SNB and GNB above. ===== */
+@media (max-width: 1023px) {
+  .ur-quick-grid { grid-template-columns: repeat(2, 1fr); }
+  /* Consulting — deliberate exception to this tier's "scale down, don't
+     restack" rule above: the .85fr/1.15fr two-column split leaves the card
+     column only ~35% of the section width, which the un-scaled desktop
+     card (343x190) already nearly filled exactly. The x1.3 tablet card
+     size below (see consultSizeMul in the script) has no room to grow
+     into there — it needs the full section width, so this restacks to a
+     single column same as the 767px tier, just with a bigger card sized
+     for the extra room that frees up. */
+  .ur-consult-grid { grid-template-columns: 1fr; gap: 40px; }
+  #solutions { padding-left: 24px; padding-right: 24px; }
+  .ur-mcq-mock { width: 100%; height: auto; aspect-ratio: 1058 / 594; }
+  /* MCQ — 1 column x 4 rows, matching the DFAS product list's own vertical
+     stack, instead of the desktop 4-across row. Tablet only; the 767px
+     tier below carries the same single-column rule for mobile. */
+  .ur-mcq-grid { grid-template-columns: 1fr; }
+  #global { padding-left: 24px; padding-right: 24px; }
+  .ur-partners-sec { padding-left: 24px; padding-right: 24px; }
+  #news { padding-left: 24px; padding-right: 24px; }
+  /* Global map — tablet/mobile: the desktop hover tooltip is replaced by a
+     tap-to-select tag row + info panel below the map (see the isMobileView
+     comment in the script). */
+  .ur-global-tooltip { display: none; }
+  .ur-global-tags { display: flex; flex-wrap: nowrap; gap: 4px; margin-top: 16px; border-bottom: 1px solid rgba(255,255,255,.1); overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none; }
+  .ur-global-tags::-webkit-scrollbar { display: none; }
+  .ur-global-tag { flex: none; cursor: pointer; font-family: inherit; height: 40px; padding: 0 14px; border-radius: 0; font-size: 12.5px; font-weight: 600; color: #8b90a5; background: none; border: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  .ur-global-tag.is-active { color: #fff; border-bottom-color: #7EA2FF; }
+  .ur-global-panel { display: block; margin-top: 16px; }
+  .ur-global-panel-inner { padding: 18px 20px; border-radius: 14px; background: rgba(20,22,40,.96); border: 1px solid rgba(255,255,255,.06); box-shadow: 0 12px 30px rgba(0,0,0,.3); }
+}
+/* Quick/DFAS/GM/MCQ/Global/Footer headings, grids and paddings live here
+   (not inline) so the 767px overrides below can beat them via source order
+   instead of !important. */
+#quickmenu { padding: 96px 32px 30px; padding-bottom: 88px; }
+#quickmenu h2 { font-size: 38px; }
+#dfas h3, #gm h3, #mcq h3 { font-size: 30px; }
+.ur-dfas-card { grid-template-columns: .92fr 1.08fr; min-height: 420px; }
+.ur-dfas-card > div:first-child { padding: 34px 30px; }
+.ur-dfas-motion { padding: 12px; }
+.ur-dfas-list { width: 340px; }
+#gm { padding: 110px 0; }
+.ur-gm-row { gap: 18px; min-height: 420px; }
+.ur-gm-card-media-wrap { padding: 16px 16px 0; }
+.ur-gm-card-media { height: 236px; border-radius: 16px; }
+.ur-gm-card-body { padding: 28px 32px 38px; }
+.ur-gm-logo-img { height: 28px; }
+.ur-gm-card-desc { font-size: 14.5px; }
+.ur-gm-card-desc-line { display: block; line-height: 1.55; }
+.ur-gm-card-desc-desktop { display: block; margin-top: 10px; line-height: 1.55; }
+#mcq { padding: 88px 0; padding-bottom: 0px; }
+.ur-mcq-mock-inset { inset: 56px 32px 40px; }
+.ur-mcq-card { min-height: 320px; padding: 24px 22px; position: relative; }
+/* .msecu-illust never matches at runtime — the DC compiler emits
+   classname="msecu-illust" (not class=) on this custom element, so the
+   class selector is dead. id^= is what actually reaches it (same
+   workaround already used for image-slot[id^="msecu-img-"]::part(...)
+   elsewhere in this file). */
+.ur-mcq-card image-slot[id^="msecu-img-"] { width: 67px; height: 67px; }
+.ur-mcq-card image-slot[id^="msecu-img-foot-"] { display: none; }
+.ur-global-title { font-size: 38px; }
+.ur-global-stat-num { font-size: 52px; }
+#news h2 { font-size: 38px; }
+.ur-news-card { flex: 0 0 280px; }
+.ur-ft-cta { grid-template-columns: 1.3fr 1fr; }
+.ur-ft-cta > div:last-child { justify-content: flex-end; }
+.ur-qm-overlay { padding: 32px; }
+.ur-qm-box { padding: 38px 44px 44px; max-height: 88vh; }
+.ur-qm-grid { margin-top: 40px; }
+.ur-qm-consult-col { padding-left: 34px; border-left: 1px solid var(--line); }
+.ur-qm-thumb { width: 125px; height: 125px; }
+/* MCQ card — full-width "wide rectangle" card (see .ur-mcq-grid's 1023px
+   override above) instead of a narrow column card: the top icon (next to
+   the category chip) is hidden and a second, duplicate <image-slot> that
+   lives inline in the bottom row (id "msecu-img-foot-N", same src, added
+   right after the now-hidden arrow-cta) is shown instead — a real flex
+   item sharing the "최대 동시 N대" row, not a copy positioned via
+   absolute coordinates that could drift out of line with that text when
+   the row's own height changes (e.g. the optional insurance badge). This
+   has to be its own block *here* (after the .ur-mcq-card/.ur-mcq-arrow
+   desktop-base declarations above, not up in the 1023px tier alongside
+   .ur-mcq-grid) — same reason those desktop-base values were pulled out
+   of inline styles in the first place: a same-specificity rule earlier in
+   the file loses to one later in the file regardless of which media query
+   matches, so overriding display here is what actually beats them.
+   Tablet+mobile only — the 767px tier below re-tunes the icon size for
+   mobile. */
+@media (max-width: 1023px) {
+  .ur-gm-card-desc-desktop { display: none; }
+  .ur-mcq-card image-slot[id^="msecu-img-"] { display: none; }
+  .ur-mcq-card image-slot[id^="msecu-img-foot-"] { display: inline-flex; width: 80.4px; height: 80.4px; }
+  .ur-mcq-arrow { display: none; }
+}
+/* ===== Mobile (<=767px) — restack multi-column rows to a single column so
+   nothing is squeezed below a legible width; verified down to a 320px
+   viewport (the narrowest phone width this site supports). ===== */
+@media (max-width: 767px) {
+  /* Quick */
+  #quickmenu { padding: 64px 20px 24px; }
+  #quickmenu h2 { font-size: 26px; }
+  .ur-quick-grid { grid-template-columns: 1fr; gap: 14px; }
+  .ur-quick-tabs { flex-wrap: wrap; justify-content: center; }
+  .ur-quick-tab { white-space: normal; padding: 0 14px; font-size: 12.5px; height: 34px; }
+  .ur-quick-desc { display: none; }
+  .ur-quick-cta-label { display: none; }
+  /* Role cards: keep the desktop composition intact and switch only the
+     mobile layout to icon > title > recommendation in one vertical column. */
+  .quick-role-card {
+    justify-content: flex-start !important;
+    min-height: 224px !important;
+    padding: 18px 16px !important;
+  }
+  .quick-role-card .quick-role-icon-bg { display: none !important; }
+  .quick-role-card .quick-role-icon {
+    position: static !important;
+    width: 64px !important;
+    height: 64px !important;
+    margin: 0 0 18px !important;
+    flex: none;
+  }
+  .quick-role-card .quick-role-text {
+    position: static !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  .quick-role-card .quick-role-title {
+    display: -webkit-box;
+    min-height: 2.7em;
+    margin: 0 !important;
+    overflow: hidden;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .quick-role-card .quick-role-cta {
+    margin-top: auto;
+    padding-top: 18px;
+  }
+  .quick-role-card .ur-quick-cta-label { display: inline !important; }
+
+  /* DFAS / GM / MCQ shared container */
+  /* min-width:0 breaks the CSS Grid auto-track's default min-content-based
+     sizing: #solutions is a grid item (.solution-container's grid-area:1/1
+     stack) with no min-width set, so any wide max-content child (like the
+     new .ur-dfas-mstrip cards' unwrapped text) would otherwise inflate the
+     whole grid track past the viewport. */
+  #solutions { padding-left: 20px; padding-right: 20px; min-width: 0; }
+  /* #dfas is itself a flex item of #solutions (flex-direction:column) and
+     flex items default to min-width:auto, which walks into descendants for
+     an automatic minimum size — the new .ur-dfas-mstrip's off-screen scroll
+     content (2000px+ across 5 cards) was inflating that all the way back up
+     to #dfas despite the strip's own overflow-x:auto correctly clipping
+     itself. min-width:0 stops the walk here so #dfas actually shrinks to
+     the viewport instead of forcing it wide enough to fit every card. */
+  #dfas { min-width: 0; }
+  #dfas h3, #gm h3, #mcq h3 { font-size: 28px; font-weight: 600 !important; }
+  /* DFAS / GM / MCQ section titles — left-align on mobile only; tablet and
+     desktop keep the centered .ur-sol-head/.ur-sol-desc base rule above. */
+  .ur-sol-head { align-items: flex-start; text-align: left; }
+  .ur-sol-desc { margin: 0; }
+
+  /* DFAS — mobile drops the single selected card + product-picker-list row
+     entirely (.ur-dfas-row, hidden with !important since it fights that
+     element's own inline display:flex) in favor of a horizontal
+     scroll-snap strip showing all 5 products at once (.ur-dfas-mstrip /
+     dfasMCards — see dfasStripRef/dfasMobileMedia). Scrolling a card into
+     the lead slot IS the selection now, so there's no separate list.
+     Card width (81%) + gap is tuned so the 2nd card's left ~1/5 peeks in
+     at the right edge as a "there's more" hint (81 + 3 + .2*81 ≈ 100% of
+     the strip's own width). */
+  .ur-dfas-row { display: none !important; }
+  .ur-dfas-mstrip { display: flex; min-width: 0; contain: inline-size; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 8px; scrollbar-width: none; }
+  .ur-dfas-mstrip::-webkit-scrollbar { display: none; }
+  .ur-dfas-mcard { flex: 0 0 81%; scroll-snap-align: start; display: flex; flex-direction: column; gap: 16px; border-radius: 16px; border: 1px solid var(--line); background-color: rgba(173, 161, 255, 0.07); overflow: hidden; padding-bottom: 20px; }
+  .ur-dfas-mcard-media { height: 180px; padding: 12px 12px 0; }
+  .ur-dfas-mcard-media > * { height: 100%; }
+  .ur-dfas-mcard-body { display: flex; flex-direction: column; gap: 10px; padding: 0 20px; }
+
+  /* GateManager — 2 cards side by side (2 columns x 1 row) instead of
+     stacked; each card's fixed desktop-sized inner image (236px) / padding
+     (32px/38px) / text sizes are far too big for a ~170px-wide half-card,
+     so those get their own mobile-only shrink here (nothing else in the
+     card markup changes, no new elements). */
+  #gm { padding: 56px 0; }
+  .ur-gm-row { flex-direction: row; min-height: 0; gap: 12px; }
+  .ur-gm-card-media-wrap { padding: 10px 10px 0; }
+  .ur-gm-card-media { height: 110px; border-radius: 12px; }
+  .ur-gm-card-body { padding: 16px 14px 18px; gap: 10px; }
+  .ur-gm-logo-img { height: 20px; }
+  .ur-gm-card-desc { font-size: 12px; }
+
+  /* MCQ — 1 column x 4 rows (same rule as the tablet tier above), matching
+     the DFAS product list's own vertical stack instead of the desktop
+     4-across row. Cards are full section width here, but keep the same
+     compact padding/icon size as before so a single row doesn't grow
+     taller than it needs to — the desktop inline styles (min-height:320px,
+     padding:24px 22px, 67px icon) assume the full-width desktop card. */
+  #mcq { padding: 56px 0 0; }
+  .ur-mcq-mock { margin-top: -32px; }
+  .ur-mcq-mock-inset { inset: 28px 14px 20px; }
+  .ur-mcq-grid { grid-template-columns: 1fr; gap: 10px; }
+  .ur-mcq-card { min-height: 0; padding: 16px 14px; }
+  .ur-mcq-card image-slot[id^="msecu-img-foot-"] { width: 52.8px; height: 52.8px; }
+
+  /* Global */
+  #global { padding: 56px 16px; }
+  .ur-global-title { font-size: 26px; }
+  .ur-global-stat-num { font-size: 34px; }
+  .ur-global-label { color: transparent !important; text-shadow: none !important; }
+  /* Tab text underline is the tablet row's faint white rule. Drop it on
+     phones only — the 1023px rule and desktop stay as they are. */
+  .ur-global-tags { border-bottom: none; }
+
+  /* Partners */
+  .ur-partners-sec { padding: 56px 20px; gap: 28px; }
+
+  /* Newsroom */
+  #news h2 { font-size: 26px; }
+  .ur-news-card { flex: 0 0 240px; }
+  .news-nav-btn { display: none; }
+
+  /* Footer — stack the CTA row and let long sitemap labels wrap instead of
+     overflowing their narrower 2-column grid track. */
+  .ur-ft-cta { grid-template-columns: 1fr; }
+  .ur-ft-cta > div:last-child { justify-content: flex-start; }
+  .ur-ft-row { gap: 20px; }
+  .ur-ft-d1, .ur-ft-d2, .ur-ft-d3 a, .ur-ft-os a { white-space: normal; }
+  /* Solutions row — DFAS's own two sub-lists (Pro One / Edge+Go+Discovery+
+     Arc) stack into one column instead of sitting side by side, then take
+     a full-width row of their own; M-SecuManager and GateManager fill the
+     two columns of the row below. The ghost "DFAS" label existed only to
+     line up those two sub-lists horizontally, so it's hidden now that
+     they're stacked instead. */
+  .ur-ft-row-sol { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 40px; }
+  .ur-ft-dfas-group { grid-column: 1 / -1; flex-direction: column; gap: 20px; }
+  .ur-ft-d2-ghost { display: none; }
+
+  /* Quick-menu recommendation modal (openQuick/qmOpen) — qmCols/qmSolCols
+     are computed per-render as literal grid-template-columns strings
+     ('1fr 1fr' for the outer solutions|consulting split, plus a second
+     '1fr'/'1fr 1fr' for the solution cards themselves depending on whether
+     a consulting column exists) sized for the desktop max-width:1080px box.
+     Forcing both grids to a single column here — and turning the
+     consulting column's left border/padding into a top border/padding, same
+     trick .ur-snb-col already uses — is what actually fixes it, not just
+     shrinking the box/thumbnails; the 84px thumbnail is only there so the
+     remaining text next to it stays legible instead of squeezed to a
+     couple of characters per line. */
+  .ur-qm-overlay { padding: 16px; }
+  .ur-qm-box { padding: 28px 20px; max-height: 92vh; }
+  /* qmCols/qmSolCols are computed per-render as literal grid-template-columns
+     strings (see comment above) always present inline, so these two stay
+     !important to beat whatever value that render produced. */
+  .ur-qm-grid { grid-template-columns: 1fr !important; gap: 28px; margin-top: 28px; }
+  .ur-qm-sol-col { padding: 0 !important; }
+  .ur-qm-sol-grid { grid-template-columns: 1fr !important; }
+  .ur-qm-consult-col { padding-left: 0; border-left: none; padding-top: 22px; border-top: 1px solid var(--line); }
+  .ur-qm-thumb { width: 84px; height: 84px; }
+}
+/* ===== Hover is a mouse-only affordance — tablet/mobile has no pointer that
+   "hovers", so a tap there just fires (and gets visually stuck on) whatever
+   :hover state a mouse would only ever pass through momentarily. Gating
+   every :hover-driven effect (moved out of their previous unscoped
+   declarations, listed here in the same order) behind this desktop-only
+   breakpoint removes that stuck-highlight/stuck-reveal behavior entirely
+   below 1024px, without touching :active (left exactly where it was —
+   .ur-ft-os a.ur-ft-soon:active above, .dfas-pause-btn's style-active, etc.
+   — so tap feedback still works everywhere). ===== */
+@media (max-width: 1023px) {
+  .ur-hover-cursor { display: none; }
+}
+@media (min-width: 1024px) {
+  /* Custom cursor: countless elements across the page carry their own
+     inline cursor:pointer, so this needs !important to blank all of them
+     out under a .cursor-hover-card; .cursor-exclude then needs it right
+     back to opt individual descendants out of that blanket rule. */
+  .cursor-hover-card, .cursor-hover-card * { cursor: none !important; }
+  .cursor-hover-card .cursor-exclude, .cursor-hover-card .cursor-exclude * { cursor: pointer !important; }
+  a:hover { color: var(--pri2); }
+  /* These three fight inline colors that are computed per-render from
+     component state (dfasToggleBtnStyle/tabOn·tabOff/dfasRowBase — see the
+     script below), not fixed markup, so :hover can't win on specificity
+     alone and still needs !important here. */
+  .dfas-pager-group:hover .dfas-pause-btn { border-color: var(--pri) !important; background: var(--btint) !important; color: var(--pri2) !important; }
+  .qg-tab-off:hover { color: #7DA4FF !important; }
+  .dfas-row-off:hover { background-color: #46436B !important; border-color: rgba(147, 176, 248, 0.6) !important; }
+  .cursor-hover-card:hover .arrow-cta, .quick-card:hover .arrow-cta, .arrow-cta:hover { color: #DCE6FF; transform: translateX(4px); }
+  .cursor-hover-card:hover .arrow-cta-text, .quick-card:hover .arrow-cta-text, .arrow-cta-text:hover { transform: none; gap: 9px; }
+  .cursor-hover-card:hover .modal-card-chevron { color: #7DA4FF; }
+  .ur-gnb-link:hover { color: inherit; opacity: .88; }
+  .ur-gnb-ghost:hover { color: inherit; opacity: .82; }
+  .ur-gnb-btn-pri:hover { background: #7DA4FF; color: #fff; }
+  .ur-ft-d3 a:hover { color: #DCE6FF; }
+  .ur-ft-os a:hover { color: #DCE6FF; }
 }
 </style>
 <style>
@@ -204,7 +614,6 @@
 html{color-scheme:dark;}
 body{font-family:"Pretendard",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;background:var(--page);transition:background .3s ease,color .3s ease;}
 a{color:inherit;text-decoration:none;}
-a:hover{color:var(--pri2);}
 .num{font-family:"Spoqa",sans-serif;}
 .ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;}
 @keyframes floaty{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(0,-26px) scale(1.05);}}
@@ -657,8 +1066,9 @@ hero-scrollworld [data-hsw-dot="3"] .hsw-dot-fill{opacity:var(--hsw-dot-3,0);tra
 hero-scrollworld [data-hsw-dot="4"] .hsw-dot-fill{opacity:var(--hsw-dot-4,0);transform:scale(calc(.4 + .75 * var(--hsw-dot-4,0)));}
 hero-scrollworld .hsw-reduced{display:none;}
 @media (max-width:1023px){
-  hero-scrollworld .hsw-copy-text{font-size:42px;letter-spacing:-1.2px;}
+  hero-scrollworld .hsw-copy-text{font-size:6vw;letter-spacing:-1.2px;}
   hero-scrollworld .hsw-copy-eyebrow{font-size:12px;letter-spacing:2px;margin-bottom:8px;}
+  hero-scrollworld [data-hsw-copy="1"] .hsw-copy-text{width:auto;flex:1 1 auto;}
   hero-scrollworld .hsw-dots{right:18px;gap:13px;}
   hero-scrollworld .hsw-ov-row{gap:18px;}
   hero-scrollworld .hsw-ov-panel{width:min(150px,34vw);padding:12px 14px;}
@@ -674,8 +1084,8 @@ hero-scrollworld .hsw-reduced{display:none;}
   hero-scrollworld .hsw-object-04{width:min(210px,24vw);top:calc(anchor(--hsw-head06 top) - 60px);}
 }
 @media (max-width:767px){
-  hero-scrollworld .hsw-copy{bottom:calc(13% + env(safe-area-inset-bottom,0px) + 24px);padding:0 20px;}
-  hero-scrollworld .hsw-copy-text{font-size:28px;line-height:1.32;letter-spacing:-.6px;}
+  hero-scrollworld .hsw-copy{top:calc(13% + env(safe-area-inset-top,0px) + 24px);bottom:auto;padding:0 20px;}
+  hero-scrollworld .hsw-copy-text{font-size:7.5vw;line-height:1.32;letter-spacing:-.6px;}
   hero-scrollworld .hsw-copy-eyebrow{font-size:11px;letter-spacing:1.5px;margin-bottom:6px;}
   hero-scrollworld .hsw-ov-panel{display:none;}
   hero-scrollworld .hsw-object{display:none;}
@@ -856,9 +1266,9 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 
 <!-- ===== NAV ===== -->
 <header class="{{ gnbClass }}" onMouseLeave="{{ closeSnb }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 76px; display: flex; align-items: center; justify-content: center; color: {{ navText }}; --nav-bg: {{ navBg }}; --nav-blur: {{ navBlur }}; --nav-border: {{ navBorder }}">
-  <div style="width:100%;max-width:1680px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+  <div style="width:100%;max-width:1680px;display:flex;align-items:center;justify-content:space-between;">
     <a href="#top" style="display:flex;align-items:center;gap:10px;flex-shrink:0;"><span style="position:relative;display:inline-block;height:26px;width:81px;"><img src="assets/UROCK_white.svg" alt="UROCK" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoWhiteOpacity }};transition:opacity .3s;"><img src="assets/UROCK_navy.svg" alt="" aria-hidden="true" style="position:absolute;inset:0;height:26px;width:auto;opacity:{{ logoNavyOpacity }};transition:opacity .3s;"></span></a>
-    <nav style="display:flex;align-items:center;justify-content:center;gap:32px;flex:1;">
+    <nav class="ur-gnb-nav">
       <span class="{{ navSolClass }}" onMouseEnter="{{ openSnb }}">솔루션</span>
       <span class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">컨설팅</span>
       <span class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">회사소개</span>
@@ -866,12 +1276,27 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
       <span class="ur-gnb-link" onMouseEnter="{{ closeSnb }}">고객지원</span>
     </nav>
     <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
-      <button onClick="{{ toggleLang }}" class="ur-gnb-ghost"><span class="ms" style="font-size:18px;width:18px;height:18px;">language</span>{{ langLabel }}</button>
+      <button onClick="{{ toggleLang }}" class="ur-gnb-ghost" aria-label="언어 변경 ({{ langLabel }})"><span class="ms" style="font-size:18px;width:18px;height:18px;">language</span></button>
       <span class="ur-gnb-div ur-gnb-extra" aria-hidden="true"></span>
       <a href="#footer" class="ur-gnb-ghost ur-gnb-extra"><span class="ms" style="font-size:16px;width:16px;height:16px;">download</span>소개서 다운로드</a>
-      <a href="#footer" class="ur-gnb-btn ur-gnb-btn-pri">문의하기</a>
+      <a href="#footer" class="ur-gnb-btn ur-gnb-btn-pri ur-gnb-cta-top">문의하기</a>
+      <button type="button" class="ur-gnb-burger" onClick="{{ toggleMobileNav }}" aria-label="메뉴 열기/닫기"><span class="ms">{{ mobileNavIcon }}</span></button>
     </div>
   </div>
+  <div class="ur-scroll-line" style="width:{{ scrollLineWidth }}"></div>
+  <sc-if value="{{ mobileNavOpen }}" hint-placeholder-val="">
+    <div class="ur-mnav">
+      <a href="#solutions" class="ur-mnav-link" onClick="{{ closeMobileNav }}">솔루션</a>
+      <a href="#consulting" class="ur-mnav-link" onClick="{{ closeMobileNav }}">컨설팅</a>
+      <a href="#global" class="ur-mnav-link" onClick="{{ closeMobileNav }}">회사소개</a>
+      <a href="#news" class="ur-mnav-link" onClick="{{ closeMobileNav }}">뉴스 · 블로그</a>
+      <a href="#footer" class="ur-mnav-link" onClick="{{ closeMobileNav }}">고객지원</a>
+      <div class="ur-mnav-actions">
+        <button onClick="{{ toggleLang }}" class="ur-gnb-ghost"><span class="ms" style="font-size:18px;width:18px;height:18px;">language</span>{{ langLabel }}</button>
+        <a href="#footer" class="ur-gnb-btn ur-gnb-btn-pri" onClick="{{ closeMobileNav }}">문의하기</a>
+      </div>
+    </div>
+  </sc-if>
   <sc-if value="{{ snbOpen }}" hint-placeholder-val="">
     <div class="ur-snb" onMouseEnter="{{ openSnb }}" onMouseLeave="{{ closeSnb }}">
       <div class="ur-snb-grid">
@@ -1120,31 +1545,31 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </section>
 
 <!-- ===== QUICK MENU ===== -->
-<section id="quickmenu" style="max-width: 1240px; margin: 0 auto; padding: 96px 32px 30px; padding-bottom: 88px; position: relative; display: flex; flex-direction: column; gap: 38px" data-om-label="Quick">
+<section id="quickmenu" style="max-width: 1240px; margin: 0 auto; position: relative; display: flex; flex-direction: column; gap: 38px" data-om-label="Quick">
   <div data-focus-head-quick="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ qHeadOpacity }};filter:{{ qHeadBlur }};transform:{{ qHeadShift }};">
     <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
       <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: .5px">QUICK GUIDE</p>
-      <h2 style="font-size:38px;font-weight:800;letter-spacing:-1.5px;line-height:1.3;">어떤 도움이 필요하신가요?</h2>
+      <h2 style="font-weight:800;letter-spacing:-1.5px;line-height:1.3;">어떤 도움이 필요하신가요?</h2>
     </div>
     <p style="font-size:17px;color:var(--sub);">현재 상황이나 담당 업무에 맞춰 최적의 솔루션과 전문서비스를 안내합니다</p>
   </div>
   <div style="display:flex;justify-content:center;">
-    <div style="display:inline-flex;padding:4px;border-radius:12px;background:var(--tint);border:1px solid var(--bd);gap:4px;">
+    <div class="ur-quick-tabs" style="display:inline-flex;padding:4px;border-radius:12px;background:var(--tint);border:1px solid var(--bd);gap:4px;">
       <sc-if value="{{ situationOn }}" hint-placeholder-val="{{ true }}">
-        <button onClick="{{ setSituation }}" style="{{ tabSituationStyle }}" style-hover="{{ tabSituationHover }}">상황별로 찾기</button>
+        <button class="ur-quick-tab" onClick="{{ setSituation }}" style="{{ tabSituationStyle }}" style-hover="{{ tabSituationHover }}">상황별로 찾기</button>
       </sc-if>
       <sc-if value="{{ situationOff }}" hint-placeholder-val="">
-        <button class="qg-tab-off" onClick="{{ setSituation }}" style="{{ tabSituationStyle }}">상황별로 찾기</button>
+        <button class="qg-tab-off ur-quick-tab" onClick="{{ setSituation }}" style="{{ tabSituationStyle }}">상황별로 찾기</button>
       </sc-if>
       <sc-if value="{{ roleOn }}" hint-placeholder-val="">
-        <button onClick="{{ setRole }}" style="{{ tabRoleStyle }}" style-hover="{{ tabRoleHover }}">담당 업무로 찾기</button>
+        <button class="ur-quick-tab" onClick="{{ setRole }}" style="{{ tabRoleStyle }}" style-hover="{{ tabRoleHover }}">담당 업무로 찾기</button>
       </sc-if>
       <sc-if value="{{ roleOff }}" hint-placeholder-val="{{ true }}">
-        <button class="qg-tab-off" onClick="{{ setRole }}" style="{{ tabRoleStyle }}">담당 업무별로 찾기</button>
+        <button class="qg-tab-off ur-quick-tab" onClick="{{ setRole }}" style="{{ tabRoleStyle }}">담당 업무별로 찾기</button>
       </sc-if>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+  <div class="ur-quick-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
     <sc-for list="{{ quickItems }}" as="q" hint-placeholder-count="6">
       <sc-if value="{{ q.hasImg }}" hint-placeholder-val="{{ true }}">
         <div onClick="{{ q.open }}" class="quick-card" style="position:relative;display:block;min-height:216px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#201D30;transition:all .25s ease;box-shadow:0 2px 10px rgba(20,25,45,.03);cursor:pointer;" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
@@ -1155,23 +1580,23 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
           <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(32,29,48,.92) 0%,rgba(32,29,48,.62) 60%,rgba(32,29,48,.15) 100%);pointer-events:none;"></div>
           <div data-om-label="txtbox" style="position:absolute;top:32px;left:26px;max-width:calc(100% - 52px);pointer-events:none;">
             <h3 style="font-size:19px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;color:#FFFFFF;">{{ q.title }}</h3>
-            <p style="font-size:15px;line-height:1.6;color:rgba(255,255,255,.8);">{{ q.desc }}</p>
+            <p class="ur-quick-desc" style="font-size:15px;line-height:1.6;color:rgba(255,255,255,.8);">{{ q.desc }}</p>
           </div>
           <div style="position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:216px;padding:32px 26px 30px;pointer-events:none;">
-            <span class="arrow-cta arrow-cta-text" style="display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:#B7CCFF;">{{ q.link }}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+            <span class="arrow-cta arrow-cta-text" style="display:inline-flex;align-items:center;font-size:14px;font-weight:600;"><span class="ur-quick-cta-label">{{ q.link }}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
           </div>
         </div>
       </sc-if>
       <sc-if value="{{ q.noImg }}" hint-placeholder-val="{{ true }}">
-        <div onClick="{{ q.open }}" class="quick-card" style="position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:216px;box-sizing:border-box;overflow:hidden;padding:32px 26px 30px;border-radius:16px;border:1px solid var(--line);background:var(--card);transition:all .25s ease;box-shadow:0 2px 10px rgba(20,25,45,.03);cursor:pointer;" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
-          <img src="{{ q.iconImg }}" loading="lazy" alt="" style="position:absolute;top:-100px;right:-100px;width:298.8px;height:298.8px;object-fit:contain;opacity:.06;pointer-events:none;">
-          <img src="{{ q.iconImg }}" loading="lazy" alt="" style="position:absolute;top:16px;right:16px;width:73.04px;height:73.04px;object-fit:contain;opacity:1;">
-          <div data-om-label="txtbox" style="position:absolute;top:32px;left:26px;max-width:calc(100% - 138px);pointer-events:none;">
-            <h3 style="font-size:19px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;">{{ q.title }}</h3>
-            <p style="font-size:15px;line-height:1.6;color:var(--sub);">{{ q.desc }}</p>
+        <div onClick="{{ q.open }}" class="quick-card quick-role-card" style="position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:216px;box-sizing:border-box;overflow:hidden;padding:32px 26px 30px;border-radius:16px;border:1px solid var(--line);background:var(--card);transition:all .25s ease;box-shadow:0 2px 10px rgba(20,25,45,.03);cursor:pointer;" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
+          <img class="quick-role-icon-bg" src="{{ q.iconImg }}" loading="lazy" alt="" style="position:absolute;top:-100px;right:-100px;width:298.8px;height:298.8px;object-fit:contain;opacity:.06;pointer-events:none;">
+          <img class="quick-role-icon" src="{{ q.iconImg }}" loading="lazy" alt="" style="position:absolute;top:16px;right:16px;width:73.04px;height:73.04px;object-fit:contain;opacity:1;">
+          <div class="quick-role-text" data-om-label="txtbox" style="position:absolute;top:32px;left:26px;max-width:calc(100% - 138px);pointer-events:none;">
+            <h3 class="quick-role-title" style="font-size:19px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;">{{ q.title }}</h3>
+            <p class="ur-quick-desc" style="font-size:15px;line-height:1.6;color:var(--sub);">{{ q.desc }}</p>
           </div>
-          <div style="position:relative;display:flex;flex-direction:column;pointer-events:none;">
-            <span class="arrow-cta arrow-cta-text" style="display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:#B7CCFF;">{{ q.link }}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+          <div class="quick-role-cta" style="position:relative;display:flex;flex-direction:column;pointer-events:none;">
+            <span class="arrow-cta arrow-cta-text" style="display:inline-flex;align-items:center;font-size:14px;font-weight:600;"><span class="ur-quick-cta-label">{{ q.link }}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
           </div>
         </div>
       </sc-if>
@@ -1287,18 +1712,18 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
       <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 42%,rgba(21,19,32,0) 42%,rgba(21,19,32,.55) 100%);"></div>
     </div>
   </div>
-  <section id="solutions" style="grid-area: 1 / 1; position: relative; z-index: 10; max-width: 1240px; margin: 0 auto; padding: 80px 32px 20px; padding-bottom: 110px; padding-top: 144px; display: flex; flex-direction: column; gap: 0px">
+  <section id="solutions" style="grid-area: 1 / 1; position: relative; z-index: 10; max-width: 1240px; margin: 0 auto; padding-top: 144px; padding-bottom: 110px; display: flex; flex-direction: column; gap: 0px">
   <!-- ── 01 DFAS ── -->
   <div id="dfas" ref="{{ dfasSectionRef }}" style="padding: 0 0 88px; padding-top: 48px; display: flex; flex-direction: column; gap: 34px" data-om-label="DFAS">
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;">
+    <div class="ur-sol-head" style="display:flex;flex-direction:column;gap:11px;">
       <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: 0px">AI 기반 통합 디지털 포렌식 솔루션</p>
-      <h3 style="font-size:30px;font-weight:800;letter-spacing:-1px;">DFAS 제품군</h3>
+      <h3 style="font-weight:800;letter-spacing:-1px;">DFAS 제품군</h3>
       <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; display: none">AI 기반 통합 디지털 포렌식 솔루션</p>
-      <p style="font-size: 15px; color: var(--sub); line-height: 1.6; margin: 0 auto; width: 100%; height: 48px">디지털 증거를 현장에서 즉시 수집·분석·보고하고 컴플라이언스 관리로 연결하는 통합 포렌식 체계를 제공합니다.</p>
+      <p class="ur-sol-desc" style="font-size: 15px; color: var(--sub); line-height: 1.6; width: 100%; height: 48px">디지털 증거를 현장에서 즉시 수집·분석·보고하고 컴플라이언스 관리로 연결하는 통합 포렌식 체계를 제공합니다.</p>
     </div>
-    <div style="display: flex; grid-template-columns: 1.55fr 1fr; gap: 20px; align-items: stretch">
-      <div class="cursor-hover-card" style="display: grid; grid-template-columns: .92fr 1.08fr; gap: 0px; position: relative; box-shadow: 0px 24.63157844543457px 37.89px rgba(22,20,33,0.5); backdrop-filter: blur(37.89px); border-radius: 16px; overflow: hidden; flex: 1; min-width: 0; min-height: 420px; background-color: rgba(173, 161, 255, 0.07); border: 1px solid var(--line); transition: border-color .25s, box-shadow .25s;" style-hover="border-color:#93B0F8;background-color:var(--tint);box-shadow:0 14px 34px rgba(98,140,245,.14)">
-        <div style="padding:34px 30px;display:flex;flex-direction:column;gap:20px;">
+    <div class="ur-dfas-row" style="display: flex; grid-template-columns: 1.55fr 1fr; gap: 20px; align-items: stretch">
+      <div class="cursor-hover-card ur-dfas-card" style="display: grid; gap: 0px; position: relative; box-shadow: 0px 24.63157844543457px 37.89px rgba(22,20,33,0.5); backdrop-filter: blur(37.89px); border-radius: 16px; overflow: hidden; flex: 1; min-width: 0; background-color: rgba(173, 161, 255, 0.07); border: 1px solid var(--line); transition: border-color .25s, box-shadow .25s;" style-hover="border-color:#93B0F8;background-color:var(--tint);box-shadow:0 14px 34px rgba(98,140,245,.14)">
+        <div style="display:flex;flex-direction:column;gap:20px;">
           <div style="{{ dfasFadeStyle }}">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <img src="{{ dfasCur.logo }}" loading="lazy" alt="{{ dfasCur.name }}" style="height:36px;width:auto;display:block;">
@@ -1334,12 +1759,12 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                 <span class="ms" style="font-size:16px;">{{ dfasAutoIcon }}</span>
               </button>
             </span>
-            <a href="#footer" class="cursor-hover-card arrow-cta" style="display:inline-flex;align-items:center;gap:5px;padding:8px;font-size:16px;font-weight:600;color:#B7CCFF;cursor:pointer;transition:gap 200ms, color 200ms, transform 200ms;" style-hover="gap:9px;color:#DCE6FF;" aria-label="자세히 보기"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></a>
+            <a href="#footer" class="cursor-hover-card arrow-cta" style="display:inline-flex;align-items:center;gap:5px;padding:8px;font-size:16px;font-weight:600;cursor:pointer;transition:gap 200ms, color 200ms, transform 200ms;" style-hover="gap:9px;color:#DCE6FF;" aria-label="자세히 보기"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></a>
           </div>
         </div>
-        <div style="padding:12px;display:flex;align-items:stretch;">{{ dfasMotion }}</div>
+        <div class="ur-dfas-motion" style="display:flex;align-items:stretch;">{{ dfasMotion }}</div>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 8px; width: 340px">
+      <div class="ur-dfas-list" style="display: flex; flex-direction: column; gap: 8px">
         <sc-for list="{{ dfasList }}" as="p" hint-placeholder-count="5">
           <sc-if value="{{ p.always }}" hint-placeholder-val="{{ true }}">
             <button onClick="{{ p.onClick }}" class="{{ p.cls }}" style="{{ p.style }}" style-hover="{{ p.hover }}">
@@ -1356,57 +1781,87 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
         </sc-for>
       </div>
     </div>
+    <!-- Mobile-only horizontal card strip (see .ur-dfas-mstrip in CSS) —
+         replaces the row above entirely on mobile (single selected card +
+         picker list), showing all 5 DFAS products as scroll-snapped cards
+         instead. Hidden by default; shown only at <=767px. -->
+    <div class="ur-dfas-mstrip" ref="{{ dfasStripRef }}">
+      <sc-for list="{{ dfasMCards }}" as="m" hint-placeholder-count="5">
+        <div class="ur-dfas-mcard">
+          <div class="ur-dfas-mcard-media">{{ m.media }}</div>
+          <div class="ur-dfas-mcard-body">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <img src="{{ m.logo }}" loading="lazy" alt="{{ m.name }}" style="height:28px;width:auto;display:block;">
+              <sc-if value="{{ m.badge }}" hint-placeholder-val="">
+                <span style="font-size:11px;font-weight:700;color:var(--pri2);background:var(--btint);padding:3px 9px;border-radius:7px;">{{ m.badge }}</span>
+              </sc-if>
+            </div>
+            <sc-for list="{{ m.desc }}" as="d" hint-placeholder-count="2">
+              <p style="font-size:13.5px;line-height:1.6;color:var(--sub);margin:0;">{{ d }}</p>
+            </sc-for>
+            <sc-if value="{{ m.hasTags }}" hint-placeholder-val="">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <sc-for list="{{ m.tags }}" as="t" hint-placeholder-count="3">
+                  <span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap;background:rgba(255,255,255,.06);color:#c7cbda;border:1px solid rgba(255,255,255,.2);">{{ t }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
   </div>
 
   <!-- ── 02 GateManager ── -->
-  <div id="gm" style="padding:110px 0;display:flex;flex-direction:column;gap:34px;" data-om-label="GM">
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;">
+  <div id="gm" style="display:flex;flex-direction:column;gap:34px;" data-om-label="GM">
+    <div class="ur-sol-head" style="display:flex;flex-direction:column;gap:11px;">
       <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: 0px">중앙 관리형 스마트기기 불법 촬영 탐지 솔루션</p>
-      <h3 style="font-size:30px;font-weight:800;letter-spacing:-1px;">Gate Manager 제품군</h3>
+      <h3 style="font-weight:800;letter-spacing:-1px;">GateManager 제품군</h3>
       <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; display: none">중앙 관리형 스마트기기 불법 촬영 탐지 솔루션</p>
-      <p style="font-size:15px;color:var(--sub);line-height:1.6;max-width:none;margin:0 auto;">보안 스티커 훼손 이후 스마트기기 사용 행위가 불분명하거나 <br>MDM 설치에 대한 거부감이 있는 환경에서는 GateManager가 최적의 대안입니다.</p>
+      <p class="ur-sol-desc" style="font-size:15px;color:var(--sub);line-height:1.6;max-width:none;">보안 스티커 훼손 이후 스마트기기 사용 행위가 불분명하거나 <br>MDM 설치에 대한 거부감이 있는 환경에서는 GateManager가 최적의 대안입니다.</p>
     </div>
-    <div style="display:flex;gap:18px;align-items:stretch;min-height:420px;">
+    <div class="ur-gm-row" style="display:flex;align-items:stretch;">
       <sc-for list="{{ gateCards }}" as="g" hint-placeholder-count="2">
         <div class="cursor-hover-card" style="{{ g.cardStyle }}" style-hover="color:#7DA4FF;border-color:#93B0F8;background:var(--tint);box-shadow:0 14px 34px rgba(98,140,245,.14)">
-          <div style="padding:16px 16px 0;flex:none;">
-            <div style="position:relative;height:236px;border-radius:16px;background:linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%), radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), url('uploads/dark-01.webp') center/cover no-repeat, #151320;">
+          <div class="ur-gm-card-media-wrap" style="flex:none;">
+            <div class="ur-gm-card-media" style="position:relative;background:linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%), radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), url('uploads/dark-01.webp') center/cover no-repeat, #151320;">
               <sc-if value="{{ g.image }}" hint-placeholder-val="">
                 <img src="{{ g.image }}" loading="lazy" alt="{{ g.name }}" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;transform:scale(1.2) translateY(26px);">
               </sc-if>
               <sc-if value="{{ g.noImage }}" hint-placeholder-val="{{ true }}">{{ g.motion }}</sc-if>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:16px;padding:28px 32px 38px;flex:1;min-height:0;">
-            <div style="display:flex;align-items:center;gap:12px;flex:none;">
-              <img src="{{ g.logo }}" loading="lazy" alt="{{ g.name }}" style="height:28px;width:auto;display:block;">
+          <div class="ur-gm-card-body" style="display:flex;flex-direction:column;gap:16px;flex:1;min-height:0;">
+            <div class="ur-gm-card-logos" style="display:flex;align-items:center;gap:12px;flex:none;">
+              <img class="ur-gm-logo-img" src="{{ g.logo }}" loading="lazy" alt="{{ g.name }}" style="width:auto;display:block;">
               <sc-if value="{{ g.badge }}" hint-placeholder-val="">
-                <img src="{{ g.badge }}" loading="lazy" alt="PRO" style="height:28px;width:auto;object-fit:fill;display:block;">
+                <img class="ur-gm-logo-img" src="{{ g.badge }}" loading="lazy" alt="PRO" style="width:auto;object-fit:fill;display:block;">
               </sc-if>
             </div>
-            <p style="font-size:14.5px;color:var(--sub);margin:-4px 0 0;flex:1;">
-              <span style="display:block;line-height:2.4;">{{ g.descLine1 }}</span>
-              <sc-if value="{{ g.descLine2 }}" hint-placeholder-val=""><span style="display:block;line-height:1.4;">{{ g.descLine2 }}</span></sc-if>
+            <p class="ur-gm-card-desc" style="color:var(--sub);margin:-4px 0 0;flex:1;">
+              <span class="ur-gm-card-desc-line">{{ g.descLine1 }}</span>
+              <sc-if value="{{ g.descLine2 }}" hint-placeholder-val=""><span class="ur-gm-card-desc-line">{{ g.descLine2 }}</span></sc-if>
+              <sc-if value="{{ g.descDesktop }}" hint-placeholder-val=""><span class="ur-gm-card-desc-desktop">{{ g.descDesktop }}</span></sc-if>
             </p>
-            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:9px;flex:none;margin-top:12px;">
-              <span style="font-size:13.5px;line-height:1.55;color:#B7CCFF;font-weight:500;">{{ g.noteTitle }}<br><span style="color:var(--sub);font-weight:400;">{{ g.noteSub }}</span></span>
-              <span class="arrow-cta" style="color:#B7CCFF;padding-right:2px;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+            <div class="ur-gm-card-note" style="display:flex;align-items:flex-end;justify-content:space-between;gap:9px;flex:none;margin-top:12px;">
+              <span style="font-size:13.5px;line-height:1.55;color:#B7CCFF;font-weight:500;">{{ g.noteTitle }}</span>
+              <span class="arrow-cta" style="padding-right:2px;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
             </div>
           </div>
         </div>
       </sc-for>
     </div>
-  </div><div id="mcq" style="padding: 88px 0; padding-bottom: 0px" data-om-label="MCQ">
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;margin-bottom:34px;">
+  </div><div id="mcq" data-om-label="MCQ">
+    <div class="ur-sol-head" style="display:flex;flex-direction:column;gap:11px;margin-bottom:34px;">
       <p style="font-size: 15px; font-weight: 700; color: #7DA4FF; letter-spacing: 0px">스마트기기 데이터 완전삭제 솔루션</p>
-      <h3 style="font-size:30px;font-weight:800;letter-spacing:-1px;">M-SecuManager 제품군</h3>
+      <h3 style="font-weight:800;letter-spacing:-1px;">M-SecuManager 제품군</h3>
       <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; display: none">스마트기기 데이터 완전삭제 솔루션</p>
-      <p style="font-size:15px;color:var(--sub);line-height:1.6;max-width:none;margin:0 auto;">장소와 유형, 방법에 맞춰 안전하게 삭제하세요. 삭제 결과를 확인·기록해 데이터 처리의 신뢰를 완성합니다. <br>국가정보원(NIS)·글로벌 표준(DoD 5220.22-M) 안심삭제 규격을 준수합니다.</p>
+      <p class="ur-sol-desc" style="font-size:15px;color:var(--sub);line-height:1.6;max-width:none;">장소와 유형, 방법에 맞춰 안전하게 삭제하세요. 삭제 결과를 확인·기록해 데이터 처리의 신뢰를 완성합니다. <br>국가정보원(NIS)·글로벌 표준(DoD 5220.22-M) 안심삭제 규격을 준수합니다.</p>
     </div>
     <div style="margin-bottom: 0px; margin-top: 0px">
-      <div style="position: relative; width: 90%; height: 594px; margin-left: auto; margin-right: auto; border-radius: 16px; overflow: hidden; isolation: isolate; margin-top: -78px">
+      <div class="ur-mcq-mock" style="position: relative; margin-left: auto; margin-right: auto; border-radius: 16px; overflow: hidden; isolation: isolate">
         <div style="position: absolute; inset: 0; background-image: radial-gradient(rgba(126,162,255,.15) 1px,transparent 1px); background-size: 18px 18px"></div>
-        <div style="position: absolute; inset: 56px 32px 40px; display: flex; align-items: center; justify-content: center; transform: scale(0.95); transform-origin: center;">
+        <div class="ur-mcq-mock-inset" style="position: absolute; display: flex; align-items: center; justify-content: center; transform: scale(0.95); transform-origin: center;">
           <div style="position:relative;height:100%;max-width:100%;aspect-ratio:11104 / 6876;isolation:isolate;">
             <div style="position:absolute;left:7.313%;top:10.064%;width:85.303%;height:79.93%;overflow:hidden;z-index:1;background:#0a0d18;container-type:size;">
               <div ref="{{ lottieRef }}" aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;transform:scale(1.1);transform-origin:center;"></div>
@@ -1519,13 +1974,13 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
         </div>
 
       </div>
-    </div><div style="box-sizing: border-box; margin-top: -16px"><div ref="{{ mcqCardsRef }}" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+    </div><div style="box-sizing: border-box; margin-top: -16px"><div ref="{{ mcqCardsRef }}" class="ur-mcq-grid" style="display:grid;">
       <sc-for list="{{ msecuItems }}" as="m" hint-placeholder-count="4">
         <sc-if value="{{ m.svc }}" hint-placeholder-val="">
-          <div class="cursor-hover-card" style="{{ m.cardStyle }}" style-hover="border-color:#11BCC7;box-shadow:0 14px 34px rgba(17,188,199,.14);transform:translateY(-4px)">
+          <div class="cursor-hover-card ur-mcq-card" style="{{ m.cardStyle }}" style-hover="border-color:#11BCC7;box-shadow:0 14px 34px rgba(17,188,199,.14);transform:translateY(-4px)">
             <div style="display: flex; gap: 0px; align-items: flex-start; flex-direction: column; justify-content: space-between; height: 100%">
             <div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; justify-content: normal; align-items: normal"><div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; align-self: stretch">
-              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="{{ m.img }}"></image-slot>
+              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="flex:none;" src="{{ m.img }}"></image-slot>
               <span style="{{ m.chipStyle }}">{{ m.catLabel }}</span>
             </div><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; justify-content: normal; align-items: normal"><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 0px; justify-content: normal; align-items: normal"><p style="font-size:12px;font-weight:700;color:{{ m.catColor }};letter-spacing:.2px;margin:0 0 5px;">{{ m.cat }}</p><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:7px;">
               <span style="font-size:18px;font-weight:800;letter-spacing:-.4px;color:#FAFAFA;">{{ m.name }}</span>
@@ -1538,15 +1993,16 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
               </sc-if>
               
                 <span style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--sub); margin-bottom: 14px"><span class="ms" style="font-size:16px;">smartphone</span>최대 동시 <span class="num" style="font-weight:700;color:#FAFAFA;">{{ m.n }}</span>대</span>
-              <span class="arrow-cta" style="color:#B7CCFF;margin-bottom:12px;padding-right:2px;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+              <span class="arrow-cta ur-mcq-arrow" style="margin-bottom:12px;padding-right:2px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+              <image-slot class="msecu-illust" id="{{ m.imgIdFoot }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="flex:none;" src="{{ m.img }}"></image-slot>
             </div>
           </div>
         </sc-if>
         <sc-if value="{{ m.svcOff }}" hint-placeholder-val="{{ true }}">
-          <div class="cursor-hover-card" style="{{ m.cardStyle }}" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
+          <div class="cursor-hover-card ur-mcq-card" style="{{ m.cardStyle }}" style-hover="border-color:#7DA4FF;box-shadow:0 18px 44px rgba(98,140,245,.28),0 0 0 1px rgba(125,164,255,.35) inset;transform:translateY(-6px) scale(1.012)">
             <div style="display: flex; gap: 0px; align-items: flex-start; flex-direction: column; justify-content: space-between; height: 100%">
             <div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; justify-content: normal; align-items: normal"><div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; align-self: stretch">
-              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="width:67px;height:67px;flex:none;" src="{{ m.img }}"></image-slot>
+              <image-slot class="msecu-illust" id="{{ m.imgId }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="flex:none;" src="{{ m.img }}"></image-slot>
               <x-import component-from-global-scope="UROCKDesignSystemV13_2d2438.Tag" color="blue" size="S" hint-size="auto,22px">{{ m.catLabel }}</x-import>
             </div><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; justify-content: normal; align-items: normal"><div style="box-sizing: border-box; display: flex; flex-direction: column; gap: 0px; justify-content: normal; align-items: normal"><p style="font-size:12px;font-weight:700;color:{{ m.catColor }};letter-spacing:.2px;margin:0 0 5px;">{{ m.cat }}</p><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:7px;">
               <span style="font-size:18px;font-weight:800;letter-spacing:-.4px;color:#FAFAFA;">{{ m.name }}</span>
@@ -1559,7 +2015,8 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
               </sc-if>
               
                 <span style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--sub); margin-bottom: 14px"><span class="ms" style="font-size:16px;">smartphone</span>최대 동시 <span class="num" style="font-weight:700;color:#FAFAFA;">{{ m.n }}</span>대</span>
-              <span class="arrow-cta" style="color:#B7CCFF;margin-bottom:12px;padding-right:2px;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+              <span class="arrow-cta ur-mcq-arrow" style="margin-bottom:12px;padding-right:2px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+              <image-slot class="msecu-illust" id="{{ m.imgIdFoot }}" shape="rounded" radius="12" fit="cover" placeholder="{{ m.name }} 일러스트" style="flex:none;" src="{{ m.img }}"></image-slot>
             </div>
           </div>
         </sc-if>
@@ -1572,21 +2029,23 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
   <!-- ── 03 M-SecuManager ── -->
 
 </section>
-  </div><div style="box-sizing: border-box; position: relative; background-image:url('assets/bg-consulting.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"><div style="position: absolute; inset: 0; background: rgba(21,19,32,.4); pointer-events: none; padding-top: 0px; padding-bottom: 0px"></div><section id="consulting" style="position: relative; max-width: 1240px; margin: 0 auto; padding: 160px 32px 90px; padding-top: 171px; padding-bottom: 176px" data-om-label="Consulting">
-  <div style="display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start;">
-    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:36px;">
-      <div data-focus-head="1" style="display:flex;flex-direction:column;gap:26px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ headOpacity }};filter:{{ headBlur }};transform:{{ headShift }};">
+  </div><div style="box-sizing: border-box; position: relative; background-image:url('assets/bg-consulting.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"><div style="position: absolute; inset: 0; background: rgba(21,19,32,.4); pointer-events: none; padding-top: 0px; padding-bottom: 0px"></div><section id="consulting" style="position: relative; max-width: 1240px; margin: 0 auto;" data-om-label="Consulting">
+  <div class="ur-consult-grid" style="display:grid;align-items:start;">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:36px;">
+      <div data-focus-head="1" class="ur-consult-head" style="display:flex;flex-direction:column;gap:26px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ headOpacity }};filter:{{ headBlur }};transform:{{ headShift }};">
         <p style="font-size: 13px; font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: 1.5px; display: none">SERVICE · EXPERT OPERATIONS</p>
-        <h2 style="font-size:44px;font-weight:800;letter-spacing:-1.6px;color:#FFFFFF;">컨설팅</h2>
+        <h2 class="ur-consult-title" style="font-weight:800;color:#FFFFFF;">컨설팅</h2>
         <div style="display:flex;flex-direction:column;gap:16px;">
         <h3 style="font-size:19px;font-weight:700;letter-spacing:-.4px;color:#FFFFFF;">유락 10년 노하우 기반의 행위 중심 전문 서비스</h3>
-        <p style="font-size:13.5px;line-height:1.6;color:#8B929A;">제품 도입이 아니어도 전문가가 직접 수행하는 진단·분석·교육·삭제 서비스로 조직의 보안 역량을 보완합니다.</p>
-        <p style="font-size:13.5px;line-height:1.6;color:#8B929A;">해외 수사기관을 대상으로 보안 컨설팅, 리스크 관리, 포렌식 랩(LAB)·LIMS 구축까지 통합 제공합니다.</p>
+        <p class="ur-consult-desc-desktop" style="font-size:13.5px;line-height:1.6;color:#8B929A;">제품 도입이 아니어도 전문가가 직접 수행하는 진단·분석·교육·삭제 서비스로 조직의 보안 역량을 보완합니다.</p>
+        <p class="ur-consult-desc-desktop" style="font-size:13.5px;line-height:1.6;color:#8B929A;">해외 수사기관을 대상으로 보안 컨설팅, 리스크 관리, 포렌식 랩(LAB)·LIMS 구축까지 통합 제공합니다.</p>
+        <p class="ur-consult-desc-mobile" style="font-size:13.5px;line-height:1.6;color:#8B929A;">전문가가 직접 수행하는 진단 · 분석 · 교육 · 삭제 서비스로 조직의 보안 역량 보완</p>
+        <p class="ur-consult-desc-mobile" style="font-size:13.5px;line-height:1.6;color:#8B929A;">보안 컨설팅, 리스크관리, 포렌식 랩(LAB) · LIMS 구축까지 통합 제공</p>
         </div>
       </div>
-      <div style="display:flex;gap:28px;">
+      <div class="ur-consult-stats" style="display:flex;">
         <sc-for list="{{ consultingStats }}" as="s" hint-placeholder-count="3">
-          <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;width:96px;">
+          <div class="ur-consult-stat-item" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;">
             <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.1);color:#B7CCFF;"><span class="ms" style="font-size:26px;">{{ s.icon }}</span></div>
             <p style="font-size:12.5px;line-height:1.45;color:rgba(255,255,255,.75);">{{ s.label }}</p>
           </div>
@@ -1594,15 +2053,15 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
       </div>
       <a href="#footer" class="cursor-hover-card" style="display: inline-flex; align-items: center; gap: 5px; padding: 10px; font-size: 16px; font-weight: 600; color: #B7CCFF; padding-top: 10px; padding-right: 10px; padding-left: 6px; transition:gap 200ms, color 200ms;" style-hover="gap:9px;color:#DCE6FF;">자세히 보기<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex:none;"><path d="M3.59961 12H19.7683" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12.8893 4.80005C12.8893 4.80005 14.4561 7.56088 15.8742 8.97903C17.2924 10.3972 20.0532 11.964 20.0532 11.964C20.0532 11.964 17.2924 13.5308 15.8742 14.949C14.4561 16.3671 12.8893 19.128 12.8893 19.128" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></a>
     </div>
-    <div style="position:relative;min-height:520px;">
-      <div style="position:absolute;top:-130px;left:0;width:100%;height:780px;overflow:hidden;">
+    <div class="ur-consult-visual" style="position:relative;">
+      <div class="ur-consult-arc">
         <sc-for list="{{ consultArc }}" as="c" hint-placeholder-count="5">
-          <div style="{{ c.style }}">
+          <div class="ur-consult-card" data-consult-slot="{{ c.slotName }}" style="{{ c.style }}">
             <div style="position:absolute;inset:0;">
               <image-slot id="{{ c.slotId }}" shape="rect" fit="cover" src="{{ c.img }}" placeholder=" "></image-slot>
             </div>
             <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(32,29,48,.35) 0%,rgba(32,29,48,.88) 62%,rgba(32,29,48,.96) 100%);pointer-events:none;"></div>
-            <div style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:4px;padding:14px 16px;pointer-events:none;">
+            <div class="ur-consult-card-text" style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:4px;padding:14px 16px;pointer-events:none;">
               <p style="font-size:11px;font-weight:700;letter-spacing:.2px;color:#B7CCFF;">{{ c.tag }}</p>
               <h3 style="font-size:16px;font-weight:800;letter-spacing:-.5px;color:#FFFFFF;">{{ c.title }}</h3>
               <sc-if value="{{ c.isActive }}" hint-placeholder-val="{{ true }}">
@@ -1612,27 +2071,27 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
           </div>
         </sc-for>
       </div>
-      <div style="position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:5;">
-        <button type="button" onClick="{{ consultUp }}" aria-label="이전 카드" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_upward</span></button>
-        <button type="button" onClick="{{ consultDown }}" aria-label="다음 카드" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_downward</span></button>
+      <div class="ur-consult-nav" style="display:flex;">
+        <button type="button" class="ur-consult-nav-btn" onClick="{{ consultUp }}" aria-label="이전 카드" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_upward</span></button>
+        <button type="button" class="ur-consult-nav-btn" onClick="{{ consultDown }}" aria-label="다음 카드" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_downward</span></button>
       </div>
     </div>
   </div>
 </section></div>
 
 <!-- ===== GLOBAL MAP ===== -->
-<section id="global" style="position:relative;background:radial-gradient(120% 100% at 20% 0%,#25223f,var(--navy) 50%,var(--navy2));color:#fff;padding:96px 32px;overflow:hidden;" data-om-label="Global">
+<section id="global" style="position:relative;background:radial-gradient(120% 100% at 20% 0%,#25223f,var(--navy) 50%,var(--navy2));color:#fff;overflow:hidden;" data-om-label="Global">
   <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:30px 30px;"></div>
   <div style="position:relative;max-width:1240px;margin:0 auto;">
     <div data-focus-head-global="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin-bottom:14px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ gHeadOpacity }};filter:{{ gHeadBlur }};transform:{{ gHeadShift }};">
       <p style="font-size:15px;font-weight:700;color:#7EA2FF;">GLOBAL FOOTPRINT</p>
-      <h2 style="font-size:38px;font-weight:800;letter-spacing:-1.5px;line-height:1.3;color:#FFFFFF;">17년 이상 포렌식 현장 경험과<br>검증된 공신력</h2>
+      <h2 class="ur-global-title" style="font-weight:800;letter-spacing:-1.5px;line-height:1.3;color:#FFFFFF;">17년 이상 포렌식 현장 경험과<br>검증된 공신력</h2>
     </div>
     <div style="display:flex;justify-content:center;gap:56px;margin:38px 0 50px;flex-wrap:wrap;">
       <div ref="{{ statsRef }}" style="display:flex;gap:56px;flex-wrap:wrap;justify-content:center;">
         <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
           <div style="text-align:center;">
-            <div style="font-size:52px;font-weight:800;letter-spacing:-2px;color:#7EA2FF;" class="num">{{ s.displayValue }}<span style="font-size:24px;color:#32D8E3;">+</span></div>
+            <div class="num ur-global-stat-num" style="font-weight:800;letter-spacing:-2px;color:#7EA2FF;">{{ s.displayValue }}<span style="font-size:24px;color:#32D8E3;">+</span></div>
             <div style="font-size:15px;color:#C7CBDA;margin-top:4px;">{{ s.label }}</div>
           </div>
         </sc-for>
@@ -1652,30 +2111,80 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
             <span class="geo-ripple" style="{{ c.rippleStyle }}"></span>
             <span class="geo-dot" style="{{ c.dotStyle }}"></span>
           </div>
-          <div style="{{ c.labelStyle }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}">{{ c.nameText }}
-            <div style="{{ c.tooltipStyle }}">
+          <div class="ur-global-label" style="{{ c.labelStyle }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}">{{ c.nameText }}
+            <div class="ur-global-tooltip" style="{{ c.tooltipStyle }}">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
                 <span style="{{ c.flagStyle }}"></span>
                 <div><div style="font-size:16px;font-weight:800;letter-spacing:-.3px;color:#fff;">{{ c.nameText }}</div><div style="font-size:11px;color:#8b90a5;letter-spacing:.4px;">{{ c.altNameText }}</div></div>
               </div>
               <span style="display:inline-block;padding:3px 9px;border-radius:7px;background:rgba(126,162,255,.16);color:#B7CCFF;font-size:11.5px;font-weight:600;margin-top:2px;margin-bottom:8px;">{{ c.roleText }}</span>
               <p style="font-size:12.5px;line-height:1.55;color:#C7CBDA;margin:0;">{{ c.descText }}</p>
-              <div style="margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.015);">
-                <p style="font-size:10.5px;font-weight:700;letter-spacing:.6px;color:#8b90a5;margin:0 0 7px;">{{ c.partnersLabel }}</p>
-                <div style="{{ c.partnerListStyle }}">
-                  <sc-for list="{{ c.partnerItems }}" as="p" hint-placeholder-count="2">
-                    <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;line-height:1.45;color:#C7CBDA;">
-                      <span style="display:block;width:3px;height:3px;border-radius:50%;background:#7EA2FF;flex:none;"></span>
-                      <span>{{ p.name }}</span>
-                      <sc-if value="{{ p.isPartner }}" hint-placeholder-val="">
-                        <span style="display:inline-block;padding:1.5px 6px;border-radius:5px;background:rgba(139,144,165,.1);color:#8b90a5;font-size:9.5px;font-weight:700;letter-spacing:.2px;flex:none;">{{ c.partnerTagLabel }}</span>
-                      </sc-if>
-                    </div>
-                  </sc-for>
+              <sc-if value="{{ c.hasPartners }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:12px;padding-top:11px;">
+                  <p style="font-size:10.5px;font-weight:700;letter-spacing:.6px;color:#8b90a5;margin:0 0 7px;">{{ c.partnersLabel }}</p>
+                  <div style="{{ c.partnerListStyle }}">
+                    <sc-for list="{{ c.partnerItems }}" as="p" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;line-height:1.45;color:#C7CBDA;">
+                        <span style="display:block;width:3px;height:3px;border-radius:50%;background:#7EA2FF;flex:none;"></span>
+                        <span>{{ p.name }}</span>
+                        <sc-if value="{{ p.isPartner }}" hint-placeholder-val="">
+                          <span style="display:inline-block;padding:1.5px 6px;border-radius:5px;background:rgba(139,144,165,.1);color:#8b90a5;font-size:9.5px;font-weight:700;letter-spacing:.2px;flex:none;">{{ c.partnerTagLabel }}</span>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
                 </div>
-              </div>
+              </sc-if>
             </div>
           </div>
+        </sc-for>
+      </div>
+      <!-- Tablet/mobile only — country tags (name only) let a tap explicitly
+           pick a country instead of relying on the map dot's hover, which
+           only ever fires as a stuck synthetic event on touch (see the
+           isMobileView comment in the script below). Placed below the map
+           itself (not above/beside it) so it reads as a legend for the panel
+           right under it. Desktop never sees this row (display:none there —
+           see CSS) and keeps the existing hover-tooltip-on-the-dot behavior
+           untouched. -->
+      <div class="ur-global-tags">
+        <sc-for list="{{ countries }}" as="c" hint-placeholder-count="5">
+          <button type="button" class="{{ c.tagClass }}" onClick="{{ c.tagSelect }}">{{ c.nameText }}</button>
+        </sc-for>
+      </div>
+      <!-- Tablet/mobile only — the currently-selected (isActive) country's
+           info, always docked in this one fixed spot below the map instead
+           of floating next to whichever dot triggered it (the desktop
+           .ur-global-tooltip above, unaffected, still floats next to the
+           dot on hover — this is a separate, additive element). -->
+      <div class="ur-global-panel">
+        <sc-for list="{{ countries }}" as="c" hint-placeholder-count="5">
+          <sc-if value="{{ c.isActive }}" hint-placeholder-val="{{ false }}">
+            <div class="ur-global-panel-inner">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <span style="{{ c.flagStyle }}"></span>
+                <div><div style="font-size:16px;font-weight:800;letter-spacing:-.3px;color:#fff;">{{ c.nameText }}</div><div style="font-size:11px;color:#8b90a5;letter-spacing:.4px;">{{ c.altNameText }}</div></div>
+              </div>
+              <span style="display:inline-block;padding:3px 9px;border-radius:7px;background:rgba(126,162,255,.16);color:#B7CCFF;font-size:11.5px;font-weight:600;margin-top:2px;margin-bottom:8px;">{{ c.roleText }}</span>
+              <p style="font-size:12.5px;line-height:1.55;color:#C7CBDA;margin:0;">{{ c.descText }}</p>
+              <sc-if value="{{ c.hasPartners }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:12px;padding-top:11px;">
+                  <p style="font-size:10.5px;font-weight:700;letter-spacing:.6px;color:#8b90a5;margin:0 0 7px;">{{ c.partnersLabel }}</p>
+                  <div style="{{ c.partnerListStyle }}">
+                    <sc-for list="{{ c.partnerItems }}" as="p" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;line-height:1.45;color:#C7CBDA;">
+                        <span style="display:block;width:3px;height:3px;border-radius:50%;background:#7EA2FF;flex:none;"></span>
+                        <span>{{ p.name }}</span>
+                        <sc-if value="{{ p.isPartner }}" hint-placeholder-val="">
+                          <span style="display:inline-block;padding:1.5px 6px;border-radius:5px;background:rgba(139,144,165,.1);color:#8b90a5;font-size:9.5px;font-weight:700;letter-spacing:.2px;flex:none;">{{ c.partnerTagLabel }}</span>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
         </sc-for>
       </div>
     </div>
@@ -1683,7 +2192,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </section>
 
 <!-- ===== PARTNERS ===== -->
-<section style="max-width:1240px;margin:0 auto;padding:88px 32px;display:flex;flex-direction:column;gap:44px;" data-om-label="Partners">
+<section class="ur-partners-sec" style="max-width:1240px;margin:0 auto;display:flex;flex-direction:column;" data-om-label="Partners">
   <div data-focus-head-partners="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ pHeadOpacity }};filter:{{ pHeadBlur }};transform:{{ pHeadShift }};">
     <p style="font-size:15px;font-weight:700;color:var(--pri2);">PARTNERS &amp; CLIENTS</p>
     <h2 style="font-size:34px;font-weight:800;letter-spacing:-1.2px;">공공·수사·금융·기업이 신뢰합니다</h2>
@@ -1707,12 +2216,12 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 
 
 <!-- ===== CTA + FOOTER ===== -->
-<section id="news" style="position:relative;background:#111111 url('assets/news-bg.webp') center/cover no-repeat;padding:90px 32px;border:none;" data-om-label="Newsroom">
+<section id="news" style="position:relative;background:#111111 url('assets/news-bg.webp') center/cover no-repeat;border:none;" data-om-label="Newsroom">
   <div style="position: absolute; inset: 0; background: rgba(10,10,20,.35);"></div>
   <div style="position:relative;max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:26px;">
     <div data-focus-head-news="1" style="display:flex;flex-direction:column;gap:10px;transition:opacity 700ms cubic-bezier(.16,1,.3,1),filter 700ms cubic-bezier(.16,1,.3,1),transform 700ms cubic-bezier(.16,1,.3,1);opacity:{{ nHeadOpacity }};filter:{{ nHeadBlur }};transform:{{ nHeadShift }};">
       <p style="font-size:15px;font-weight:700;color:#9EB4FF;">NEWSROOM</p>
-      <h2 style="font-size:38px;font-weight:800;letter-spacing:-1.5px;color:#fff;">유락 소식</h2>
+      <h2 style="font-weight:800;letter-spacing:-1.5px;color:#fff;">유락 소식</h2>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -1721,14 +2230,14 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
         </sc-for>
       </div>
       <div style="display:flex;gap:10px;flex:none;position:relative;z-index:6;">
-        <button class="news-nav-btn" onClick="{{ newsPrev }}" disabled="{{ newsPrevDisabled }}" aria-label="이전 소식" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_back</span></button>
-        <button class="news-nav-btn" onClick="{{ newsNext }}" disabled="{{ newsNextDisabled }}" aria-label="다음 소식" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transition:all .2s;" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_forward</span></button>
+        <button class="news-nav-btn" onClick="{{ newsPrev }}" disabled="{{ newsPrevDisabled }}" aria-label="이전 소식" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_back</span></button>
+        <button class="news-nav-btn" onClick="{{ newsNext }}" disabled="{{ newsNextDisabled }}" aria-label="다음 소식" style-hover="background:rgba(89,127,223,.4);border-color:var(--pri);"><span class="ms" style="font-size:18px;">arrow_forward</span></button>
       </div>
     </div>
     <div style="position:relative;">
       <div ref="{{ newsScrollRef }}" class="news-scroll" style="display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; overflow-y: visible; position: static; padding: 8px 0 12px; margin: -8px 0 -12px">
         <sc-for list="{{ newsFiltered }}" as="n" hint-placeholder-count="4">
-          <a href="{{ n.href }}" class="cursor-hover-card" style="flex:0 0 280px;display:block;background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--line);transition:all .25s;" style-hover="border-color:#93B0F8;transform:translateY(-6px);box-shadow:0 18px 38px rgba(20,25,45,.1)">
+          <a href="{{ n.href }}" class="cursor-hover-card ur-news-card" style="display:block;background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--line);transition:all .25s;" style-hover="border-color:#93B0F8;transform:translateY(-6px);box-shadow:0 18px 38px rgba(20,25,45,.1)">
             <div style="height:150px;position:relative;background:{{ n.bg }};background-position:center center;">
               <image-slot id="{{ n.imgId }}" shape="rect" placeholder="이미지 삽입" style="{{ n.slotStyle }}width:100%;height:100%;"></image-slot>
             </div>
@@ -1747,12 +2256,12 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
   </div>
 </section><footer id="footer" style="background:var(--navy2);color:#fff;">
   <div style="max-width:1240px;margin:0 auto;padding:80px 32px 40px;">
-    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.03);">
+    <div class="ur-ft-cta" style="display:grid;gap:40px;align-items:center;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.03);">
       <div style="display:flex;flex-direction:column;gap:14px;">
         <h2 style="font-size:34px;font-weight:800;letter-spacing:-1.2px;line-height:1.35;"><blur-reveal once="false">디지털 증거의 가치,<br>유락과 함께 발견하세요</blur-reveal></h2>
         <p style="font-size:16px;color:#9297ac;"><blur-reveal once="false">도입 상담과 데모 신청을 지금 문의해 주세요.</blur-reveal></p>
       </div>
-      <div style="display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
         <a href="#footer" style="display:inline-flex;align-items:center;gap:8px;height:56px;padding:0 30px;border-radius:14px;background:var(--pri);color:#fff;font-size:17px;font-weight:600;box-shadow:0 10px 28px rgba(98,140,245,.4);">도입 문의하기</a>
         <a href="#footer" style="display: inline-flex; align-items: center; gap: 8px; height: 56px; padding: 0 30px; border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 17px; font-weight: 600; padding-left: 26px"><span class="ms" style="font-size:16px;">download</span>자료 다운로드</a>
       </div>
@@ -1862,8 +2371,8 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </footer>
 
 <sc-if value="{{ qmOpen }}" hint-placeholder-val="">
-  <div onClick="{{ closeQuick }}" style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(24,22,34,.55);backdrop-filter:blur(6px);">
-    <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:1080px;max-height:88vh;overflow-y:auto;box-sizing:border-box;padding:38px 44px 44px;border-radius:22px;background:var(--card);border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.4);animation:riseUp 320ms cubic-bezier(.16,1,.3,1) both;">
+  <div onClick="{{ closeQuick }}" class="ur-qm-overlay" style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(24,22,34,.55);backdrop-filter:blur(6px);">
+    <div onClick="{{ stopProp }}" class="ur-qm-box" style="position:relative;width:100%;max-width:1080px;overflow-y:auto;box-sizing:border-box;border-radius:22px;background:var(--card);border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.4);animation:riseUp 320ms cubic-bezier(.16,1,.3,1) both;">
       <button onClick="{{ closeQuick }}" aria-label="닫기" style="position:absolute;top:20px;right:20px;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:none;border-radius:50%;background:var(--tint);color:var(--sub);cursor:pointer;transition:all .2s ease;" style-hover="background:var(--btint);color:var(--ink)"><span class="ms" style="font-size:20px;">close</span></button>
       <div style="display:flex;align-items:center;gap:14px;">
         <span style="display:flex;flex-direction:column;gap:3px;">
@@ -1872,13 +2381,13 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
         </span>
       </div>
       <p style="font-size:14px;line-height:1.6;color:var(--sub);margin:18px 0 0;">{{ qmDesc }}</p>
-      <div style="display:grid;grid-template-columns:{{ qmCols }};align-items:stretch;margin-top:40px;">
-        <div style="display:flex;flex-direction:column;gap:18px;padding:{{ qmSolPad }};">
+      <div class="ur-qm-grid" style="display:grid;grid-template-columns:{{ qmCols }};align-items:stretch;">
+        <div class="ur-qm-sol-col" style="display:flex;flex-direction:column;gap:18px;padding:{{ qmSolPad }};">
           <p style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:-.5px;"><span class="ms" style="font-size:19px;color:#7DA4FF;">apps</span>추천 솔루션</p>
-          <div style="display:grid;grid-template-columns:{{ qmSolCols }};gap:14px;">
+          <div class="ur-qm-sol-grid" style="display:grid;grid-template-columns:{{ qmSolCols }};gap:14px;">
             <sc-for list="{{ qmSolutions }}" as="s" hint-placeholder-count="2">
-              <a href="{{ s.href }}" onClick="{{ closeQuick }}" class="cursor-hover-card" style="display:flex;align-items:center;gap:14px;padding:4px 10px 4px 4px;border-radius:16px;border:1px solid transparent;background:var(--tint);text-decoration:none;color:var(--ink);transition:all .2s ease;" style-hover="box-shadow:0 14px 32px rgba(98,140,245,.16);border-color:rgba(125,164,255,.55)">
-                <span style="display:block;flex:none;width:125px;height:125px;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);">
+              <a href="{{ s.href }}" onClick="{{ closeQuick }}" class="cursor-hover-card ur-qm-card" style="display:flex;align-items:center;gap:14px;padding:4px 10px 4px 4px;border-radius:16px;border:1px solid transparent;background:var(--tint);text-decoration:none;color:var(--ink);transition:all .2s ease;" style-hover="box-shadow:0 14px 32px rgba(98,140,245,.16);border-color:rgba(125,164,255,.55)">
+                <span class="ur-qm-thumb" style="display:block;flex:none;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);">
                   <sc-if value="{{ s.isPIllust }}" hint-placeholder-val="{{ false }}">
                     <span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#201D30;">
                       <svg width="86" height="72" viewBox="0 0 30 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="M-SecuManager P 일러스트">
@@ -1919,18 +2428,18 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                   <span style="font-size:12px;line-height:1.55;color:var(--sub);">{{ s.note }}</span>
                   <span style="font-size:11px;font-weight:700;color:#7DA4FF;">{{ s.tags }}</span>
                 </span>
-                <span class="ms modal-card-chevron" style="flex:none;font-size:30px;color:#7DA4FF;">chevron_right</span>
+                <span class="ms modal-card-chevron" style="flex:none;font-size:30px;">chevron_right</span>
               </a>
             </sc-for>
           </div>
         </div>
         <sc-if value="{{ qmHasConsult }}" hint-placeholder-val="{{ true }}">
-          <div style="display:flex;flex-direction:column;gap:18px;padding-left:34px;border-left:1px solid var(--line);">
+          <div class="ur-qm-consult-col" style="display:flex;flex-direction:column;gap:18px;">
             <p style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:-.5px;"><span class="ms" style="font-size:19px;color:#7DA4FF;">handshake</span>추천 컨설팅 · 전문 서비스</p>
             <div style="display:flex;flex-direction:column;gap:14px;">
               <sc-for list="{{ qmConsulting }}" as="c" hint-placeholder-count="1">
-                <a href="#consulting" onClick="{{ closeQuick }}" class="cursor-hover-card" style="display:flex;align-items:center;gap:14px;padding:4px 10px 4px 4px;border-radius:16px;border:1px solid transparent;background:var(--tint);text-decoration:none;color:var(--ink);transition:all .2s ease;" style-hover="box-shadow:0 14px 32px rgba(98,140,245,.16);border-color:rgba(125,164,255,.55)">
-                  <span style="display:block;flex:none;width:125px;height:125px;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);">
+                <a href="#consulting" onClick="{{ closeQuick }}" class="cursor-hover-card ur-qm-card" style="display:flex;align-items:center;gap:14px;padding:4px 10px 4px 4px;border-radius:16px;border:1px solid transparent;background:var(--tint);text-decoration:none;color:var(--ink);transition:all .2s ease;" style-hover="box-shadow:0 14px 32px rgba(98,140,245,.16);border-color:rgba(125,164,255,.55)">
+                  <span class="ur-qm-thumb" style="display:block;flex:none;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);">
                     <image-slot id="{{ c.slotId }}" shape="rect" fit="cover" src="{{ c.img }}" placeholder="{{ c.name }}"></image-slot>
                   </span>
                   <span style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0;">
@@ -1938,7 +2447,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
                     <span style="font-size:12px;line-height:1.55;color:var(--sub);">{{ c.note }}</span>
                     <span style="font-size:11px;font-weight:700;color:#7DA4FF;">{{ c.tags }}</span>
                   </span>
-                  <span class="ms modal-card-chevron" style="flex:none;font-size:30px;color:#7DA4FF;">chevron_right</span>
+                  <span class="ms modal-card-chevron" style="flex:none;font-size:30px;">chevron_right</span>
                 </a>
               </sc-for>
             </div>
@@ -1949,7 +2458,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
   </div>
 </sc-if>
 
-<button onClick="{{ scrollTop }}" aria-label="맨 위로" style="{{ fabStyle }}">
+<button class="ur-fab" onClick="{{ scrollTop }}" aria-label="맨 위로" style="{{ fabStyle }}">
   <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--card);box-shadow:0 6px 20px rgba(20,25,45,.16);">
     <span class="ms" style="font-size:22px;color:var(--sub);">arrow_upward</span>
   </span>
@@ -1963,7 +2472,7 @@ hero-scrollworld [data-hsw-s2hud="obj02"] .hsw-s2hud-coord{left:108px;top:8px;fo
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', lang: 'KO', scrolled: false, theme: 'dark', dfasSel: 0, dfasOS: 'win', dfasPaused: false, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1, snbOpen: false, headerOverLight: false };
+  state = { quickModal: null, mcqAutoIdx: null, quickTab: 'situation', lang: 'KO', scrolled: false, theme: 'dark', dfasSel: 0, dfasOS: 'win', dfasPaused: false, dfasMobileActive: 0, gateSel: null, hoverCountry: null, autoIdx: 0, cursorVisible: false, cursorX: 0, cursorY: 0, statsProgress: 0, logoInView: false, logoPlayKey: 0, newsFilter: 'All', scrollPct: 0, newsScrolled: false, newsMoreRight: true, consultOffset: 0, consultWrap: -1, snbOpen: false, headerOverLight: false, mobileNavOpen: false };
 
   openQuick = (tab, i) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ quickModal: { tab: tab, idx: i } }); };
   closeQuick = () => this.setState({ quickModal: null });
@@ -1981,6 +2490,8 @@ class Component extends DCLogic {
     clearTimeout(this._snbT);
     if (this.state.snbOpen) this.setState({ snbOpen: false });
   };
+  toggleMobileNav = () => this.setState(s => ({ mobileNavOpen: !s.mobileNavOpen }));
+  closeMobileNav = () => { if (this.state.mobileNavOpen) this.setState({ mobileNavOpen: false }); };
   goNewsGroup = (group) => () => {
     this.setState({ newsFilter: group, newsScrolled: false });
     requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -2047,6 +2558,26 @@ class Component extends DCLogic {
       else if (this._dfasInView) this._startDfasTimer();
       return { dfasPaused: paused };
     });
+  };
+
+  // Mobile DFAS card strip (see .ur-dfas-mstrip / dfasMobileMedia) — the
+  // leading (leftmost, scroll-snapped) card is "active" and gets its
+  // video; the rest stay on the static motionPanel mock. Mirrors the
+  // existing newsScrollRef pattern (plain scroll listener computing
+  // derived state from scrollLeft) rather than IntersectionObserver, since
+  // snap position is exact and cheap to compute directly.
+  dfasStripRef = (el) => {
+    this._dfasStripEl = el;
+    if (el && !this._dfasStripBound) {
+      this._dfasStripBound = true;
+      const sync = () => {
+        const step = el.scrollWidth / this._dfasCount;
+        const idx = Math.max(0, Math.min(this._dfasCount - 1, Math.round(el.scrollLeft / step)));
+        if (idx !== this.state.dfasMobileActive) this.setState({ dfasMobileActive: idx });
+      };
+      el.addEventListener('scroll', sync, { passive: true });
+      sync();
+    }
   };
 
   statsRef = (el) => {
@@ -2131,6 +2662,40 @@ class Component extends DCLogic {
     return h('div', { key: 'dfas-stack', 'aria-label': name, style: { position: 'relative', width: '100%', height: '100%', borderRadius: '16px', overflow: 'hidden', background: '#151320' } },
       layers.map(l => h('div', { key: l.id, style: { position: 'absolute', inset: 0, opacity: l.id === activeId ? 1 : 0, transition: 'opacity 520ms cubic-bezier(.22,.61,.36,1)', pointerEvents: l.id === activeId ? 'auto' : 'none' } }, seen.has(l.id) ? l.kids : null)),
       this.scanLine('scan-' + activeId));
+  }
+
+  // Mobile DFAS card strip (see .ur-dfas-mstrip) — each card is static
+  // (this.motionPanel's CSS-only bar-chart mock, no network cost) until it
+  // scrolls into the leading/active slot, at which point it swaps to its
+  // real product video. Deliberately its own small per-id builder rather
+  // than reusing dfasVideoStack: that method keeps all 5 videos mounted at
+  // once in one persistent cross-fade stack (fine for a single desktop
+  // card), but 5 of those stacks side by side on mobile would mount 25
+  // video elements. Here only the one active id ever gets a <video> in the
+  // DOM at all — sc-if-equivalent by simply not calling this per non-active
+  // card — so at most one plays at a time.
+  dfasMobileMedia(id, name, icon, active) {
+    if (!active) return this.motionPanel('dfas-m-' + id, name, icon, { height: '100%' });
+    const h = React.createElement;
+    const ref = (el) => { if (!el) return; const p = el.play(); if (p && p.catch) p.catch(() => {}); };
+    const vidStyle = (fit) => ({ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: fit, display: 'block' });
+    const vid = (src, fit) => h('video', { key: 'v', src, ref, autoPlay: true, muted: true, loop: true, playsInline: true, preload: 'auto', 'aria-hidden': true, style: vidStyle(fit) });
+    let kids;
+    if (id === 'discovery') {
+      kids = [
+        h('div', { key: 'dbg', 'aria-hidden': true, style: { position: 'absolute', inset: 0, background: 'radial-gradient(120% 100% at 50% 42%, #0b1336 0%, #060d27 45%, #02091e 100%)' } }),
+        h('video', { key: 'v', src: 'uploads/DFAS%20Enterprise%20video.mp4', ref, autoPlay: true, muted: true, loop: true, playsInline: true, preload: 'auto', 'aria-hidden': true,
+          style: { position: 'absolute', left: '50%', top: '50%', width: '132%', height: 'auto', aspectRatio: '1 / 1', display: 'block', transform: 'translate(-50%,-50%) translate(-11.2%, 10.65%)' } }),
+      ];
+    } else if (id === 'go') {
+      const bg = h('img', { key: 'bg', src: 'uploads/dark-01.webp', alt: '', 'aria-hidden': true, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } });
+      const grad = h('div', { key: 'grad', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(110% 90% at 50% 0%, rgba(98,140,245,.30) 0%, rgba(98,140,245,.10) 40%, rgba(21,19,32,0) 72%), linear-gradient(180deg, rgba(32,29,48,0) 42%, rgba(21,19,32,.55) 100%)' } });
+      kids = [bg, grad, vid('uploads/dfas_section_card_go-bc0f4e97.webm', 'cover')];
+    } else {
+      const srcMap = { edge: 'uploads/DFAS%20Edge.mp4', proone: 'uploads/DFAS%20Pro%20One.mp4', arc: 'uploads/dfas_section_card_arc.webm' };
+      kids = [vid(srcMap[id], 'cover')];
+    }
+    return h('div', { key: 'dfas-m-' + id, 'aria-label': name, style: { position: 'relative', width: '100%', height: '100%', borderRadius: '16px', overflow: 'hidden', background: '#151320' } }, kids, this.scanLine('scan-m-' + id));
   }
 
   dfasFrame(k, name, icon, kids, opts) {
@@ -2406,17 +2971,31 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this._onScrollRaf, { passive: true });
     requestAnimationFrame(() => this._onScroll && this._onScroll());
     this._initParallax();
-    this._startGeoAuto();
+    // Mobile only (<768px) — leave autoIdx frozen at its initial 0 (KR,
+    // first entry in countryData) instead of starting the auto-rotate
+    // timer, so the Global tag row/panel default to and stay on 대한민국
+    // until the user taps another tag. Tablet (768–1023px) and desktop
+    // still get the normal auto-cycle.
+    if (typeof window === 'undefined' || window.innerWidth >= 768) this._startGeoAuto();
+    this._cursorDesktopMq = window.matchMedia('(min-width: 1024px)');
+    this._syncCursorDesktop = () => {
+      if (!this._cursorDesktopMq.matches && this.state.cursorVisible) this.setState({ cursorVisible: false });
+    };
+    if (this._cursorDesktopMq.addEventListener) this._cursorDesktopMq.addEventListener('change', this._syncCursorDesktop);
+    else if (this._cursorDesktopMq.addListener) this._cursorDesktopMq.addListener(this._syncCursorDesktop);
     this._onCursorMove = (e) => {
+      if (!this._cursorDesktopMq.matches) return;
       if (this.state.cursorVisible) this.setState({ cursorX: e.clientX, cursorY: e.clientY });
     };
     this._onCursorOver = (e) => {
+      if (!this._cursorDesktopMq.matches) return;
       const excluded = e.target.closest && e.target.closest('.cursor-exclude');
       const card = e.target.closest && e.target.closest('.cursor-hover-card');
       if (card && !excluded && !this.state.cursorVisible) this.setState({ cursorVisible: true, cursorX: e.clientX, cursorY: e.clientY });
       if (excluded && this.state.cursorVisible) this.setState({ cursorVisible: false });
     };
     this._onCursorOut = (e) => {
+      if (!this._cursorDesktopMq.matches) return;
       const card = e.target.closest && e.target.closest('.cursor-hover-card');
       const related = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.cursor-hover-card');
       const relatedExcluded = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.cursor-exclude');
@@ -2431,7 +3010,7 @@ class Component extends DCLogic {
         if (!sr || sr.querySelector('style[data-nocursor]')) return;
         const st = document.createElement('style');
         st.setAttribute('data-nocursor', '');
-        st.textContent = '.empty,.frame,.ctl,.ctl button{cursor:none !important}';
+        st.textContent = '@media (min-width:1024px){.empty,.frame,.ctl,.ctl button{cursor:none !important}}';
         sr.appendChild(st);
       });
     };
@@ -2529,6 +3108,10 @@ class Component extends DCLogic {
     window.removeEventListener('mousemove', this._onCursorMove);
     document.removeEventListener('mouseover', this._onCursorOver);
     document.removeEventListener('mouseout', this._onCursorOut);
+    if (this._cursorDesktopMq && this._syncCursorDesktop) {
+      if (this._cursorDesktopMq.removeEventListener) this._cursorDesktopMq.removeEventListener('change', this._syncCursorDesktop);
+      else if (this._cursorDesktopMq.removeListener) this._cursorDesktopMq.removeListener(this._syncCursorDesktop);
+    }
     this._stopGeoAuto();
     if (this._lottieAnim) { this._lottieAnim.destroy(); this._lottieAnim = null; }
     (this._seqTimers || []).forEach(clearTimeout);
@@ -2708,10 +3291,26 @@ class Component extends DCLogic {
         style: dfasRowBase + (on ? 'cursor:default;background:var(--dfasact);border-color:var(--pri);box-shadow:0 10px 24px rgba(98,140,245,.28);' : 'background:var(--tint);border-color:var(--line);box-shadow:0 0 0 rgba(98,140,245,0);') };
     });
 
+    // Mobile-only horizontal DFAS card strip — see .ur-dfas-mstrip and
+    // dfasStripRef/dfasMobileMedia. Independent of dfasSel/dfasCur (which
+    // still drive the desktop/tablet single-card + list layout above);
+    // this shows all 5 products at once so there's no picker list on
+    // mobile at all. Windows variant is the default for DFAS Pro One,
+    // matching dfasOS's own default.
+    const dfasMCards = dfasProducts.map((p, i) => {
+      const variant = p.hasOS ? p.os.win : p;
+      const active = i === this.state.dfasMobileActive;
+      return {
+        id: p.id, name: p.name, logo: p.logo, badge: p.badge || '',
+        desc: variant.desc, tags: p.tags || [], hasTags: !!(p.tags || []).length,
+        media: this.dfasMobileMedia(p.id, p.name, p.icon, active),
+      };
+    });
+
     // ── 02 GateManager ──
     const gateData = [
-      { id: 'gm', name: 'Gate Manager', logo: 'uploads/gatemanager_white.webp', descLine1: '출입구 현장에서 앱 설치나 설정 변경 없이 파악합니다.', descLine2: '특정 시간대의 촬영·녹음 여부를 신속히 탐지하여 정보 보안 위협 발생 시 현장에서 빠르게 대응할 수 있습니다.', icon: 'videocam', noteIcon: 'dns', noteTitle: '현장 보안 담당자용', noteSub: '실제 분석을 위한 에이전트 · 서버 연동 또는 단독 실행 가능', image: 'uploads/card_gm.webp' },
-      { id: 'gmpro', name: 'Gate Manager Pro', logo: 'uploads/gatemanager_white.webp', badge: 'uploads/gatemanager_pro_asset.webp', descLine1: '현장 방문 없이, 사무실에서 전체 현장을 한눈에 조회합니다.', descLine2: '전용 웹 매니저를 제공하여 여러 Gate에서 수집된 탐지 결과를 한눈에 관리·모니터링할 수 있습니다.', icon: 'hub', noteIcon: 'hub', noteTitle: '중앙 보안 관리자용', noteSub: '중앙 관리형 매니저 · 에이전트에서 분석된 결과를 중앙에서 관리', image: 'uploads/card_gm_pro.webp' },
+      { id: 'gm', name: 'GateManager', logo: 'uploads/gatemanager_white.webp', descLine1: '현장 에이전트 단독 실행 또는', descLine2: '서버 연동으로 탐지·분석', descDesktop: '특정 시간대의 촬영·녹음 여부를 신속히 탐지하여 정보 보안 위협 발생 시 현장에서 빠르게 대응할 수 있습니다.', icon: 'videocam', noteIcon: 'dns', noteTitle: '현장 보안 담당자용', image: 'uploads/card_gm.webp' },
+      { id: 'gmpro', name: 'GateManager Pro', logo: 'uploads/gatemanager_white.webp', badge: 'uploads/gatemanager_pro_asset.webp', descLine1: '여러 현장의 탐지·분석 결과를', descLine2: '중앙에서 통합 관리', descDesktop: '웹 브라우저를 사용하여 여러 출입구에서 수집된 탐지 결과를 한눈에 관리 · 모니터링할 수 있습니다.', icon: 'hub', noteIcon: 'hub', noteTitle: '중앙 보안 관리자용', image: 'uploads/card_gm_pro.webp' },
     ];
     const gateCards = gateData.map(g => ({
       ...g,
@@ -2733,12 +3332,12 @@ class Component extends DCLogic {
       { name: '안심삭제 서비스', form: 'SaaS', cat: 'SaaS 서비스', svc: true, icon: 'cloud_done',
         desc: 'SaaS 기반 스마트기기 데이터 완전 삭제 서비스. 필요한 수량만큼 이용권을 결제해 사용합니다.', tags: [], n: '21', type: '서비스형', insurance: '현대해상 개인정보보호 배상책임보험 가입', img: './assets/mcq/msecu-saas.webp' },
     ];
-    const msecuItems = msecuRaw.map((m, i) => ({ name: m.name, icon: m.icon, img: m.img, imgId: 'msecu-img-' + i, form: m.form, cat: m.cat, desc: m.desc, tags: m.tags, hasTags: m.tags.length > 0, n: m.n, type: m.type, insurance: m.insurance | '',
+    const msecuItems = msecuRaw.map((m, i) => ({ name: m.name, icon: m.icon, img: m.img, imgId: 'msecu-img-' + i, imgIdFoot: 'msecu-img-foot-' + i, form: m.form, cat: m.cat, desc: m.desc, tags: m.tags, hasTags: m.tags.length > 0, n: m.n, type: m.type, insurance: m.insurance | '',
       svc: m.svc, svcOff: !m.svc,
       catLabel: m.svc ? '서비스' : '솔루션', chipStyle: m.svc ? svcChip : solChip,
       catColor: m.svc ? '#11BCC7' : (i === 2 ? 'rgb(var(--color-text-04-brand))' : 'rgb(var(--color-text-05-dark))'), iconBg: m.svc ? 'rgba(17,188,199,.14)' : 'var(--btint)', iconColor: m.svc ? '#11BCC7' : 'var(--pri2)',
       arrowBg: m.svc ? '#11BCC7' : 'var(--pri)',
-      cardStyle: 'display:flex;flex-direction:column;min-height:320px;padding:24px 22px;border-radius:16px;background:var(--card);transition:border-color .25s cubic-bezier(.33,1,.68,1),box-shadow .25s cubic-bezier(.33,1,.68,1),transform .25s cubic-bezier(.33,1,.68,1);border:1px solid var(--line);' +
+      cardStyle: 'display:flex;flex-direction:column;border-radius:16px;background:var(--card);transition:border-color .25s cubic-bezier(.33,1,.68,1),box-shadow .25s cubic-bezier(.33,1,.68,1),transform .25s cubic-bezier(.33,1,.68,1);border:1px solid var(--line);' +
         (this.state.mcqAutoIdx === i
           ? (m.svc ? 'border-color:#11BCC7;box-shadow:0 14px 34px rgba(17,188,199,.14);transform:translateY(-4px);' : 'border-color:#93B0F8;box-shadow:0 14px 34px rgba(98,140,245,.14);transform:translateY(-4px);')
           : 'border-color:var(--line);box-shadow:0px 24.63157844543457px 37.89px rgba(22,20,33,0.5);transform:translateY(0);') }));
@@ -2762,13 +3361,25 @@ class Component extends DCLogic {
       { dx: -83,  dy: 162,  a: -26, s: 1.0,  o: 0.8, z: 2 },
       { dx: -11,  dy: 258,  a: -46, s: 0.72, o: 0.5, z: 1 },
     ];
+    const consultSlotNames = ['far-a', 'near-a', 'active', 'near-b', 'far-b'];
+    // Tablet-only +30% card size (on request) — real desktop (>1023px) must
+    // stay untouched, so this only kicks in at <=1023px. Mobile (<=767px)
+    // has its own separate CSS `!important` overrides below that ignore
+    // this inline style entirely, so this multiplier is harmless-but-inert
+    // there; it only actually matters for the 768-1023px tablet range,
+    // which otherwise has no dedicated sizing of its own and would
+    // silently inherit the raw desktop numbers. Read once per render, same
+    // "computed at render time, not live on resize" tradeoff isMobileView
+    // above already accepts.
+    const consultSizeMul = (typeof window !== 'undefined' && window.innerWidth <= 1023) ? 1.3 : 1;
     const consultArc = consultingCards.map((c, i) => {
       const slot = (((i - this.state.consultOffset) % 5) + 5) % 5;
       const p = petals[slot];
       const wrapping = this.state.consultWrap === i;
       const isActive = slot === 2;
       return { ...c, slotId: 'consult-' + (i + 1), img: './assets/consult/consult-0' + (i + 1) + '.webp', isActive,
-        style: 'position:absolute;right:8px;top:50%;margin-top:-72px;width:260px;height:144px;box-sizing:border-box;overflow:hidden;border-radius:16px;background:#201D30;'
+        slotName: consultSlotNames[slot],
+        style: 'position:absolute;right:8px;top:50%;margin-top:' + (-72 * consultSizeMul).toFixed(1) + 'px;width:' + (260 * consultSizeMul).toFixed(1) + 'px;height:' + (144 * consultSizeMul).toFixed(1) + 'px;box-sizing:border-box;overflow:hidden;border-radius:16px;background:#201D30;'
           + 'box-shadow:' + (isActive ? '0 0 18px 4px rgba(126,162,255,.15)' : (p.s > 1 ? '0 26px 60px rgba(20,25,45,.42)' : '0 14px 34px rgba(20,25,45,.28)')) + ';'
           + 'border:' + (isActive ? '0.3px' : '1px') + ' solid ' + (isActive ? 'rgba(168,190,255,.7)' : (p.s > 1 ? 'rgba(126,162,255,.55)' : 'rgba(126,162,255,.18)')) + ';'
           + 'transform:translate3d(' + p.dx + 'px,' + p.dy + 'px,0) rotate(' + p.a + 'deg) scale(' + p.s + ');z-index:' + (isActive ? 10 : p.z) + ';'
@@ -2778,30 +3389,41 @@ class Component extends DCLogic {
     });
 
     const stats = [
-      { value: '9', label: '특허 · 인증 보유' },
+      { value: '18', label: '특허 · 인증 보유' },
       { value: '300', label: '도입 고객사' },
       { value: '17', label: '년 포렌식 전문성' },
     ].map(s => ({ ...s, displayValue: Math.round(parseInt(s.value, 10) * this.state.statsProgress) }));
 
     const countryData = [
-      { code: 'KR', ko: '대한민국', en: 'KOREA', role: '본사 · R&D 센터', roleEn: 'HQ · R&D Center', x: 75.5, y: 38.7, dx: 0, dy: -3.4, flag: ['#fff', '#cd2e3a'], partners: ['에이블시큐 (파트너)', '시큐모바일 (파트너)', '네오드림스 (파트너)'], partnersEn: ['ABLESECU (Partner)', 'SecuMobile (Partner)', 'NeoDreams (Partner)'], desc: '서울 본사와 연구소를 중심으로 국내 수사·공공·금융기관에 디지털 포렌식 솔루션을 공급합니다.', descEn: 'From our Seoul HQ and R&D lab, we supply digital forensics solutions to domestic law enforcement, public, and financial institutions.' },
-      { code: 'TW', ko: '대만', en: 'TAIWAN', role: '구축 사례', roleEn: 'Case Study', x: 72.46, y: 49.03, dx: 2.8, dy: 2.8, flag: ['#000095', '#fe0000'], partners: ['경찰청', 'Kaoten (파트너)'], partnersEn: ['National Police Agency', 'Kaoten (Partner)'], desc: '현지 기관과 협력해 포렌식 분석 및 데이터 보안 솔루션을 구축했습니다.', descEn: 'Deployed forensic analysis and data security solutions in partnership with local agencies.' },
-      { code: 'IN', ko: '인도', en: 'INDIA', role: '구축 사례', roleEn: 'Case Study', x: 63.37, y: 50.12, dx: 0, dy: 3.4, flag: ['#ff9933', '#138808'], partners: ['SiberSentinel (파트너)'], partnersEn: ['SiberSentinel (Partner)'], desc: '대규모 조직을 대상으로 증거 수집·분석 플랫폼을 공급했습니다.', descEn: 'Supplied an evidence collection and analysis platform to large-scale organizations.' },
-      { code: 'OM', ko: '오만', en: 'OMAN', role: '구축 사례', roleEn: 'Case Study', x: 55.79, y: 52.35, dx: 2.8, dy: 2.2, flag: ['#db161b', '#008000'], partners: ['OIC-CERT / ITA', 'Mustafa Sultan (파트너)', 'AI-Thabat Holding LLC (파트너)'], partnersEn: ['OIC-CERT / ITA', 'Mustafa Sultan (Partner)', 'AI-Thabat Holding LLC (Partner)'], desc: '중동 지역 보안 프로젝트에 참여해 반출 통제 체계를 구축했습니다.', descEn: 'Participated in a Middle East security project, building a device export control system.' },
-      { code: 'SA', ko: '사우디아라비아', en: 'SAUDI ARABIA', role: '구축 사례', roleEn: 'Case Study', x: 53.89, y: 48.91, dx: -3.6, dy: 0, flag: ['#006c35', '#fff'], partners: ['사우디아라비아 국가정보원', 'TCC - ICT (파트너)'], partnersEn: ['Saudi Arabia General Intelligence Presidency', 'TCC - ICT (Partner)'], desc: '정부·공공 기관 대상 디지털 포렌식 인프라 구축을 지원했습니다.', descEn: 'Supported digital forensics infrastructure deployment for government and public institutions.' },
-      { code: 'PL', ko: '폴란드', en: 'POLAND', role: '구축 사례', roleEn: 'Case Study', x: 49.32, y: 34.60, dx: 2.2, dy: -2.6, flag: ['#fff', '#dc143c'], partners: ['SKBM'], partnersEn: ['SKBM'], desc: '유럽 수사기관 대상 디지털 증거 분석 솔루션 도입을 지원했습니다.', descEn: 'Supported the adoption of digital evidence analysis solutions for European law enforcement.' },
-      { code: 'HU', ko: '헝가리', en: 'HUNGARY', role: '구축 사례', roleEn: 'Case Study', x: 50.82, y: 37.78, dx: 3.2, dy: 0.6, flag: ['#ce2939', '#436f4d'], partners: ['SKOH'], partnersEn: ['SKOH'], desc: '중부 유럽 기관에 반출 통제 및 데이터 보안 체계를 공급했습니다.', descEn: 'Supplied device export control and data security systems to Central European institutions.' },
-      { code: 'CN', ko: '중국', en: 'CHINA', role: '구축 사례', roleEn: 'Case Study', x: 73.60, y: 39.49, dx: -2.4, dy: -3.2, flag: ['#de2910', '#ffde00'], partners: ['SKOY / BEST / EUE'], partnersEn: ['SKOY / BEST / EUE'], desc: '현지 파트너와 협력해 디지털 포렌식 분석 인프라를 구축했습니다.', descEn: 'Built digital forensics analysis infrastructure in partnership with local partners.' },
-      { code: 'JP', ko: '일본', en: 'JAPAN', role: '구축 사례', roleEn: 'Case Study', x: 76.74, y: 41.69, dx: 3.4, dy: 0, flag: ['#fff', '#bc002d'], partners: ['JCG(해상보안청)', 'TOSHIBA', 'HITACHI', 'Japan PC Service', 'NTTコムウェア', 'MOJ(법무성)', '경찰청', '경시청', '도쿄 의과 치과 대학', 'NIKKO', 'FUJITSU', '금융감독청', '고베지방검찰청', 'KYODO', '히로시마현 경찰', '도쿄 노동국', '후생 노동성'], partnersEn: ['JCG (Japan Coast Guard)', 'TOSHIBA', 'HITACHI', 'Japan PC Service', 'NTT Comware', 'MOJ (Ministry of Justice)', 'National Police Agency', 'Metropolitan Police Department', 'Tokyo Medical and Dental University', 'NIKKO', 'FUJITSU', 'Financial Services Agency', 'Kobe District Public Prosecutors Office', 'KYODO', 'Hiroshima Prefectural Police', 'Tokyo Labour Bureau', 'Ministry of Health, Labour and Welfare'], desc: '기업·공공 기관 대상 데이터 보안 솔루션을 공급했습니다.', descEn: 'Supplied data security solutions to corporate and public institutions.' },
-      { code: 'BD', ko: '방글라데시', en: 'BANGLADESH', role: '구축 사례', roleEn: 'Case Study', x: 68.67, y: 44.46, dx: 0, dy: 3.4, flag: ['#006a4e', '#f42a41'], partners: ['경찰청'], partnersEn: ['National Police Agency'], desc: '수사기관 대상 디지털 증거 수집·분석 체계를 구축했습니다.', descEn: 'Built a digital evidence collection and analysis system for law enforcement.' },
-      { code: 'AE', ko: '아랍에미리트', en: 'UAE', role: '구축 사례', roleEn: 'Case Study', x: 55.41, y: 46.53, dx: 2.8, dy: -2.6, flag: ['#00732f', '#000'], partners: ['United Arab Emirates State Security'], partnersEn: ['United Arab Emirates State Security'], desc: '중동 정부 기관에 통합 보안 컨설팅과 솔루션을 제공했습니다.', descEn: 'Provided integrated security consulting and solutions to Middle East government agencies.' },
-      { code: 'US', ko: '미국', en: 'UNITED STATES', role: '구축 사례', roleEn: 'Case Study', x: 22.08, y: 40.32, dx: 0, dy: 3.4, flag: ['#3c3b6e', '#b22234'], partners: ['SKBA / BOSK'], partnersEn: ['SKBA / BOSK'], desc: '글로벌 파트너십을 통해 북미 지역 고객에 솔루션을 공급했습니다.', descEn: 'Supplied solutions to North American customers through a global partnership.' },
-      { code: 'TZ', ko: '탄자니아', en: 'TANZANIA', role: '구축 사례', roleEn: 'Case Study', x: 52.57, y: 62.88, dx: 2.8, dy: 2.2, flag: ['#1eb53a', '#00a3dd'], partners: ['TCRA'], partnersEn: ['TCRA'], desc: '아프리카 지역 공공기관 대상 디지털 포렌식 역량 구축을 지원했습니다.', descEn: 'Supported digital forensics capacity building for public institutions in Africa.' },
+      { code: 'KR', ko: '대한민국', en: 'KOREA', ja: '韓国', role: '본사 · R&D 센터', roleEn: 'HQ · R&D Center', roleJa: '本社・R&Dセンター', x: 75.5, y: 38.7, dx: 0, dy: -3.4, flag: ['#fff', '#cd2e3a'], partners: ['에이블시큐 (파트너)', '시큐모바일 (파트너)', '네오드림스 (파트너)'], partnersEn: ['ABLESECU (Partner)', 'SecuMobile (Partner)', 'NeoDreams (Partner)'], partnersJa: ['ABLESECU (パートナー)', 'SecuMobile (パートナー)', 'NeoDreams (パートナー)'], desc: '서울 본사와 연구소를 중심으로 국내 수사·공공·금융기관에 디지털 포렌식 솔루션을 공급합니다.', descEn: 'From our Seoul HQ and R&D lab, we supply digital forensics solutions to domestic law enforcement, public, and financial institutions.', descJa: 'ソウル本社とR&D研究所を拠点に、国内の捜査・公共・金融機関へデジタルフォレンジックソリューションを提供しています。' },
+      { code: 'TW', ko: '대만', en: 'TAIWAN', ja: '台湾', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 72.46, y: 49.03, dx: 2.8, dy: 2.8, flag: ['#000095', '#fe0000'], partners: ['Kaoten (파트너)'], partnersEn: ['Kaoten (Partner)'], partnersJa: ['Kaoten (パートナー)'], desc: '현지 기관과 협력해 포렌식 분석 및 데이터 보안 솔루션을 구축했습니다.', descEn: 'Deployed forensic analysis and data security solutions in partnership with local agencies.', descJa: '現地機関と提携し、フォレンジック分析およびデータセキュリティソリューションを構築しました。' },
+      { code: 'IN', ko: '인도', en: 'INDIA', ja: 'インド', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 63.37, y: 50.12, dx: 0, dy: 3.4, flag: ['#ff9933', '#138808'], partners: ['SiberSentinel (파트너)'], partnersEn: ['SiberSentinel (Partner)'], partnersJa: ['SiberSentinel (パートナー)'], desc: '대규모 조직을 대상으로 증거 수집·분석 플랫폼을 공급했습니다.', descEn: 'Supplied an evidence collection and analysis platform to large-scale organizations.', descJa: '大規模組織向けに証拠収集・分析プラットフォームを提供しました。' },
+      { code: 'OM', ko: '오만', en: 'OMAN', ja: 'オマーン', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 55.79, y: 52.35, dx: 2.8, dy: 2.2, flag: ['#db161b', '#008000'], partners: ['Mustafa Sultan (파트너)', 'AI-Thabat Holding LLC (파트너)'], partnersEn: ['Mustafa Sultan (Partner)', 'AI-Thabat Holding LLC (Partner)'], partnersJa: ['Mustafa Sultan (パートナー)', 'AI-Thabat Holding LLC (パートナー)'], desc: '중동 지역 보안 프로젝트에 참여해 반출 통제 체계를 구축했습니다.', descEn: 'Participated in a Middle East security project, building a device export control system.', descJa: '中東地域のセキュリティプロジェクトに参画し、機器持ち出し制御システムを構築しました。' },
+      { code: 'SA', ko: '사우디아라비아', en: 'SAUDI ARABIA', ja: 'サウジアラビア', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 53.89, y: 48.91, dx: -3.6, dy: 0, flag: ['#006c35', '#fff'], partners: ['TCC - ICT (파트너)'], partnersEn: ['TCC - ICT (Partner)'], partnersJa: ['TCC - ICT (パートナー)'], desc: '정부·공공 기관 대상 디지털 포렌식 인프라 구축을 지원했습니다.', descEn: 'Supported digital forensics infrastructure deployment for government and public institutions.', descJa: '政府・公共機関向けにデジタルフォレンジックインフラの構築を支援しました。' },
+      { code: 'PL', ko: '폴란드', en: 'POLAND', ja: 'ポーランド', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 49.32, y: 34.60, dx: 2.2, dy: -2.6, flag: ['#fff', '#dc143c'], partners: [], partnersEn: [], partnersJa: [], desc: '유럽 수사기관 대상 디지털 증거 분석 솔루션 도입을 지원했습니다.', descEn: 'Supported the adoption of digital evidence analysis solutions for European law enforcement.', descJa: '欧州の捜査機関向けにデジタル証拠分析ソリューションの導入を支援しました。' },
+      { code: 'HU', ko: '헝가리', en: 'HUNGARY', ja: 'ハンガリー', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 50.82, y: 37.78, dx: 3.2, dy: 0.6, flag: ['#ce2939', '#436f4d'], partners: [], partnersEn: [], partnersJa: [], desc: '중부 유럽 기관에 반출 통제 및 데이터 보안 체계를 공급했습니다.', descEn: 'Supplied device export control and data security systems to Central European institutions.', descJa: '中欧の機関に機器持ち出し制御およびデータセキュリティシステムを提供しました。' },
+      { code: 'CN', ko: '중국', en: 'CHINA', ja: '中国', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 73.60, y: 39.49, dx: -2.4, dy: -3.2, flag: ['#de2910', '#ffde00'], partners: [], partnersEn: [], partnersJa: [], desc: '현지 파트너와 협력해 디지털 포렌식 분석 인프라를 구축했습니다.', descEn: 'Built digital forensics analysis infrastructure in partnership with local partners.', descJa: '現地パートナーと連携し、デジタルフォレンジック分析インフラを構築しました。' },
+      { code: 'JP', ko: '일본', en: 'JAPAN', ja: '日本', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 76.74, y: 41.69, dx: 3.4, dy: 0, flag: ['#fff', '#bc002d'], partners: [], partnersEn: [], partnersJa: [], desc: '기업·공공 기관 대상 데이터 보안 솔루션을 공급했습니다.', descEn: 'Supplied data security solutions to corporate and public institutions.', descJa: '企業・公共機関向けにデータセキュリティソリューションを提供しました。' },
+      { code: 'BD', ko: '방글라데시', en: 'BANGLADESH', ja: 'バングラデシュ', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 68.67, y: 44.46, dx: 0, dy: 3.4, flag: ['#006a4e', '#f42a41'], partners: [], partnersEn: [], partnersJa: [], desc: '수사기관 대상 디지털 증거 수집·분석 체계를 구축했습니다.', descEn: 'Built a digital evidence collection and analysis system for law enforcement.', descJa: '捜査機関向けにデジタル証拠収集・分析システムを構築しました。' },
+      { code: 'AE', ko: '아랍에미리트', en: 'UAE', ja: 'アラブ首長国連邦', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 55.41, y: 46.53, dx: 2.8, dy: -2.6, flag: ['#00732f', '#000'], partners: [], partnersEn: [], partnersJa: [], desc: '중동 정부 기관에 통합 보안 컨설팅과 솔루션을 제공했습니다.', descEn: 'Provided integrated security consulting and solutions to Middle East government agencies.', descJa: '中東の政府機関に統合セキュリティコンサルティングとソリューションを提供しました。' },
+      { code: 'US', ko: '미국', en: 'UNITED STATES', ja: 'アメリカ合衆国', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 22.08, y: 40.32, dx: 0, dy: 3.4, flag: ['#3c3b6e', '#b22234'], partners: [], partnersEn: [], partnersJa: [], desc: '글로벌 파트너십을 통해 북미 지역 고객에 솔루션을 공급했습니다.', descEn: 'Supplied solutions to North American customers through a global partnership.', descJa: 'グローバルパートナーシップを通じて北米地域の顧客にソリューションを提供しました。' },
+      { code: 'TZ', ko: '탄자니아', en: 'TANZANIA', ja: 'タンザニア', role: '구축 사례', roleEn: 'Case Study', roleJa: '導入事例', x: 52.57, y: 62.88, dx: 2.8, dy: 2.2, flag: ['#1eb53a', '#00a3dd'], partners: [], partnersEn: [], partnersJa: [], desc: '아프리카 지역 공공기관 대상 디지털 포렌식 역량 구축을 지원했습니다.', descEn: 'Supported digital forensics capacity building for public institutions in Africa.', descJa: 'アフリカ地域の公共機関向けにデジタルフォレンジックの能力構築を支援しました。' },
     ];
 
+    const isJa = lang === 'JA';
     const isEn = lang === 'EN';
     this._countryCount = countryData.length;
     const mapAsp = 567 / 1024; // px-height/px-width factor of the map image (fixed aspect-ratio box)
+    // Below 1024px (tablet + mobile — the ur-global-tags/ur-global-panel UI
+    // below replaces the hover tooltip there entirely), touch browsers fire
+    // onMouseEnter/onMouseLeave as synthetic events on tap, so a tap would
+    // otherwise set hoverCountry and force that one country's tooltip
+    // open/stuck — dropping the handlers there leaves hoverCountry driven
+    // only by an explicit tag tap (tagSelect, always wired regardless of
+    // this flag) or, before any tag is tapped, the automatic autoIdx cycle
+    // (_startGeoAuto).
+    const isMobileView = typeof window !== 'undefined' && window.innerWidth < 1024;
+    const setHover = (v) => () => this.setState({ hoverCountry: v });
     const countries = countryData.map((c, i) => {
       const hovered = hoverCountry === i || (hoverCountry === null && autoIdx === i);
       const emphasized = hovered;
@@ -2815,26 +3437,30 @@ class Component extends DCLogic {
       const angle = Math.atan2(dyEq, c.dx) * 180 / Math.PI;
       const delay = -(i * 0.53 % 3.1).toFixed(2) + 's';
       const dur = (2.6 + (i % 5) * 0.24).toFixed(2) + 's';
-      const setHover = (v) => () => this.setState({ hoverCountry: v });
+      const noop = () => {};
       return {
         ...c,
-        nameText: isEn ? c.en : c.ko,
-        altNameText: isEn ? c.ko : c.en,
-        onEnter: setHover(i), onLeave: setHover(null),
+        nameText: isJa ? c.ja : (isEn ? c.en : c.ko),
+        altNameText: lang === 'KO' ? c.en : c.ko,
+        isActive: hovered,
+        tagSelect: setHover(i),
+        tagClass: 'ur-global-tag' + (hovered ? ' is-active' : ''),
+        onEnter: isMobileView ? noop : setHover(i), onLeave: isMobileView ? noop : setHover(null),
         wrapStyle: 'position:absolute;left:' + c.x + '%;top:' + c.y + '%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);cursor:pointer;z-index:' + (hovered ? 200 : 100) + ';outline:none;',
         lineStyle: 'position:absolute;left:' + c.x + '%;top:' + c.y + '%;width:' + lineLen + '%;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.65),rgba(255,255,255,.15));transform-origin:left center;transform:rotate(' + angle + 'deg);pointer-events:none;z-index:1;',
         labelStyle: 'position:absolute;left:' + (c.x + c.dx) + '%;top:' + (c.y + c.dy) + '%;transform:translate(' + (c.dx >= 0 ? '6px' : 'calc(-100% - 6px)') + ',-50%);font-size:13px;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);white-space:nowrap;cursor:pointer;z-index:' + (hovered ? 200 : 100) + ';transition:color .2s;',
         glowStyle: 'position:absolute;width:' + (emphasized ? '54px' : '46px') + ';height:' + (emphasized ? '54px' : '46px') + ';border-radius:50%;background:radial-gradient(circle,rgba(98,140,245,.55) 0%,rgba(98,140,245,.22) 45%,rgba(98,140,245,0) 75%);filter:blur(2px);pointer-events:none;transition:width .2s,height .2s;animation:geoGlow ' + dur + ' ease-in-out infinite;animation-delay:' + delay + ';',
         rippleStyle: 'position:absolute;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(150,178,248,.9);box-shadow:0 0 10px rgba(98,140,245,.5);animation:geoRipple ' + dur + ' ease-out infinite;animation-delay:' + delay + ';opacity:0;pointer-events:none;',
         dotStyle: 'position:relative;display:block;width:' + (emphasized ? '10px' : '8px') + ';height:' + (emphasized ? '10px' : '8px') + ';border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(255,255,255,.9),0 0 14px rgba(98,140,245,.9);transition:width .2s,height .2s;animation:pulse 2.4s ease-in-out infinite;animation-delay:' + delay + ';',
-        partnersLabel: isEn ? 'Key Clients & Partners' : '주요 고객사 · 파트너',
-        partnerTagLabel: isEn ? 'Partner' : '파트너',
-        roleText: isEn ? c.roleEn : c.role,
-        descText: isEn ? c.descEn : c.desc,
+        partnersLabel: isJa ? 'パートナー' : (isEn ? 'Partners' : '파트너'),
+        partnerTagLabel: isJa ? 'パートナー' : (isEn ? 'Partner' : '파트너'),
+        roleText: isJa ? c.roleJa : (isEn ? c.roleEn : c.role),
+        descText: isJa ? c.descJa : (isEn ? c.descEn : c.desc),
+        hasPartners: (c.partners || []).length > 0,
         partnerListStyle: 'display:grid;grid-template-columns:' + ((c.partners || []).length > 6 ? '1fr 1fr' : '1fr') + ';gap:4px 10px;',
-        partnerItems: (isEn ? c.partnersEn : c.partners || []).map(p => {
-          const isPartner = /\((파트너|Partner)\)$/.test(p);
-          return { name: p.replace(/ \((파트너|Partner)\)$/, ''), isPartner };
+        partnerItems: (isJa ? c.partnersJa : (isEn ? c.partnersEn : c.partners || [])).map(p => {
+          const isPartner = /\((파트너|Partner|パートナー)\)$/.test(p);
+          return { name: p.replace(/ \((파트너|Partner|パートナー)\)$/, ''), isPartner };
         }),
         flagStyle: 'width:32px;height:22px;border-radius:4px;flex:none;background:linear-gradient(135deg,' + c.flag[0] + ' 0 50%,' + c.flag[1] + ' 50% 100%);box-shadow:0 2px 6px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);',
         tooltipStyle: 'position:absolute;top:0;' + (tipLeft ? 'right:calc(100% + 12px);' : 'left:calc(100% + 12px);') + 'text-align:left;font-weight:400;white-space:normal;width:min(' + ((c.partners || []).length > 6 ? 320 : 250) + 'px,74vw);padding:16px 18px;border-radius:14px;background:rgba(20,22,40,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.03);box-shadow:0 12px 30px rgba(0,0,0,.4);opacity:' + (hovered ? 1 : 0) + ';transform:' + (hovered ? 'translateY(0) scale(1)' : 'translateY(4px) scale(.98)') + ';pointer-events:none;transition:opacity .4s ease-in-out,transform .4s ease-in-out;z-index:30;',
@@ -2925,7 +3551,7 @@ class Component extends DCLogic {
     const newsLeftFadeStyle = fadeMotion(this.state.newsScrolled);
     const newsRightFadeStyle = fadeMotion(this.state.newsMoreRight);
 
-    const tabBase = 'cursor:pointer;font-family:inherit;height:38px;padding:0 22px;border-radius:8px;font-size:14px;font-weight:600;white-space:nowrap;border:none;transition:all .2s;';
+    const tabBase = 'cursor:pointer;font-family:inherit;border-radius:8px;font-weight:600;border:none;transition:all .2s;';
     const tabOn = tabBase + 'background:#fff;color:#15182b;box-shadow:0 1px 3px rgba(0,0,0,.08);cursor:default;pointer-events:none;';
     const tabOff = tabBase + 'background:transparent;color:#c7cbda;';
     const tabHoverOn = 'background:#fff;color:#15182b;box-shadow:0 1px 3px rgba(0,0,0,.08);';
@@ -2954,6 +3580,7 @@ class Component extends DCLogic {
       roleOn: quickTab === 'role', roleOff: quickTab !== 'role',
       dfasFadeStyle: 'display:flex;flex-direction:column;gap:20px;animation:' + (dfasSel % 2 ? 'dfasSwapA' : 'dfasSwapB') + ' 520ms cubic-bezier(.22,.61,.36,1) both;',
       dfasList, dfasCur, dfasHasOS: !!dp.hasOS, osTabs, dfasMotion, dfasPager, dfasSectionRef: this.dfasSectionRef,
+      dfasMCards, dfasStripRef: this.dfasStripRef,
       dfasToggleAuto: this.dfasToggleAuto, dfasAutoIcon: dfasPaused ? 'play_arrow' : 'pause', dfasAutoLabel: dfasPaused ? '자동 전환 재생' : '자동 전환 일시정지',
       dfasToggleBtnStyle: 'display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;cursor:pointer;transition:all .2s;' + (dfasPaused ? 'border:1px solid var(--pri);background:var(--btint);color:var(--pri2);' : 'border:1px solid var(--line);background:var(--card);color:var(--sub);'),
       gateCards,
@@ -2970,10 +3597,11 @@ class Component extends DCLogic {
       fabDash: (2 * Math.PI * 27).toFixed(1),
       fabOffset: (2 * Math.PI * 27 * (1 - this.state.scrollPct)).toFixed(1),
       fabStyle: 'position:fixed;bottom:44px;right:44px;width:60px;height:60px;z-index:900;cursor:pointer;border:none;padding:0;background:transparent;opacity:' + (this.state.pastHero ? 1 : 0) + ';pointer-events:' + (this.state.pastHero ? 'auto' : 'none') + ';transition:opacity .25s;',
+      scrollLineWidth: (this.state.scrollPct * 100).toFixed(2) + '%',
       scrollTop: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
       logoAnimStyle: 'animation-play-state:' + (this.state.logoInView ? 'running' : 'paused') + ';',
       logoPlayKey: this.state.logoPlayKey,
-      lang, langLabel: lang, toggleLang: () => this.setState({ lang: lang === 'KO' ? 'EN' : 'KO' }),
+      lang, langLabel: lang, toggleLang: () => this.setState({ lang: lang === 'KO' ? 'EN' : (lang === 'EN' ? 'JA' : 'KO') }),
       theme, isDark,
       toggleTheme: this.toggleTheme,
       themeIcon: isDark ? 'light_mode' : 'dark_mode',
@@ -2984,30 +3612,34 @@ class Component extends DCLogic {
       closeSnb: this.closeSnb,
       closeSnbNow: this.closeSnbNow,
       navSolClass: this.state.snbOpen ? 'ur-gnb-link is-on' : 'ur-gnb-link',
-      gnbClass: 'ur-gnb' + (this.state.snbOpen ? ' is-open' : ''),
+      mobileNavOpen: !!this.state.mobileNavOpen,
+      toggleMobileNav: this.toggleMobileNav,
+      closeMobileNav: this.closeMobileNav,
+      mobileNavIcon: this.state.mobileNavOpen ? 'close' : 'menu',
+      gnbClass: 'ur-gnb' + (this.state.snbOpen ? ' is-open' : '') + (this.state.mobileNavOpen ? ' is-mnav-open' : ''),
       snbDfasRight: [
         { name: 'DFAS Edge', icon: 'usb', href: '#dfas', hasBadge: true, badge: 'AI', badgeClass: 'ur-snb-chip ur-snb-chip-ai', desc: '현장 기기 분석 최소화 복제 및 사전 이미징(Write Blocker) 활용 워크플로우', tags: ['#대면분석', '#초경량화', '#Write-Blocker'] },
-        { name: 'DFAS Go', icon: 'smartphone', href: '#dfas', hasBadge: false, badge: '', badgeClass: '', desc: '비전공자도 내 PC 위험 요인을 점검하고 신속·직관적인 리스크 리포트를 생성합니다', tags: ['#보안진단', '#리스크탐지', '#보고서'] },
+        { name: 'DFAS Go', icon: 'smartphone', href: '#dfas', hasBadge: false, badge: '', badgeClass: '', desc: '비전공자도 가능한 PC 위험 요인 점검 및 신속·직관적인 리스크 리포트 생성', tags: ['#보안진단', '#리스크탐지', '#보고서'] },
         { name: 'DFAS Discovery', icon: 'folder_open', href: '#dfas', hasBadge: false, badge: '', badgeClass: '', desc: '대용량 파일 수집·이해와 데이터 속 증거 활용 및 소송 대응 보고서 생성', tags: ['#통합조회', '#타임라인분석', '#케이스관리'] },
         { name: 'DFAS Arc', icon: 'memory', href: '#dfas', hasBadge: false, badge: '', badgeClass: '', desc: '사내 저장 문서 자동 분류 및 검출 · 개인정보/보안등급 관리', tags: ['#AI분류체계', '#보안등급관리'] },
       ],
       snbMcq: [
         { name: 'M-SecuManager P', icon: 'folder', href: '#mcq', hasBadge: true, badge: '3,5포트', badgeClass: 'ur-snb-chip ur-snb-chip-proto', desc: '소규모 기관 관리 및 현장 방문 삭제에 최적화된 휴대용 삭제 솔루션', tags: ['#입수유형분석', '#초경량화완전삭제'] },
-        { name: 'M-SecuManager S', icon: 'point_of_sale', href: '#mcq', hasBadge: true, badge: '21포트', badgeClass: 'ur-snb-chip ur-snb-chip-kiosk', desc: '현지 기관 장비 내 서버 연결로 보안 지속 안정성과 동시 삭제 작업을 지원합니다', tags: ['#대용량보안삭제', '#대면서비스관리', '#동시완전삭제'] },
-        { name: 'M-SecuManager G', icon: 'tablet_mac', href: '#mcq', hasBadge: true, badge: '키오스크', badgeClass: 'ur-snb-chip ur-snb-chip-kiosk', desc: '거점형 키오스크로 임직원 자율 반납 현장에서 자체 수행합니다', tags: ['#임직원셀프', '#보안완전삭제기능'] },
+        { name: 'M-SecuManager S', icon: 'point_of_sale', href: '#mcq', hasBadge: true, badge: '21포트', badgeClass: 'ur-snb-chip ur-snb-chip-kiosk', desc: '현지 기관 장비 내 서버 연결 기반 보안 지속 안정성과 동시 삭제 작업 지원', tags: ['#대용량보안삭제', '#대면서비스관리', '#동시완전삭제'] },
+        { name: 'M-SecuManager G', icon: 'tablet_mac', href: '#mcq', hasBadge: true, badge: '키오스크', badgeClass: 'ur-snb-chip ur-snb-chip-kiosk', desc: '거점형 키오스크 기반 임직원 자율 반납 현장 자체 수행', tags: ['#임직원셀프', '#보안완전삭제기능'] },
       ],
       snbGm: [
-        { name: 'Gate Manager', icon: 'photo_camera', href: '#gm', desc: '연구실 및 보안 구역 출입 시 모바일 카메라·녹음 기능을 탐지해 불법 촬영을 차단합니다', tags: ['#현장탐지', '#불법촬영탐지', '#출입구보안'] },
-        { name: 'Gate Manager Pro', icon: 'wifi', href: '#gm', desc: '게이트 연결 기반 원격 모니터링 매니저로 여러 현장을 동시 관리하고 로그 리포트를 생성합니다', tags: ['#원격모니터링', '#다중게이트관리', '#로그리포트생성'] },
+        { name: 'GateManager', icon: 'photo_camera', href: '#gm', desc: '연구실 및 보안 구역 출입 시 모바일 카메라·녹음 기능 탐지를 통한 불법 촬영 차단', tags: ['#현장탐지', '#불법촬영탐지', '#출입구보안'] },
+        { name: 'GateManager Pro', icon: 'wifi', href: '#gm', desc: '게이트 연결 기반 원격 모니터링을 통한 여러 현장 동시 관리 및 로그 리포트 생성', tags: ['#원격모니터링', '#다중게이트관리', '#로그리포트생성'] },
       ],
       // GNB chrome (fill + blur + bottom line) stays hidden at the top of
       // the page. Once scrolling starts — or the SNB mega-menu is open —
       // it uses the same scene-panel glass as .hsw-ov-panel.
       logoWhiteOpacity: 1,
       logoNavyOpacity: 0,
-      navBg: (scrolled || this.state.snbOpen) ? (this.state.headerOverLight ? 'rgba(32,29,48,.92)' : 'rgba(255,255,255,.05)') : 'rgba(255,255,255,0)',
-      navBorder: (scrolled || this.state.snbOpen) ? (this.state.headerOverLight ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.1)') : 'rgba(255,255,255,0)',
-      navBlur: (scrolled || this.state.snbOpen) ? 'blur(9.6px)' : 'blur(0px)',
+      navBg: (scrolled || this.state.snbOpen || this.state.mobileNavOpen) ? (this.state.headerOverLight ? 'rgba(32,29,48,.92)' : 'rgba(255,255,255,.05)') : 'rgba(255,255,255,0)',
+      navBorder: (scrolled || this.state.snbOpen || this.state.mobileNavOpen) ? (this.state.headerOverLight ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.1)') : 'rgba(255,255,255,0)',
+      navBlur: (scrolled || this.state.snbOpen || this.state.mobileNavOpen) ? 'blur(9.6px)' : 'blur(0px)',
       navText: '#FFFFFF',
       cursorStyle: {
         position: 'fixed', left: this.state.cursorX + 'px', top: this.state.cursorY + 'px',
